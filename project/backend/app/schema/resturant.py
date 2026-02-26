@@ -1,0 +1,1 @@
+#defines the methods related to how data is validated/stored, the model in MVC architecture

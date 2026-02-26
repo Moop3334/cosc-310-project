@@ -1,0 +1,1 @@
+# defines API endpoints/urls, groups related endpoints/scripts together and keeps main.py clean
