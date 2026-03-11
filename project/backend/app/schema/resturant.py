@@ -3,7 +3,7 @@ from typing import List
 from menuItems import MenuItem
 import datetime
 
-class Resturant(BaseModel):
+class Restaurant(BaseModel):
     id: int
     name: str
     address: str
