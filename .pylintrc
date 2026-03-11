@@ -3,7 +3,6 @@
 # path. You may set this option multiple times.
 ignore-patterns=test_.*?\.py
 
-
 # Pickle collected data for later comparisons.
 persistent=yes
 
@@ -27,6 +26,7 @@ confidence=
 disable=
     missing-docstring,
     too-few-public-methods,
+    multiple-imports
 
 [FORMAT]
 # Expected format of line ending, especially useful when checking scripts as

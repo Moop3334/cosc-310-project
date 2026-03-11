@@ -1,6 +1,6 @@
 from pathlib import Path
 import csv, os
-from typing import List, Dict, Any
+from typing import Dict, Any
 
 DATA_PATH = Path(__file__).resolve().parents[1] / "data" / "restaurants.csv"
 

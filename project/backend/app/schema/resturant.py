@@ -1,7 +1,7 @@
-from pydantic import BaseModel, Field
 from typing import List
-from menuItems import MenuItem
 import datetime
+from pydantic import BaseModel, Field
+from menuItems import MenuItem
 
 class Restaurant(BaseModel):
     id: int

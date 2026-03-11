@@ -3,7 +3,7 @@
 
 from pathlib import Path
 import csv, os
-from typing import List, Dict, Any
+from typing import Dict, Any
 
 DATA_PATH = Path(__file__).resolve().parents[1] / "data" / "food_delivery.csv"
 
@@ -19,20 +19,20 @@ def load_all_deliveries() -> Dict[Dict[Any]]:
         for row in reader:
             orders[row.get("order_id")] = row
         return orders
-   
+
 def load_specific_delivery(orderId: str) -> Dict[Any]:
     if not DATA_PATH.exists():
         return []
     with DATA_PATH.open("r", encoding="utf-8", newline='') as f:
         reader = csv.DictReader(f, delimiter=',')
         for row in reader:
-            if (row.get("order_id") == orderId):
+            if row.get("order_id") == orderId:
                 return row
         return []
 
 def save_all_deliveries(deliveries: Dict[Dict[Any]]) -> None:
     tmp = DATA_PATH.with_suffix(".tmp")
-    fieldNames = [
+    field_names = [
         "order_id","restaurant_id","food_item",
         "order_time","delivery_time","delivery_distance",
         "order_value",'delivery_method','traffic_condition',
@@ -44,7 +44,7 @@ def save_all_deliveries(deliveries: Dict[Dict[Any]]) -> None:
         'route_efficiency','predicted_delivery_mode','traffic_avoidance'
         ]
     with tmp.open("w", encoding="utf-8", newline='') as f:
-        writer = csv.DictWriter(f, fieldnames=fieldNames)
+        writer = csv.DictWriter(f, fieldnames=field_names)
         writer.writeheader()
         for row in deliveries:
             writer.writerow(row)
