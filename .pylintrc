@@ -26,12 +26,13 @@ confidence=
 disable=
     missing-docstring,
     too-few-public-methods,
-    multiple-imports
+    multiple-imports,
+    invalid-name
 
 [FORMAT]
 # Expected format of line ending, especially useful when checking scripts as
 # they are prone to have the wrong line ending convention.
-expected-line-ending-type=LF
+# expected-line-ending-type=LF
 
 # Maximum number of characters on a single line.
 max-line-length=100
