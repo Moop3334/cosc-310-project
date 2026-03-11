@@ -1,7 +1,7 @@
 from pathlib import Path
 import csv, os
 from typing import Dict, Any
-# pylint disable=duplicate-code
+# pylint: disable=duplicate-code
 
 DATA_PATH = Path(__file__).resolve().parents[1] / "data" / "restaurants.csv"
 
@@ -10,10 +10,8 @@ def load_all_restaurants() -> Dict[Dict[Any]]:
     if not DATA_PATH.exists():
         return []
     with DATA_PATH.open("r", encoding="utf-8", newline='') as f:
-       #TODO: Load specific data from csv, create csv and related methods for other classes
         reader = csv.DictReader(f, delimiter=',')
         orders = {}
-       #TODO:Add data validation
         for row in reader:
             orders[row.get("restaurant_id")] = row
            #TODO: Implement the ability to parse arrays/lists for the open/closing times and menu
