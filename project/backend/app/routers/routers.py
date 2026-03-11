@@ -1,7 +1,7 @@
 # defines API endpoints/urls, groups related endpoints/scripts together and keeps main.py clean
 from typing import List
 from fastapi import APIRouter, status
-from app.schema.resturant import Restaurant, RestaurantCreate, RestaurantUpdate
+from schema.resturant import Restaurant, RestaurantCreate, RestaurantUpdate
 #from services.items_service import list_items, create_item, delete_item, update_item
 
 router = APIRouter(prefix="/items", tags=["items"])
