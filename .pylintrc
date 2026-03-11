@@ -27,7 +27,8 @@ disable=
     missing-docstring,
     too-few-public-methods,
     multiple-imports,
-    invalid-name
+    invalid-name,
+    fixme
 
 [FORMAT]
 # Expected format of line ending, especially useful when checking scripts as

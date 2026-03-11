@@ -1,6 +1,7 @@
 from pathlib import Path
 import csv, os
 from typing import Dict, Any
+# pylint disable=duplicate-code
 
 DATA_PATH = Path(__file__).resolve().parents[1] / "data" / "restaurants.csv"
 
