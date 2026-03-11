@@ -10,7 +10,7 @@ class Restaurant(BaseModel):
     openTimes: List[datetime.datetime] = Field(default_factory=list)
     closeTimes: List[datetime.datetime] = Field(default_factory=list)
     menu: List[MenuItem] = Field(default_factory=list)
-    #openDays has been removed in favour of consolidating it into openTimes/closeTimes using the datetime class
+    #openDays has been removed in favour of consolidating it into openTimes/closeTimes
     #menu has been added to keep track of which menu items belong to each restaurant
 
 class RestaurantCreate(BaseModel):
