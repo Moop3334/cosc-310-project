@@ -1,5 +1,4 @@
 #defines reading and writing data, handles NO BUISNESS LOGIC.
-# NEED TO DECIDE HOW TO STORE DATA
 
 from pathlib import Path
 import csv, os
@@ -10,25 +9,23 @@ DATA_PATH = Path(__file__).resolve().parents[1] / "data" / "food_delivery.csv"
 #Returnes a list of dicts where each dict maps to an order
 def load_all_deliveries() -> Dict[Dict[Any]]:
     if not DATA_PATH.exists():
-        return []
+        raise Exception(f"Error: The storage csv does not exist or otherwise cannot be accessed")
     with DATA_PATH.open("r", encoding="utf-8", newline='') as f:
-        #TODO: Load specific data from csv, create storage and related methods for other classes
         reader = csv.DictReader(f, delimiter=',')
         orders = {}
-        #TODO:Add data validation
         for row in reader:
             orders[row.get("order_id")] = row
         return orders
 
 def load_specific_delivery(orderId: str) -> Dict[Any]:
     if not DATA_PATH.exists():
-        return []
+        raise Exception(f"Error: The storage csv does not exist or otherwise cannot be accessed")
     with DATA_PATH.open("r", encoding="utf-8", newline='') as f:
         reader = csv.DictReader(f, delimiter=',')
         for row in reader:
             if row.get("order_id") == orderId:
                 return row
-        return []
+        raise Exception(f"Error: The order with Id {id} cannot be found".format(id=orderId))
 
 def save_all_deliveries(deliveries: Dict[Dict[Any]]) -> None:
     tmp = DATA_PATH.with_suffix(".tmp")
