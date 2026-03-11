@@ -12,13 +12,23 @@ def load_all_deliveries() -> Dict[Dict[Any]]:
    if not DATA_PATH.exists():
        return []
    with DATA_PATH.open("r", encoding="utf-8", newline='') as f:
-       #TODO: Load specific data from csv, create csv and related methods for other classes
+       #TODO: Load specific data from csv, create storage and related methods for other classes
        reader = csv.DictReader(f, delimiter=',')
        orders = {}
        #TODO:Add data validation
        for row in reader:
            orders[row.get("order_id")] = row
        return orders
+   
+def load_specific_delivery(orderId: str) -> Dict[Any]:
+    if not DATA_PATH.exists():
+       return []
+    with DATA_PATH.open("r", encoding="utf-8", newline='') as f:
+        reader = csv.DictReader(f, delimiter=',')
+        for row in reader:
+           if (row.get("order_id") == orderId):
+               return row
+        return []
 
 def save_all_deliveries(deliveries: Dict[Dict[Any]]) -> None:
     tmp = DATA_PATH.with_suffix(".tmp")
