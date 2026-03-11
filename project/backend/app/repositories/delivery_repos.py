@@ -28,7 +28,6 @@ def load_specific_delivery(orderId: str) -> Dict[Any]:
         raise Exception(f"Error: The order with Id {id} cannot be found".format(id=orderId))
 
 def save_all_deliveries(deliveries: Dict[Dict[Any]]) -> None:
-    tmp = DATA_PATH.with_suffix(".tmp")
     field_names = [
         "order_id","restaurant_id","food_item",
         "order_time","delivery_time","delivery_distance",
@@ -40,9 +39,10 @@ def save_all_deliveries(deliveries: Dict[Dict[Any]]) -> None:
         'customer_satisfaction','small_route','bike_friendly_route','route_type',
         'route_efficiency','predicted_delivery_mode','traffic_avoidance'
         ]
-    with tmp.open("w", encoding="utf-8", newline='') as f:
+    with DATA_PATH.open("w", newline='') as f:
         writer = csv.DictWriter(f, fieldnames=field_names)
         writer.writeheader()
+        orders_temp = []
         for row in deliveries:
-            writer.writerow(row)
-        os.replace(tmp, DATA_PATH)
+            orders_temp.append(deliveries[row])
+        writer.writerows(orders_temp)
