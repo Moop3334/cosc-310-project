@@ -2,7 +2,6 @@
 # Add <file or directory> to the black list. It should be a base name, not a
 # path. You may set this option multiple times.
 ignore-patterns=test_.*?\.py
-init-hook='from pylint.config import find_pylintrc; import os, sys; sys.path.append(os.path.dirname(find_pylintrc()))'
 
 
 # Pickle collected data for later comparisons.
