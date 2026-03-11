@@ -35,6 +35,7 @@ def save_all_deliveries(deliveries: Dict[Dict[Any]]) -> None:
     fieldNames = ["order_id","restaurant_id","food_item","order_time","delivery_time","delivery_distance","order_value",'delivery_method','traffic_condition','weather_condition','delivery_time_actual','delivery_delay','route_taken','customer_id','age','gender','location','order_history','customer_rating','preferred_cuisine','order_frequency','loyalty_program','food_temperature','food_freshness','packaging_quality','food_condition','customer_satisfaction','small_route','bike_friendly_route','route_type','route_efficiency','predicted_delivery_mode','traffic_avoidance']
     with tmp.open("w", encoding="utf-8", newline='') as f:
         writer = csv.DictWriter(f, fieldnames=fieldNames)
+        writer.writeheader()
         for row in deliveries:
             writer.writerow(row)
         os.replace(tmp, DATA_PATH)

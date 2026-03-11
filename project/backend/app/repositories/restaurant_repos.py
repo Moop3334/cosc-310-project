@@ -23,6 +23,7 @@ def save_all_restaurants(deliveries: Dict[Dict[Any]]) -> None:
     fieldNames = ['restaurant_id','restaurant_name','address','open_times','close_times','menu']
     with tmp.open("w", encoding="utf-8", newline='') as f:
         writer = csv.DictWriter(f, fieldnames=fieldNames)
+        writer.writeheader()
         for row in deliveries:
             writer.writerow(row)
         os.replace(tmp, DATA_PATH)
