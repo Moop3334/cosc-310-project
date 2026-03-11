@@ -8,20 +8,23 @@ from typing import List, Dict, Any
 DATA_PATH = Path(__file__).resolve().parents[1] / "data" / "food_delivery.csv"
 
 #Returnes a list of dicts where each dict maps to an order
-def load_all_deliveries() -> List[Dict[Any]]:
+def load_all_deliveries() -> Dict[Dict[Any]]:
    if not DATA_PATH.exists():
        return []
    with DATA_PATH.open("r", encoding="utf-8", newline='') as f:
-       #TODO: Load specific data from csv
+       #TODO: Load specific data from csv, create csv and related methods for other classes
        reader = csv.DictReader(f, delimiter=',')
        orders = {}
-       #TODO:Add date class for validation
+       #TODO:Add data validation
        for row in reader:
            orders[row.get("order_id")] = row
        return orders
 
-def save_all(items: List[Dict[str, Any]]) -> None:
+def save_all_deliveries(deliveries: Dict[Dict[Any]]) -> None:
     tmp = DATA_PATH.with_suffix(".tmp")
-    with tmp.open("w", encoding="utf-8") as f:
-        #json.dump(items, f, ensure_ascii=False, indent=2)
+    fieldNames = ["order_id","restaurant_id","food_item","order_time","delivery_time","delivery_distance","order_value",'delivery_method','traffic_condition','weather_condition','delivery_time_actual','delivery_delay','route_taken','customer_id','age','gender','location','order_history','customer_rating','preferred_cuisine','order_frequency','loyalty_program','food_temperature','food_freshness','packaging_quality','food_condition','customer_satisfaction','small_route','bike_friendly_route','route_type','route_efficiency','predicted_delivery_mode','traffic_avoidance']
+    with tmp.open("w", encoding="utf-8", newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=fieldNames)
+        for row in deliveries:
+            writer.writerow(row)
         os.replace(tmp, DATA_PATH)
