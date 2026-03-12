@@ -1,6 +1,6 @@
 # pylint: disable=unused-wildcard-import
 # pylint: disable=wildcard-import
-from pytest import *
+import pytest
 from app.repositories import (
     load_all_deliveries,
     load_specific_delivery,
