@@ -1,9 +1,12 @@
-from orderDetail import OrderItem
-from customer import Customer
-from resturant import Restaurant
 from typing import List
 import datetime
+from orderDetail import OrderItem
+#from user import User
+#from resturant import Restaurant
+#need pull request accepted to get user & restaurant files
 from pydantic import BaseModel, Field
+from enum import Enum
+
 
 class OrderStatus(str, Enum):
     PENDING = "pending approval"
@@ -16,8 +19,8 @@ class OrderStatus(str, Enum):
 
 class Order(BaseModel):
     id: int
-    customer: Customer
-    restaurant: Restaurant
+    user: str
+    restaurant: str
     items: List[OrderItem] = Field(default_factory=list)
     creation_date: datetime = datetime.now()
     status: OrderStatus = OrderStatus.PENDING
