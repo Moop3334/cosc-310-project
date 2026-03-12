@@ -1,12 +1,14 @@
 # pylint: disable=unused-wildcard-import
-# pylint: disable=wildcard-
+# pylint: disable=wildcard
 # pylint: disable=unused-import
 import pytest
 from app.repositories import (
     load_all_deliveries,
     load_specific_delivery,
-    save_all_deliveries
-    )#,save_all_restaurants,load_all_restaurants
+    save_all_deliveries,
+    save_all_restaurants,
+    load_all_restaurants
+)
 
 test_order_1 = {
     'order_id': '154b2cZ', 
@@ -80,6 +82,24 @@ test_order_2 = {
     'traffic_avoidance': 'No'
 }
 
+test_restaurant1 = {
+    "restaurant_id":"1", 
+    "restaurant_name":"Tester's Dinner", 
+    "address":"123 Road dr", 
+    "open_times":['9:00', '9:00', '9:00', '9:00', '9:00', '9:00', '9:00'], 
+    "close_times":['21:00', '21:00', '21:00', '21:00', '21:00', '21:00', '21:00'],
+    "menu_id":"1"
+}
+
+test_restaurant2 = {
+    "restaurant_id":"2", 
+    "restaurant_name":"Example Kitchen", 
+    "address":"124 Road dr", 
+    "open_times":['9:00', '9:00', '9:00', '9:00', '9:00', '9:00', '9:00'], 
+    "close_times":['21:00', '21:00', '21:00', '21:00', '21:00', '21:00', '21:00'],
+    "menu_id":"2"
+}
+
 def test_delivery_load():
     deliveries = load_all_deliveries()
     assert deliveries["154b2cZ"] == test_order_1
@@ -96,7 +116,12 @@ def test_delivery_save():
     assert d["154b2cz"] == test_order_2
 
 def test_restaurant_load():
-    assert True
+    restaurants = load_all_restaurants()
+    assert restaurants["1"] == test_restaurant1
 
 def test_restaurant_save():
-    assert True
+    restaurants = load_all_restaurants()
+    restaurants["2"] = test_restaurant2
+    save_all_restaurants(restaurants)
+    r = load_all_restaurants()
+    assert r["2"] == test_restaurant2
