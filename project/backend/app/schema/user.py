@@ -1,15 +1,12 @@
-from order import Order
-
 class User():
-    def __init__(self, id, name, phone_number, address):
-        self.id = id
+    def __init__(self, user_id, name, phone_number, address):
+        self.user_id = user_id
         self.name = name
         self.phone_number = phone_number
         self.address = address
 
-    # Getter
     def get_id(self):
-        return self.id
+        return self.user_id
 
     def get_name(self):
         return self.name
@@ -20,17 +17,12 @@ class User():
     def get_address(self):
         return self.address
 
-    # Create order
     def create_order(self, menu_items):
+        # TODO: import Order class when Qiran finishes OrderClass branch
         if not menu_items:
             return None
-        order = Order(
-            user=self,
-            menu_items=menu_items
-        )
-        return order
+        return None
 
-    # Cancel order
     def cancel_order(self, order):
         if order is None:
             return False
