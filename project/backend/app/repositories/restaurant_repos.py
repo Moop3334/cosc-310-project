@@ -1,5 +1,5 @@
 from pathlib import Path
-import csv, os
+import csv
 from typing import Dict, Any
 # pylint: disable=duplicate-code
 
