@@ -11,16 +11,16 @@ class Payment(BaseModel):
     cvv: int
     #Should import from user class in future
 
-    def validateCard(cardNumber, expiryDate, cvv):
-        if(cardNumber.length==16 and expiryDate.length==4 and cvv.length==3):
+    def validateCard(self):
+        if(self.cardNumber.length==16 and self.expiryDate.length==4 and self.cvv.length==3):
             return True
-        
+
         return False
 
-    def authorisePayment(total):
-        if total >= 0:
+    def authorisePayment(self):
+        if self.total >= 0:
             return True
-        
+
         return False
 
 dummy_payment_info = {
