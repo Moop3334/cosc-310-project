@@ -1,8 +1,13 @@
 from fastapi import FastAPI
-from routers.routers import router as items_router
+from app.routers import router as items_router
 
 app = FastAPI()
 
+"""
+Main app entry point for the Graveyard Shift backend.
+"""
+
+# ...rest of the code...
 @app.get("/health")
 def health():
     return {"status": "ok"}
