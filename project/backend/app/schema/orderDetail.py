@@ -2,7 +2,6 @@
 #need pull request accepted to get menuItem file
 from pydantic import BaseModel
 
-
 class OrderItem(BaseModel):
     item: str
     quantity: int

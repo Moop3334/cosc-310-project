@@ -1,12 +1,11 @@
 from typing import List
 import datetime
+from enum import Enum
 from orderDetail import OrderItem
 #from user import User
 #from resturant import Restaurant
 #need pull request accepted to get user & restaurant files
 from pydantic import BaseModel, Field
-from enum import Enum
-
 
 class OrderStatus(str, Enum):
     PENDING = "pending approval"
@@ -22,11 +21,9 @@ class Order(BaseModel):
     user: str
     restaurant: str
     items: List[OrderItem] = Field(default_factory=list)
-    creation_date: datetime = datetime.now()
+    creation_date: datetime
     status: OrderStatus = OrderStatus.PENDING
     
-
     def calculateTotal(self):
         return sum(item.calculateSubTotal() for item in self.items) * 1.05
     #Tax calculation can be improved and delivery fee can be added in future
-
