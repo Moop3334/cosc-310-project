@@ -1,3 +1,4 @@
+import pytest
 from app.schema.user import User
 
 
@@ -10,5 +11,6 @@ def test_user_getters():
 
 
 def test_cancel_order_none():
-    user = User(1, "Yuya", "123-456-7890", "123 Main St")
+    user = User(1, "Dave", "123-456-7890", "123 Main St")
     assert user.cancel_order(None) is False
+
