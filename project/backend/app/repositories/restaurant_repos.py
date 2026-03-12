@@ -31,12 +31,16 @@ def save_all_restaurants(restaurants: Dict[Dict[Any]]) -> None:
         open_tmp = []
         close_tmp = []
         for row in restaurants:
-            open = restaurants[row]["open_times"]
-            open_tmp.append(open)
-            restaurants[row]["open_times"] = f"[{open[0]};{open[1]};{open[2]};{open[3]};{open[4]};{open[5]};{open[6]}]"
+            opn = restaurants[row]["open_times"]
+            open_tmp.append(opn)
+            restaurants[row]["open_times"] = (
+                f"[{opn[0]};{opn[1]};{opn[2]};{opn[3]};{opn[4]};{opn[5]};{opn[6]}]"
+                )
             close = restaurants[row]["close_times"]
             close_tmp.append(close)
-            restaurants[row]["close_times"] = f"[{close[0]};{close[1]};{close[2]};{close[3]};{close[4]};{close[5]};{close[6]}]"
+            restaurants[row]["close_times"] = (
+                f"[{close[0]};{close[1]};{close[2]};{close[3]};{close[4]};{close[5]};{close[6]}]"
+                )
             restaurants_temp.append(restaurants[row])
         writer.writerows(restaurants_temp)
 
