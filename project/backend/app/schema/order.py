@@ -23,7 +23,7 @@ class Order(BaseModel):
     items: List[OrderItem] = Field(default_factory=list)
     creation_date: datetime
     status: OrderStatus = OrderStatus.PENDING
-    
+
     def calculateTotal(self):
         return sum(item.calculateSubTotal() for item in self.items) * 1.05
     #Tax calculation can be improved and delivery fee can be added in future
