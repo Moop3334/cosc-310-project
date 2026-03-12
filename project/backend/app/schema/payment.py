@@ -1,6 +1,6 @@
 #Can be further improved later will need access to the order.py file to import total from.
 import datetime
-from order import Order
+#from order import Order
 from pydantic import BaseModel
 
 class Payment(BaseModel):
@@ -31,7 +31,7 @@ dummy_payment_info = {
     'cvv': 123
 }
 
-try:
-    User(dummy_payment_info)
-except ValidationError as e:
-    print(e.errors())
+#try:
+    #User(dummy_payment_info)
+#except ValidationError as e:
+    #print(e.errors())
