@@ -1,4 +1,3 @@
-import pytest
 from app.schema.user import User
 
 
