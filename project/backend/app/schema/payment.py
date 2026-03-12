@@ -14,14 +14,14 @@ class Payment(BaseModel):
     def validateCard(cardNumber, expiryDate, cvv):
         if(cardNumber.length==16 and expiryDate.length==4 and cvv.length==3):
             return True
-        else:
-            return False
+        
+        return False
 
     def authorisePayment(total):
-        if(total >= 0):
+        if total >= 0:
             return True
-        else:
-            return False
+        
+        return False
 
 dummy_payment_info = {
     'id': 101,
