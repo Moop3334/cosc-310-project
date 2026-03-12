@@ -1,4 +1,4 @@
-#Can be further improved later will need access to the order.py file to import total from
+#Can be further improved later will need access to the order.py file to import total from.
 import datetime
 from order import Order
 from pydantic import BaseModel
