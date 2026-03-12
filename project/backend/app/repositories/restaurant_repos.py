@@ -8,7 +8,9 @@ DATA_PATH = Path(__file__).resolve().parents[1] / "data" / "restaurants.csv"
 #Returnes a list of dicts where each dict maps to an order
 def load_all_restaurants() -> Dict[Dict[Any]]:
     if not DATA_PATH.exists():
-        raise FileExistsError("Error: The storage csv does not exist or otherwise cannot be accessed")
+        raise FileExistsError(
+            "Error: The storage csv does not exist or otherwise cannot be accessed"
+            )
     with DATA_PATH.open("r", encoding="utf-8", newline='') as f:
         reader = csv.DictReader(f, delimiter=',')
         orders = {}
@@ -17,12 +19,12 @@ def load_all_restaurants() -> Dict[Dict[Any]]:
            #TODO: Implement the ability to parse arrays/lists for the open/closing times and menu
         return orders
 
-def save_all_restaurants(deliveries: Dict[Dict[Any]]) -> None:
-    tmp = DATA_PATH.with_suffix(".tmp")
+def save_all_restaurants(restaurants: Dict[Dict[Any]]) -> None:
     fieldNames = ['restaurant_id','restaurant_name','address','open_times','close_times','menu']
-    with tmp.open("w", encoding="utf-8", newline='') as f:
+    with DATA_PATH.open("w", encoding="utf-8", newline='') as f:
         writer = csv.DictWriter(f, fieldnames=fieldNames)
         writer.writeheader()
-        for row in deliveries:
-            writer.writerow(row)
-        os.replace(tmp, DATA_PATH)
+        restaurants_temp = []
+        for row in restaurants:
+            restaurants_temp.append(restaurants[row])
+        writer.writerows(restaurants_temp)

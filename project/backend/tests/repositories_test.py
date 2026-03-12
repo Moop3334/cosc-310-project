@@ -1,7 +1,11 @@
-from pytest import *
-from app.repositories import load_all_deliveries,load_specific_delivery,save_all_deliveries#,save_all_restaurants,load_all_restaurants
 # pylint: disable=unused-wildcard-import
 # pylint: disable=wildcard-import
+from pytest import *
+from app.repositories import (
+    load_all_deliveries,
+    load_specific_delivery,
+    save_all_deliveries
+    )#,save_all_restaurants,load_all_restaurants
 
 test_order_1 = {
     'order_id': '154b2cZ', 
@@ -89,3 +93,9 @@ def test_delivery_save():
     save_all_deliveries(deliveries)
     d = load_all_deliveries()
     assert d["154b2cz"] == test_order_2
+
+def test_restaurant_load():
+    assert True
+
+def test_restaurant_save():
+    assert True
