@@ -1,7 +1,7 @@
 #defines reading and writing data, handles NO BUISNESS LOGIC.
 
 from pathlib import Path
-import csv, os
+import csv#, os
 from typing import Dict, Any
 
 DATA_PATH = Path(__file__).resolve().parents[1] / "data" / "food_delivery.csv"
@@ -9,7 +9,7 @@ DATA_PATH = Path(__file__).resolve().parents[1] / "data" / "food_delivery.csv"
 #Returnes a list of dicts where each dict maps to an order
 def load_all_deliveries() -> Dict[Dict[Any]]:
     if not DATA_PATH.exists():
-        raise Exception(f"Error: The storage csv does not exist or otherwise cannot be accessed")
+        raise FileExistsError("Error: The storage csv does not exist or otherwise cannot be accessed")
     with DATA_PATH.open("r", encoding="utf-8", newline='') as f:
         reader = csv.DictReader(f, delimiter=',')
         orders = {}
@@ -19,13 +19,13 @@ def load_all_deliveries() -> Dict[Dict[Any]]:
 
 def load_specific_delivery(orderId: str) -> Dict[Any]:
     if not DATA_PATH.exists():
-        raise Exception(f"Error: The storage csv does not exist or otherwise cannot be accessed")
+        raise FileExistsError("Error: The storage csv does not exist or otherwise cannot be accessed")
     with DATA_PATH.open("r", encoding="utf-8", newline='') as f:
         reader = csv.DictReader(f, delimiter=',')
         for row in reader:
             if row.get("order_id") == orderId:
                 return row
-        raise Exception(f"Error: The order with Id {id} cannot be found".format(id=orderId))
+        raise IndexError(f"Error: The order with Id {id} cannot be found"(id=orderId))
 
 def save_all_deliveries(deliveries: Dict[Dict[Any]]) -> None:
     field_names = [

@@ -8,7 +8,7 @@ DATA_PATH = Path(__file__).resolve().parents[1] / "data" / "restaurants.csv"
 #Returnes a list of dicts where each dict maps to an order
 def load_all_restaurants() -> Dict[Dict[Any]]:
     if not DATA_PATH.exists():
-        raise Exception(f"Error: The storage csv does not exist or otherwise cannot be accessed")
+        raise FileExistsError("Error: The storage csv does not exist or otherwise cannot be accessed")
     with DATA_PATH.open("r", encoding="utf-8", newline='') as f:
         reader = csv.DictReader(f, delimiter=',')
         orders = {}

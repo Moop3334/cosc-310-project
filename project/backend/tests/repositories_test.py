@@ -1,5 +1,7 @@
 from pytest import *
-from app.repositories import *
+from app.repositories import load_all_deliveries,load_specific_delivery,save_all_deliveries#,save_all_restaurants,load_all_restaurants
+# pylint: disable=unused-wildcard-import
+# pylint: disable=wildcard-import
 
 test_order_1 = {
     'order_id': '154b2cZ', 
