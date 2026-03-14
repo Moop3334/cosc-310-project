@@ -6,7 +6,7 @@ from app.schema.resturant import Restaurant #, RestaurantCreate, RestaurantUpdat
 
 router = APIRouter(prefix="/items", tags=["items"])
 
-@router.get("/", response_model=List[Restaurant])
+@router.get("", response_model=List[Restaurant])
 def get_items():
     return ""
 
