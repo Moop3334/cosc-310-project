@@ -88,7 +88,6 @@ test_restaurant1 = {
     "address":"123 Road dr", 
     "open_times":['9:00', '9:00', '9:00', '9:00', '9:00', '9:00', '9:00'], 
     "close_times":['21:00', '21:00', '21:00', '21:00', '21:00', '21:00', '21:00'],
-    "menu_id":"1"
 }
 
 test_restaurant2 = {
@@ -97,7 +96,6 @@ test_restaurant2 = {
     "address":"124 Road dr", 
     "open_times":['9:00', '9:00', '9:00', '9:00', '9:00', '9:00', '9:00'], 
     "close_times":['21:00', '21:00', '21:00', '21:00', '21:00', '21:00', '21:00'],
-    "menu_id":"2"
 }
 
 def test_delivery_load():

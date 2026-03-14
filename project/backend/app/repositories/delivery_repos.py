@@ -7,7 +7,7 @@ from typing import Dict, Any
 DATA_PATH = Path(__file__).resolve().parents[1] / "data" / "food_delivery.csv"
 
 #Returnes a list of dicts where each dict maps to an order
-def load_all_deliveries() -> Dict[Dict[Any]]:
+def load_all_deliveries() -> Dict[Any, Dict[Any, Any]]:
     if not DATA_PATH.exists():
         raise FileExistsError(
             "Error: The storage csv does not exist or otherwise cannot be accessed"
@@ -19,7 +19,7 @@ def load_all_deliveries() -> Dict[Dict[Any]]:
             orders[row.get("order_id")] = row
         return orders
 
-def load_specific_delivery(orderId: str) -> Dict[Any]:
+def load_specific_delivery(orderId: str) -> Dict[Any, Any]:
     if not DATA_PATH.exists():
         raise FileExistsError(
             "Error: The storage csv does not exist or otherwise cannot be accessed"
@@ -31,7 +31,7 @@ def load_specific_delivery(orderId: str) -> Dict[Any]:
                 return row
         raise IndexError(f"Error: The order with Id {orderId} cannot be found")
 
-def save_all_deliveries(deliveries: Dict[Dict[Any]]) -> None:
+def save_all_deliveries(deliveries: Dict[Any, Dict[Any, Any]]) -> None:
     field_names = [
         "order_id","restaurant_id","food_item",
         "order_time","delivery_time","delivery_distance",
