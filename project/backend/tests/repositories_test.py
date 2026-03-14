@@ -144,14 +144,14 @@ def test_delivery_save():
 
 def test_restaurant_load():
     restaurants = load_all_restaurants()
-    assert restaurants["1"] == test_restaurant1
+    assert restaurants[0] == test_restaurant1
 
 def test_restaurant_save():
     restaurants = load_all_restaurants()
-    restaurants["2"] = test_restaurant2
+    restaurants[1] = test_restaurant2
     save_all_restaurants(restaurants)
     r = load_all_restaurants()
-    assert r["2"] == test_restaurant2
+    assert r[1] == test_restaurant2
 
 def test_load_menu_item_error():
     with pytest.raises(IndexError):
