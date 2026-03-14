@@ -2,8 +2,8 @@ from typing import List
 import datetime
 from enum import Enum
 from orderDetail import OrderItem
-#from user import User
-#from resturant import Restaurant
+from user import User
+from resturant import Restaurant
 #need pull request accepted to get user & restaurant files
 from pydantic import BaseModel, Field
 
@@ -18,8 +18,8 @@ class OrderStatus(str, Enum):
 
 class Order(BaseModel):
     id: int
-    user: str
-    restaurant: str
+    user: User
+    restaurant: Restaurant
     items: List[OrderItem] = Field(default_factory=list)
     creation_date: datetime
     status: OrderStatus = OrderStatus.PENDING
