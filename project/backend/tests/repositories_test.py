@@ -110,26 +110,33 @@ test_menu_item = {
     'image': 'N/A'
 }
 
-test_menu = {
-    '1': {
+test_menu = [
+    {
+        'restaurant_id':'1',
         'item_id': '1',
         'item_name': 'Curry', 
         'price': '12.99', 
         'description': 'Japanese Curry', 
         'image': 'N/A'
         }, 
-    '2': {
+    {
+        'restaurant_id':'1',
         'item_id': '2',
         'item_name': 'Chicken', 
         'price': '10.00', 
         'description': 'Mmmm chicken', 
         'image': 'N/A'
     }
-}
+]
 
 def test_delivery_load():
     deliveries = load_all_deliveries()
-    assert deliveries["154b2cZ"] == test_order_1
+    order = {}
+    for row in deliveries:
+        if row["order_id"] == test_order_1["order_id"]:
+            order = row
+    assert order == test_order_1
+    
 
 def test_single_delivery_load():
     delivery = load_specific_delivery("154b2cZ")
@@ -137,10 +144,13 @@ def test_single_delivery_load():
 
 def test_delivery_save():
     deliveries = load_all_deliveries()
-    deliveries["154b2cz"] = test_order_2
+    deliveries.append(test_order_2)
     save_all_deliveries(deliveries)
     d = load_all_deliveries()
-    assert d["154b2cz"] == test_order_2
+    hasMatch = False
+    for row in d:
+        hasMatch = row == test_order_2
+    assert hasMatch
 
 def test_restaurant_load():
     restaurants = load_all_restaurants()
