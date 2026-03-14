@@ -7,7 +7,10 @@ from app.repositories import (
     load_specific_delivery,
     save_all_deliveries,
     save_all_restaurants,
-    load_all_restaurants
+    load_all_restaurants,
+    load_menu,
+    load_menu_item,
+    save_menu
 )
 
 test_order_1 = {
@@ -98,6 +101,32 @@ test_restaurant2 = {
     "close_times":['21:00', '21:00', '21:00', '21:00', '21:00', '21:00', '21:00'],
 }
 
+test_menu_item = {
+    'restaurant_id': '1', 
+    'item_id': '1', 
+    'item_name': 'Curry', 
+    'price': '12.99', 
+    'description': 'Japanese Curry', 
+    'image': 'N/A'
+}
+
+test_menu = {
+    '1': {
+        'item_id': '1',
+        'item_name': 'Curry', 
+        'price': '12.99', 
+        'description': 'Japanese Curry', 
+        'image': 'N/A'
+        }, 
+    '2': {
+        'item_id': '2',
+        'item_name': 'Chicken', 
+        'price': '10.00', 
+        'description': 'Mmmm chicken', 
+        'image': 'N/A'
+    }
+}
+
 def test_delivery_load():
     deliveries = load_all_deliveries()
     assert deliveries["154b2cZ"] == test_order_1
@@ -123,3 +152,24 @@ def test_restaurant_save():
     save_all_restaurants(restaurants)
     r = load_all_restaurants()
     assert r["2"] == test_restaurant2
+
+def test_load_menu_item_error():
+    with pytest.raises(IndexError):
+        load_menu_item(100,3)
+
+def test_load_menu_error():
+    with pytest.raises(IndexError):
+        load_menu(100)
+
+def test_load_menu_item():
+    item = load_menu_item(1,1)
+    assert item == test_menu_item
+
+def test_load_menu():
+    menu = load_menu(1)
+    assert menu == test_menu
+
+def test_save_menu():
+    save_menu(3,test_menu)
+    temp_menu = load_menu(3)
+    assert test_menu == test_menu
