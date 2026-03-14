@@ -20,8 +20,6 @@ def load_all_restaurants() -> Dict[Dict[Any]]:
             orders[row.get("restaurant_id")] = row
         return orders
 
-print(load_all_restaurants())
-
 def save_all_restaurants(restaurants: Dict[Dict[Any]]) -> None:
     fieldNames = ['restaurant_id','restaurant_name','address','open_times','close_times','menu_id']
     with DATA_PATH.open("w", encoding="utf-8", newline='') as f:
