@@ -6,7 +6,7 @@ from typing import Dict, Any
 DATA_PATH = Path(__file__).resolve().parents[1] / "data" / "restaurants.csv"
 
 #Returnes a list of dicts where each dict maps to an order
-def load_all_restaurants() -> Dict[Dict[Any]]:
+def load_all_restaurants() -> Dict[Any, Dict[Any, Any]]:
     if not DATA_PATH.exists():
         raise FileExistsError(
             "Error: The storage csv does not exist or otherwise cannot be accessed"
@@ -20,7 +20,7 @@ def load_all_restaurants() -> Dict[Dict[Any]]:
             orders[row.get("restaurant_id")] = row
         return orders
 
-def save_all_restaurants(restaurants: Dict[Dict[Any]]) -> None:
+def save_all_restaurants(restaurants: Dict[Any, Dict[Any, Any]]) -> None:
     fieldNames = ['restaurant_id','restaurant_name','address','open_times','close_times','menu_id']
     with DATA_PATH.open("w", encoding="utf-8", newline='') as f:
         writer = csv.DictWriter(f, fieldnames=fieldNames)
