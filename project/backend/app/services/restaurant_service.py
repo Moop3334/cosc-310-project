@@ -25,37 +25,37 @@ def list_restaurants() -> List[Restaurant]:
             id=r.get("restaurant_id"),
             name=r.get("restaurant_name"),
             address=r.get("address"),
-            openTimes=opn_list,
-            closeTimes=close_list,
+            open_times=opn_list,
+            close_times=close_list,
             menu=menu
             ))
     return r_list
 
 def create_restaurant(payload: RestaurantCreate) -> Restaurant:
-    items = ListRestaurants()
+    items = list_restaurants()
     new_id = len(items)
-    new_item = Restaurant(id=new_id, name=payload.name.strip(), address=payload.address.strip(), openTimes=payload.openTimes.strip(), closeTimes=payload.closeTimes.strip(), menu=payload.menu.strip())
+    new_item = Restaurant(id=new_id, name=payload.name.strip(), address=payload.address.strip(), open_times=payload.open_times, close_times=payload.close_times, menu=payload.menu)
     items.append(new_item.dict())
     save_all_restaurants(items)
     return new_item
 
 def get_restaurant_by_id(restaurant_id: str) -> Restaurant:
-    items = ListRestaurants()
+    items = list_restaurants()
     for it in items:
         if it.id == restaurant_id:
             return Restaurant(**it)
     raise HTTPException(status_code=404, detail=f"Restaurant '{restaurant_id}' not found")
 
 def update_restaurant(restaurant_id: str, payload: RestaurantUpdate) -> Restaurant:
-    items = ListRestaurants()
+    items = list_restaurants()
     for idx, it in enumerate(items):
         if it.id == restaurant_id:
             updated = Restaurant(
                 id=restaurant_id, 
                 name=payload.name.strip(), 
                 address=payload.address.strip(), 
-                openTimes=payload.openTimes.strip(), 
-                closeTimes=payload.closeTimes.strip(),
+                open_times=payload.open_times.strip(), 
+                close_times=payload.close_times.strip(),
                 menu=payload.menu.strip()
             )
             items[idx] = updated.dict()
@@ -64,7 +64,7 @@ def update_restaurant(restaurant_id: str, payload: RestaurantUpdate) -> Restaura
     raise HTTPException(status_code=404, detail=f"Restaurant '{restaurant_id}' not found")
 
 def delete_restaurant(restaurant_id: str) -> None:
-    items = ListRestaurants
+    items = list_restaurants()
     new_items = [it for it in items if it.id != restaurant_id]
     if len(new_items) == len(items):
         raise HTTPException(status_code=404, detail=f"Restaurant '{restaurant_id}' not found")

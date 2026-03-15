@@ -204,5 +204,3 @@ def test_save_menu():
     save_menu(3,test_menu1)
     temp_menu = load_menu(3)
     assert temp_menu == test_menu1
-
-print(test_restaurant_save())

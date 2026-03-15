@@ -32,7 +32,9 @@ def save_all_restaurants(restaurants: List[Dict[Any, Any]]) -> None:
         close_tmp = []
         menu_tmp = []
         for row in restaurants:
-            menu_tmp.append(row.pop("menu"))
+            row = dict(row)
+            menu_tmp.append(row.get("menu"))
+            row.pop("menu")
             opn = row["open_times"]
             open_tmp.append(opn)
             row["open_times"] = (
