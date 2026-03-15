@@ -1,12 +1,11 @@
-import uuid
 from typing import List, Dict, Any
 import datetime
 from fastapi import HTTPException
-from app.schema.resturant import Restaurant, RestaurantCreate, RestaurantUpdate
+from app.schema.resturant import Restaurant
 from app.schema.menuItems import MenuItem, MenuItemCreate, MenuItemUpdate
 from app.repositories.restaurant_repos import load_all_restaurants, save_all_restaurants
 
-def list_restaurants() -> List[Restaurant]:
+def list_menu(restaurant_id: int) -> List[MenuItem]:
     r_list = []
     for r in load_all_restaurants():
         opn_list = [datetime.time.strptime(it, "%H:%M:%S") for it in r.get("open_times")]
@@ -14,8 +13,8 @@ def list_restaurants() -> List[Restaurant]:
         menu = []
         for m in r.get("menu"):
             menu.append(MenuItem(
-                item_id = m.get("item_id"),
-                item_name = m.get("item_name"),
+                id = m.get("item_id"),
+                name = m.get("item_name"),
                 price = m.get("price"),
                 description=m.get("description"),
                 image=m.get("image")
