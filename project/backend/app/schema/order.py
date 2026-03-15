@@ -8,11 +8,11 @@ from resturant import Restaurant
 from pydantic import BaseModel, Field
 
 class OrderStatus(str, Enum):
-    PENDING = "pending approval"
-    PREPARING = "preparing order"
-    DELIVERING = "out for delivery"
-    DELIVERED = "delivered"
-    CANCELLED = "cancelled"
+    PENDING = "Pending Approval"
+    PREPARING = "Preparing Order"
+    DELIVERING = "Out for Delivery"
+    DELIVERED = "Delivered"
+    CANCELLED = "Cancelled"
 #Can be used to create update status methods in other classes
 #Should hopefully help to keep status messages consistent when updating across classes
 
