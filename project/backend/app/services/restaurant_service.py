@@ -6,7 +6,7 @@ from app.schema.resturant import Restaurant, RestaurantCreate, RestaurantUpdate
 from app.schema.menuItems import MenuItem, MenuItemCreate, MenuItemUpdate
 from app.repositories.restaurant_repos import load_all_restaurants, save_all_restaurants
 
-def ListRestaurants() -> List[Restaurant]:
+def list_restaurants() -> List[Restaurant]:
     r_list = []
     for r in load_all_restaurants():
         opn_list = [datetime.time.strptime(it, "%H:%M") for it in r.get("open_times")]
@@ -31,7 +31,7 @@ def ListRestaurants() -> List[Restaurant]:
             ))
     return r_list
 
-def restaurant(payload: RestaurantCreate) -> Restaurant:
+def create_restaurant(payload: RestaurantCreate) -> Restaurant:
     items = ListRestaurants()
     new_id = len(items)
     new_item = Restaurant(id=new_id, name=payload.name.strip(), address=payload.address.strip(), openTimes=payload.openTimes.strip(), closeTimes=payload.closeTimes.strip(), menu=payload.menu.strip())
@@ -46,7 +46,7 @@ def get_restaurant_by_id(restaurant_id: str) -> Restaurant:
             return Restaurant(**it)
     raise HTTPException(status_code=404, detail=f"Restaurant '{restaurant_id}' not found")
 
-def restaurant(restaurant_id: str, payload: RestaurantUpdate) -> Restaurant:
+def update_restaurant(restaurant_id: str, payload: RestaurantUpdate) -> Restaurant:
     items = ListRestaurants()
     for idx, it in enumerate(items):
         if it.id == restaurant_id:
