@@ -29,12 +29,12 @@ def load_menu_item(restaurant_id: int, item_id: int) -> Dict[Any, Any]:
     with DATA_PATH.open("r", encoding="utf-8", newline='') as f:
         reader = csv.DictReader(f, delimiter=',')
         for row in reader:
-            if (int(row["restaurant_id"]) == restaurant_id and int(row["item_id"]) == item_id):
+            if (int(row["restaurant_id"]) == restaurant_id and int(row["id"]) == item_id):
                 return row
         raise IndexError(f"Error: Unable to find item id:{item_id} belonging to restaurant id:{restaurant_id}")
 
 def save_menu(restaurant_id: int, items: List[Dict[Any, Any]]) -> None:
-    fieldNames = ['restaurant_id','item_id','item_name','price','description','image']
+    fieldNames = ['restaurant_id','id','item_name','price','description','image']
     if not DATA_PATH.exists():
         raise FileExistsError(
             "Error: The storage csv does not exist or otherwise cannot be accessed"
@@ -51,7 +51,8 @@ def save_menu(restaurant_id: int, items: List[Dict[Any, Any]]) -> None:
         writer.writeheader()
         new_rows = []
         for row in items:
-            row["restaurant_id"] = str(restaurant_id)
+            row = dict(row)
+            row["restaurant_id"] = restaurant_id
             new_rows.append(row)
         writer.writerows(existing_rows + new_rows)
             

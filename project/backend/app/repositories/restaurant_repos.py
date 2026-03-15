@@ -1,6 +1,7 @@
 from pathlib import Path
 import csv
 from typing import Dict, Any, List
+from .menu_items_repos import load_menu, save_menu
 # pylint: disable=duplicate-code
 
 DATA_PATH = Path(__file__).resolve().parents[1] / "data" / "restaurants.csv"
@@ -17,24 +18,30 @@ def load_all_restaurants() -> List[Dict[Any, Any]]:
         for row in reader:
             row["open_times"] = row["open_times"].strip("[]").split(";")
             row["close_times"] = row["close_times"].strip("[]").split(";")
+            row["menu"] = load_menu((int(row["id"])))
             orders.append(row)
         return orders
 
 def save_all_restaurants(restaurants: List[Dict[Any, Any]]) -> None:
-    fieldNames = ['restaurant_id','restaurant_name','address','open_times','close_times']
+    fieldNames = ['id','name','address','open_times','close_times']
     with DATA_PATH.open("w", encoding="utf-8", newline='') as f:
         writer = csv.DictWriter(f, fieldnames=fieldNames)
         writer.writeheader()
         restaurants_temp = []
         open_tmp = []
         close_tmp = []
+        menu_tmp = []
         for row in restaurants:
-            opn = row["open_times"]
+            row = dict(row)
+            menu_tmp.append(row.get("menu"))
+            save_menu(row.get("id"), row.get("menu"))
+            row.pop("menu")
+            opn = row.get("open_times")
             open_tmp.append(opn)
             row["open_times"] = (
                 f"[{opn[0]};{opn[1]};{opn[2]};{opn[3]};{opn[4]};{opn[5]};{opn[6]}]"
                 )
-            close = row["close_times"]
+            close = row.get("close_times")
             close_tmp.append(close)
             row["close_times"] = (
                 f"[{close[0]};{close[1]};{close[2]};{close[3]};{close[4]};{close[5]};{close[6]}]"
@@ -44,6 +51,8 @@ def save_all_restaurants(restaurants: List[Dict[Any, Any]]) -> None:
 
         j = 0
         for i in restaurants:
+            i = dict(i)
             i["open_times"] = open_tmp[j]
             i["close_times"] = close_tmp[j]
+            i["menu"] = menu_tmp[j]
             j += 1
