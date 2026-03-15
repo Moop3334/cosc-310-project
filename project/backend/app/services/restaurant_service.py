@@ -50,14 +50,14 @@ def create_restaurant(payload: RestaurantCreate) -> Restaurant:
     save_all_restaurants(items)
     return new_item
 
-def get_restaurant_by_id(restaurant_id: str) -> Restaurant:
+def get_restaurant_by_id(restaurant_id: int) -> Restaurant:
     items = list_restaurants()
     for it in items:
         if it.id == restaurant_id:
             return Restaurant(**it)
     raise HTTPException(status_code=404, detail=f"Restaurant '{restaurant_id}' not found")
 
-def update_restaurant(restaurant_id: str, payload: RestaurantUpdate) -> Restaurant:
+def update_restaurant(restaurant_id: int, payload: RestaurantUpdate) -> Restaurant:
     items = list_restaurants()
     for idx, it in enumerate(items):
         if it.id == restaurant_id:
@@ -74,7 +74,7 @@ def update_restaurant(restaurant_id: str, payload: RestaurantUpdate) -> Restaura
             return updated
     raise HTTPException(status_code=404, detail=f"Restaurant '{restaurant_id}' not found")
 
-def delete_restaurant(restaurant_id: str) -> None:
+def delete_restaurant(restaurant_id: int) -> None:
     items = list_restaurants()
     new_items = [it for it in items if it.id != restaurant_id]
     if len(new_items) == len(items):

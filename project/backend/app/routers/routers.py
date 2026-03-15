@@ -15,3 +15,15 @@ def get_restaurants():
 @router.post("", response_model=Restaurant, status_code=201)
 def post_restaurant(payload: RestaurantCreate):
     return create_restaurant(payload)
+
+@router.get("/{restaurant_id}", response_model=Restaurant, status_code=201)
+def get_r_by_id(restaurant_id: int):
+    return get_restaurant_by_id(restaurant_id=restaurant_id)
+
+@router.post("/{restaurant_id}", response_model=Restaurant, status_code=201)
+def post_restaurant_update(restaurant_id: int,payload: RestaurantUpdate):
+    return update_restaurant(restaurant_id, payload)
+
+@router.delete("/{restaurant_id}", response_model=Restaurant, status_code=201)
+def delete_r(restaurant_id: int):
+    return delete_restaurant(restaurant_id)
