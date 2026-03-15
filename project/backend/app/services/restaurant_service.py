@@ -34,7 +34,10 @@ def list_restaurants() -> List[Restaurant]:
     return r_list
 
 def create_restaurant(payload: RestaurantCreate) -> Restaurant:
-    items = list_restaurants()
+    items = load_all_restaurants()
+    for r in items:
+        if r.name == payload.name.strip() and r.address == payload.address.strip():
+            raise HTTPException(status_code=409, detail=f"Restaurant Already Exists")
     new_id = len(items) + 1
     new_menu = []
     for m in payload.menu:

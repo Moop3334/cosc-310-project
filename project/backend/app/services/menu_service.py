@@ -18,7 +18,11 @@ def list_menu(restaurant_id: int) -> List[MenuItem]:
     return m_list
 
 def create_menu_item(payload: MenuItemCreate) -> MenuItem:
-    items = list_menu(restaurant_id=payload.restaurant_id)
+    items = List[MenuItem]
+    try:
+        items = list_menu(restaurant_id=payload.restaurant_id)
+    except IndexError:
+        items = []
     new_id = len(items) + 1
     new_item = MenuItem(
         id=new_id, 
