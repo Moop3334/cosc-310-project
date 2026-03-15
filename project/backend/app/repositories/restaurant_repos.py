@@ -30,8 +30,9 @@ def save_all_restaurants(restaurants: List[Dict[Any, Any]]) -> None:
         restaurants_temp = []
         open_tmp = []
         close_tmp = []
+        menu_tmp = []
         for row in restaurants:
-            row.pop("menu")
+            menu_tmp.append(row.pop("menu"))
             opn = row["open_times"]
             open_tmp.append(opn)
             row["open_times"] = (
@@ -49,4 +50,5 @@ def save_all_restaurants(restaurants: List[Dict[Any, Any]]) -> None:
         for i in restaurants:
             i["open_times"] = open_tmp[j]
             i["close_times"] = close_tmp[j]
+            i["menu"] = menu_tmp[j]
             j += 1

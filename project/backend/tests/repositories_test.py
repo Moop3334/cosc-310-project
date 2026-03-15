@@ -85,22 +85,6 @@ test_order_2 = {
     'traffic_avoidance': 'No'
 }
 
-test_restaurant1 = {
-    "restaurant_id":"1", 
-    "restaurant_name":"Tester's Dinner", 
-    "address":"123 Road dr", 
-    "open_times":['9:00', '9:00', '9:00', '9:00', '9:00', '9:00', '9:00'], 
-    "close_times":['21:00', '21:00', '21:00', '21:00', '21:00', '21:00', '21:00'],
-}
-
-test_restaurant2 = {
-    "restaurant_id":"2", 
-    "restaurant_name":"Example Kitchen", 
-    "address":"124 Road dr", 
-    "open_times":['9:00', '9:00', '9:00', '9:00', '9:00', '9:00', '9:00'], 
-    "close_times":['21:00', '21:00', '21:00', '21:00', '21:00', '21:00', '21:00'],
-}
-
 test_menu_item = {
     'restaurant_id': '1', 
     'item_id': '1', 
@@ -110,7 +94,7 @@ test_menu_item = {
     'image': 'N/A'
 }
 
-test_menu = [
+test_menu1 = [
     {
         'restaurant_id':'1',
         'item_id': '1',
@@ -128,6 +112,43 @@ test_menu = [
         'image': 'N/A'
     }
 ]
+
+test_menu2 = [
+    {
+        'restaurant_id':'2',
+        'item_id': '1',
+        'item_name': 'Curry', 
+        'price': '12.99', 
+        'description': 'Japanese Curry', 
+        'image': 'N/A'
+        }, 
+    {
+        'restaurant_id':'2',
+        'item_id': '2',
+        'item_name': 'Chicken', 
+        'price': '10.00', 
+        'description': 'Mmmm chicken', 
+        'image': 'N/A'
+    }
+]
+
+test_restaurant1 = {
+    "restaurant_id":"1", 
+    "restaurant_name":"Tester's Dinner", 
+    "address":"123 Road dr", 
+    "open_times":['09:00', '09:00', '09:00', '09:00', '09:00', '09:00', '09:00'], 
+    "close_times":['21:00', '21:00', '21:00', '21:00', '21:00', '21:00', '21:00'],
+    'menu':test_menu1
+}
+
+test_restaurant2 = {
+    "restaurant_id":"2", 
+    "restaurant_name":"Example Kitchen", 
+    "address":"124 Road dr", 
+    "open_times":['9:00', '9:00', '9:00', '9:00', '9:00', '9:00', '9:00'], 
+    "close_times":['21:00', '21:00', '21:00', '21:00', '21:00', '21:00', '21:00'],
+    'menu':test_menu2
+}
 
 def test_delivery_load():
     deliveries = load_all_deliveries()
@@ -177,9 +198,11 @@ def test_load_menu_item():
 
 def test_load_menu():
     menu = load_menu(1)
-    assert menu == test_menu
+    assert menu == test_menu1
 
 def test_save_menu():
-    save_menu(3,test_menu)
+    save_menu(3,test_menu1)
     temp_menu = load_menu(3)
-    assert test_menu == test_menu
+    assert temp_menu == test_menu1
+
+print(test_restaurant_save())
