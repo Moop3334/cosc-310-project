@@ -80,6 +80,20 @@ test_menu4 = [
         image="N/A"
     )
 ]
+menu_item_factory = MenuItemCreate(
+    item_name="Pizza",
+    restaurant_id=3,
+    price=2.99,
+    description="Pizza!",
+    image="N/A"
+)
+menu_item_updater = MenuItemUpdate(
+    item_name="Pizza",
+    restaurant_id=3,
+    price=3.99,
+    description="Pizza!",
+    image="N/A"
+)
 
 test_restaurants = List[Restaurant]
 test_restaurants = [
@@ -219,7 +233,7 @@ def test_delete_restaurant():
     except HTTPException:
         pytest.fail("Restaurant does not exist")
 
-def test_delete_invalid_id():
+def test_delete_restaurant_invalid_id():
     with pytest.raises(HTTPException):
         delete_restaurant(100)
 
@@ -237,3 +251,38 @@ def test_update_restaurant():
 def test_update_invalid_restaurant_id():
     with pytest.raises(HTTPException):
         update_restaurant(100, test_restaurant_update)
+
+def test_list_menu():
+    assert test_menu1 == list_menu(1)
+
+def test_create_menu_item():
+    assert create_menu_item(menu_item_factory) == get_restaurant_by_id(3).menu[2]
+
+def test_delete_menu_item():
+    try:
+        delete_menu_item(3,3)
+    except HTTPException:
+        pytest.fail("Restaurant does not exist")
+
+def test_delete_menu_item_invalid_id():
+    with pytest.raises(HTTPException):
+        delete_restaurant(100)
+
+def test_get_menu_item_by_id():
+    assert test_menu3[0] == get_menu_item_by_id(3,1)
+
+def test_get_invalid_menu_item_id():
+    with pytest.raises(HTTPException):
+        get_menu_item_by_id(1, 100)
+
+def test_get_invalid_restaurant_menu_item():
+    with pytest.raises(IndexError):
+        get_menu_item_by_id(100, 1)
+
+def test_update_menu_item():
+    test_menu1 = update_menu_item(2, menu_item_updater)
+    assert test_menu1 == list_menu(3)[1]
+
+def test_update_invalid_menu_item_id():
+    with pytest.raises(HTTPException):
+        update_restaurant(3, update_menu_item(3, menu_item_updater))

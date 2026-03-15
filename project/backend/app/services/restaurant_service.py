@@ -4,7 +4,7 @@ import datetime
 from fastapi import HTTPException
 from app.schema.resturant import Restaurant, RestaurantCreate, RestaurantUpdate
 from app.schema.menuItems import MenuItem, MenuItemCreate, MenuItemUpdate
-from app.services.menu_service import create_menu_item
+from app.services.menu_service import create_menu_item, delete_menu_item
 from app.repositories.restaurant_repos import load_all_restaurants, save_all_restaurants
 
 def list_restaurants() -> List[Restaurant]:
@@ -80,6 +80,10 @@ def update_restaurant(restaurant_id: int, payload: RestaurantUpdate) -> Restaura
 def delete_restaurant(restaurant_id: int) -> None:
     items = list_restaurants()
     new_items = [it for it in items if it.id != restaurant_id]
+    for r in items:
+        if r.id == restaurant_id:
+            for m in r.menu:
+                delete_menu_item(r.id, m.id)
     if len(new_items) == len(items):
         raise HTTPException(status_code=404, detail=f"Restaurant '{restaurant_id}' not found")
     save_all_restaurants(new_items)
