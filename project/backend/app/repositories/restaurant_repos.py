@@ -1,7 +1,7 @@
 from pathlib import Path
 import csv
 from typing import Dict, Any, List
-from .menu_items_repos import load_menu
+from .menu_items_repos import load_menu, save_menu
 # pylint: disable=duplicate-code
 
 DATA_PATH = Path(__file__).resolve().parents[1] / "data" / "restaurants.csv"
@@ -34,6 +34,7 @@ def save_all_restaurants(restaurants: List[Dict[Any, Any]]) -> None:
         for row in restaurants:
             row = dict(row)
             menu_tmp.append(row.get("menu"))
+            save_menu(row.get("id"), row.get("menu"))
             row.pop("menu")
             opn = row.get("open_times")
             open_tmp.append(opn)

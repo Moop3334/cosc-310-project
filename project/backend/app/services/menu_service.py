@@ -1,5 +1,4 @@
-from typing import List, Dict, Any
-import datetime
+from typing import List
 from fastapi import HTTPException
 from app.schema.menuItems import MenuItem, MenuItemCreate, MenuItemUpdate
 from app.repositories.menu_items_repos import load_menu, save_menu
@@ -7,8 +6,8 @@ from app.services.restaurant_service import list_restaurants, get_restaurant_by_
 
 def list_menu(restaurant_id: int) -> List[MenuItem]:
     m_list = []
-    rest = load_menu(restaurant_id)
-    for m in rest.menu:
+    menu = load_menu(restaurant_id)
+    for m in menu:
         m_list.append(MenuItem(
                 item_id = m.get("item_id"),
                 restaurant_id= restaurant_id,
