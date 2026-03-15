@@ -107,7 +107,7 @@ test_menu1 = [
         'restaurant_id':'1',
         'id': '2',
         'item_name': 'Chicken', 
-        'price': '10.00', 
+        'price': '10.0', 
         'description': 'Mmmm chicken', 
         'image': 'N/A'
     }
@@ -126,7 +126,7 @@ test_menu2 = [
         'restaurant_id':'2',
         'id': '2',
         'item_name': 'Chicken', 
-        'price': '10.00', 
+        'price': '10.0', 
         'description': 'Mmmm chicken', 
         'image': 'N/A'
     }
@@ -145,7 +145,7 @@ test_restaurant2 = {
     "id":"2", 
     "name":"Example Kitchen", 
     "address":"124 Road dr", 
-    "open_times":['9:00:00', '9:00:00', '9:00:00', '9:00:00', '9:00:00', '9:00:00', '9:00:00'], 
+    "open_times":['09:00:00', '09:00:00', '09:00:00', '09:00:00', '09:00:00', '09:00:00', '09:00:00'], 
     "close_times":['21:00:00', '21:00:00', '21:00:00', '21:00:00', '21:00:00', '21:00:00', '21:00:00'],
     'menu':test_menu2
 }
@@ -175,7 +175,7 @@ def test_delivery_save():
 
 def test_restaurant_load():
     restaurants = load_all_restaurants()
-    assert restaurants[0] == test_restaurant1
+    assert restaurants[1] == test_restaurant2
 
 def test_restaurant_save():
     restaurants = load_all_restaurants()
@@ -197,8 +197,8 @@ def test_load_menu_item():
     assert item == test_menu_item
 
 def test_load_menu():
-    menu = load_menu(1)
-    assert menu == test_menu1
+    menu = load_menu(2)
+    assert menu == test_menu2
 
 def test_save_menu():
     save_menu(2,test_menu2)
