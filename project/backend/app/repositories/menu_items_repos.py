@@ -51,7 +51,7 @@ def save_menu(restaurant_id: int, items: List[Dict[Any, Any]]) -> None:
         writer.writeheader()
         new_rows = []
         for row in items:
-            row["restaurant_id"] = str(restaurant_id)
+            row = dict(row)
             new_rows.append(row)
         writer.writerows(existing_rows + new_rows)
             

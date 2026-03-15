@@ -54,7 +54,7 @@ def get_restaurant_by_id(restaurant_id: int) -> Restaurant:
     items = list_restaurants()
     for it in items:
         if it.id == restaurant_id:
-            return Restaurant(**it)
+            return it
     raise HTTPException(status_code=404, detail=f"Restaurant '{restaurant_id}' not found")
 
 def update_restaurant(restaurant_id: int, payload: RestaurantUpdate) -> Restaurant:

@@ -2,7 +2,6 @@ from typing import List
 from fastapi import HTTPException
 from app.schema.menuItems import MenuItem, MenuItemCreate, MenuItemUpdate
 from app.repositories.menu_items_repos import load_menu, save_menu
-from app.services.restaurant_service import list_restaurants, get_restaurant_by_id
 
 def list_menu(restaurant_id: int) -> List[MenuItem]:
     m_list = []
@@ -37,7 +36,7 @@ def get_menu_item_by_id(restaurant_id: int, item_id: int) -> MenuItem:
     items = list_menu(restaurant_id)
     for it in items:
         if it.item_id == item_id:
-            return MenuItem(**it)
+            return it
     raise HTTPException(status_code=404, detail=f"Menu Item '{item_id}' not found for restaurant {restaurant_id}")
 
 def update_menu_item(item_id: int, payload: MenuItemUpdate) -> MenuItem:
