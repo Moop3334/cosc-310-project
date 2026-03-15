@@ -9,8 +9,8 @@ from app.repositories.restaurant_repos import load_all_restaurants, save_all_res
 def list_restaurants() -> List[Restaurant]:
     r_list = []
     for r in load_all_restaurants():
-        opn_list = [datetime.time.strptime(it, "%H:%M") for it in r.get("open_times")]
-        close_list = [datetime.time.strptime(it, "%H:%M") for it in r.get("close_times")]
+        opn_list = [datetime.time.strptime(it, "%H:%M:%S") for it in r.get("open_times")]
+        close_list = [datetime.time.strptime(it, "%H:%M:%S") for it in r.get("close_times")]
         menu = []
         for m in r.get("menu"):
             menu.append(MenuItem(
@@ -22,8 +22,8 @@ def list_restaurants() -> List[Restaurant]:
             ))
         r_list.append(
             Restaurant(
-            id=r.get("restaurant_id"),
-            name=r.get("restaurant_name"),
+            id=r.get("id"),
+            name=r.get("name"),
             address=r.get("address"),
             open_times=opn_list,
             close_times=close_list,
@@ -33,7 +33,7 @@ def list_restaurants() -> List[Restaurant]:
 
 def create_restaurant(payload: RestaurantCreate) -> Restaurant:
     items = list_restaurants()
-    new_id = len(items)
+    new_id = len(items) + 1
     new_item = Restaurant(id=new_id, name=payload.name.strip(), address=payload.address.strip(), open_times=payload.open_times, close_times=payload.close_times, menu=payload.menu)
     items.append(new_item.dict())
     save_all_restaurants(items)
@@ -54,9 +54,9 @@ def update_restaurant(restaurant_id: str, payload: RestaurantUpdate) -> Restaura
                 id=restaurant_id, 
                 name=payload.name.strip(), 
                 address=payload.address.strip(), 
-                open_times=payload.open_times.strip(), 
-                close_times=payload.close_times.strip(),
-                menu=payload.menu.strip()
+                open_times=payload.open_times, 
+                close_times=payload.close_times,
+                menu=payload.menu
             )
             items[idx] = updated.dict()
             save_all_restaurants(items)

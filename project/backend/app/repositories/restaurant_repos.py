@@ -18,12 +18,12 @@ def load_all_restaurants() -> List[Dict[Any, Any]]:
         for row in reader:
             row["open_times"] = row["open_times"].strip("[]").split(";")
             row["close_times"] = row["close_times"].strip("[]").split(";")
-            row["menu"] = load_menu((int(row["restaurant_id"])))
+            row["menu"] = load_menu((int(row["id"])))
             orders.append(row)
         return orders
 
 def save_all_restaurants(restaurants: List[Dict[Any, Any]]) -> None:
-    fieldNames = ['restaurant_id','restaurant_name','address','open_times','close_times']
+    fieldNames = ['id','name','address','open_times','close_times']
     with DATA_PATH.open("w", encoding="utf-8", newline='') as f:
         writer = csv.DictWriter(f, fieldnames=fieldNames)
         writer.writeheader()
@@ -35,12 +35,12 @@ def save_all_restaurants(restaurants: List[Dict[Any, Any]]) -> None:
             row = dict(row)
             menu_tmp.append(row.get("menu"))
             row.pop("menu")
-            opn = row["open_times"]
+            opn = row.get("open_times")
             open_tmp.append(opn)
             row["open_times"] = (
                 f"[{opn[0]};{opn[1]};{opn[2]};{opn[3]};{opn[4]};{opn[5]};{opn[6]}]"
                 )
-            close = row["close_times"]
+            close = row.get("close_times")
             close_tmp.append(close)
             row["close_times"] = (
                 f"[{close[0]};{close[1]};{close[2]};{close[3]};{close[4]};{close[5]};{close[6]}]"
@@ -50,6 +50,7 @@ def save_all_restaurants(restaurants: List[Dict[Any, Any]]) -> None:
 
         j = 0
         for i in restaurants:
+            i = dict(i)
             i["open_times"] = open_tmp[j]
             i["close_times"] = close_tmp[j]
             i["menu"] = menu_tmp[j]
