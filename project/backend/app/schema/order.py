@@ -2,24 +2,23 @@ from typing import List
 import datetime
 from enum import Enum
 from orderDetail import OrderItem
-#from user import User
-#from resturant import Restaurant
-#need pull request accepted to get user & restaurant files
+from user import User
+from resturant import Restaurant
 from pydantic import BaseModel, Field
 
 class OrderStatus(str, Enum):
-    PENDING = "pending approval"
-    PREPARING = "preparing order"
-    DELIVERING = "out for delivery"
-    DELIVERED = "delivered"
-    CANCELLED = "cancelled"
+    PENDING = "Pending Approval"
+    PREPARING = "Preparing Order"
+    DELIVERING = "Out for Delivery"
+    DELIVERED = "Delivered"
+    CANCELLED = "Cancelled"
 #Can be used to create update status methods in other classes
 #Should hopefully help to keep status messages consistent when updating across classes
 
 class Order(BaseModel):
     id: int
-    user: str
-    restaurant: str
+    user: User
+    restaurant: Restaurant
     items: List[OrderItem] = Field(default_factory=list)
     creation_date: datetime
     status: OrderStatus = OrderStatus.PENDING
