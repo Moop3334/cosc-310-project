@@ -1,70 +1,66 @@
 from typing import List, Dict, Any
 import datetime
 from fastapi import HTTPException
-from app.schema.resturant import Restaurant
 from app.schema.menuItems import MenuItem, MenuItemCreate, MenuItemUpdate
-from app.repositories.restaurant_repos import load_all_restaurants, save_all_restaurants
+from app.repositories.menu_items_repos import load_menu, save_menu
+from app.services.restaurant_service import list_restaurants, get_restaurant_by_id
 
 def list_menu(restaurant_id: int) -> List[MenuItem]:
-    r_list = []
-    for r in load_all_restaurants():
-        opn_list = [datetime.time.strptime(it, "%H:%M:%S") for it in r.get("open_times")]
-        close_list = [datetime.time.strptime(it, "%H:%M:%S") for it in r.get("close_times")]
-        menu = []
-        for m in r.get("menu"):
-            menu.append(MenuItem(
-                id = m.get("item_id"),
-                name = m.get("item_name"),
+    m_list = []
+    rest = load_menu(restaurant_id)
+    for m in rest.menu:
+        m_list.append(MenuItem(
+                item_id = m.get("item_id"),
+                restaurant_id= restaurant_id,
+                item_name = m.get("item_name"),
                 price = m.get("price"),
                 description=m.get("description"),
                 image=m.get("image")
             ))
-        r_list.append(
-            Restaurant(
-            id=r.get("id"),
-            name=r.get("name"),
-            address=r.get("address"),
-            open_times=opn_list,
-            close_times=close_list,
-            menu=menu
-            ))
-    return r_list
+    return m_list
 
-def create_restaurant(payload: RestaurantCreate) -> Restaurant:
-    items = list_restaurants()
+def create_menu_item(payload: MenuItemCreate) -> MenuItem:
+    items = list_menu(restaurant_id=payload.restaurant_id)
     new_id = len(items) + 1
-    new_item = Restaurant(id=new_id, name=payload.name.strip(), address=payload.address.strip(), open_times=payload.open_times, close_times=payload.close_times, menu=payload.menu)
+    new_item = MenuItem(
+        item_id=new_id, 
+        restaurant_id=payload.restaurant_id, 
+        item_name=payload.item_name.strip(), 
+        price=payload.price, 
+        description=payload.description.strip(), 
+        image=payload.image.strip()
+    )
     items.append(new_item.dict())
-    save_all_restaurants(items)
+    save_menu(items)
     return new_item
 
-def get_restaurant_by_id(restaurant_id: str) -> Restaurant:
-    items = list_restaurants()
+def get_menu_item_by_id(restaurant_id: int, item_id: int) -> MenuItem:
+    items = list_menu(restaurant_id)
     for it in items:
-        if it.id == restaurant_id:
-            return Restaurant(**it)
-    raise HTTPException(status_code=404, detail=f"Restaurant '{restaurant_id}' not found")
+        if it.item_id == item_id:
+            return MenuItem(**it)
+    raise HTTPException(status_code=404, detail=f"Menu Item '{item_id}' not found for restaurant {restaurant_id}")
 
-def update_restaurant(restaurant_id: str, payload: RestaurantUpdate) -> Restaurant:
-    items = list_restaurants()
+def update_menu_item(item_id: int, payload: MenuItemUpdate) -> MenuItem:
+    items = list_menu(payload.restaurant_id)
     for idx, it in enumerate(items):
-        if it.id == restaurant_id:
-            updated = Restaurant(
-                id=restaurant_id, 
-                name=payload.name.strip(), 
-                address=payload.address.strip(), 
-                open_times=payload.open_times, 
-                close_times=payload.close_times,
-                menu=payload.menu
+        if it.item_id == item_id:
+            updated = MenuItem(
+                item_id=item_id,
+                restaurant_id=payload.restaurant_id,
+                item_name=payload.item_name.strip(),
+                price=payload.price,
+                description=payload.description,
+                image=payload.image
             )
             items[idx] = updated.dict()
-            save_all_restaurants(items)
+            save_menu(payload.restaurant_id,items)
             return updated
-    raise HTTPException(status_code=404, detail=f"Restaurant '{restaurant_id}' not found")
+    raise HTTPException(status_code=404, detail=f"Menu Item '{item_id}' not found for restaurant {payload.restaurant_id}")
 
-def delete_restaurant(restaurant_id: str) -> None:
-    items = list_restaurants()
-    new_items = [it for it in items if it.id != restaurant_id]
+def delete_menu_item(restaurant_id: int, item_id: int) -> None:
+    items = list_menu(restaurant_id=restaurant_id)
+    new_items = [it for it in items if it.item_id != item_id]
     if len(new_items) == len(items):
-        raise HTTPException(status_code=404, detail=f"Restaurant '{restaurant_id}' not found")
-    save_all_restaurants(new_items)
+        raise HTTPException(status_code=404, detail=f"Menu Item '{item_id}' not found for restaurant {restaurant_id}")
+    save_menu(restaurant_id, new_items)

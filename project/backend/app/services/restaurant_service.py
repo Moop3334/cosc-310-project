@@ -4,6 +4,7 @@ import datetime
 from fastapi import HTTPException
 from app.schema.resturant import Restaurant, RestaurantCreate, RestaurantUpdate
 from app.schema.menuItems import MenuItem, MenuItemCreate, MenuItemUpdate
+from app.services.menu_service import create_menu_item
 from app.repositories.restaurant_repos import load_all_restaurants, save_all_restaurants
 
 def list_restaurants() -> List[Restaurant]:
@@ -15,6 +16,7 @@ def list_restaurants() -> List[Restaurant]:
         for m in r.get("menu"):
             menu.append(MenuItem(
                 item_id = m.get("item_id"),
+                restaurant_id= r.get("id"),
                 item_name = m.get("item_name"),
                 price = m.get("price"),
                 description=m.get("description"),
@@ -34,7 +36,16 @@ def list_restaurants() -> List[Restaurant]:
 def create_restaurant(payload: RestaurantCreate) -> Restaurant:
     items = list_restaurants()
     new_id = len(items) + 1
-    new_item = Restaurant(id=new_id, name=payload.name.strip(), address=payload.address.strip(), open_times=payload.open_times, close_times=payload.close_times, menu=payload.menu)
+    new_menu = []
+    for m in payload.menu:
+        new_menu.append(create_menu_item(MenuItemCreate(
+            item_name=m.item_name,
+            restaurant_id=new_id,
+            price=m.price,
+            description=m.description,
+            image=m.image
+        )))
+    new_item = Restaurant(id=new_id, name=payload.name.strip(), address=payload.address.strip(), open_times=payload.open_times, close_times=payload.close_times, menu=new_menu)
     items.append(new_item.dict())
     save_all_restaurants(items)
     return new_item

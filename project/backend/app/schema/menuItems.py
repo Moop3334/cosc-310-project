@@ -2,6 +2,7 @@ from pydantic import BaseModel
 
 class MenuItem(BaseModel):
     item_id: int
+    restaurant_id: int
     item_name: str
     price: float
     description: str
@@ -10,12 +11,14 @@ class MenuItem(BaseModel):
 
 class MenuItemCreate(BaseModel):
     item_name: str
+    restaurant_id: int
     price: float
     description: str
     image: str
 
 class MenuItemUpdate(BaseModel):
     item_name: str
+    restaurant_id: int
     price: float
     description: str
     image: str
