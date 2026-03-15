@@ -87,7 +87,7 @@ test_order_2 = {
 
 test_menu_item = {
     'restaurant_id': '1', 
-    'item_id': '1', 
+    'id': '1', 
     'item_name': 'Curry', 
     'price': '12.99', 
     'description': 'Japanese Curry', 
@@ -97,7 +97,7 @@ test_menu_item = {
 test_menu1 = [
     {
         'restaurant_id':'1',
-        'item_id': '1',
+        'id': '1',
         'item_name': 'Curry', 
         'price': '12.99', 
         'description': 'Japanese Curry', 
@@ -105,7 +105,7 @@ test_menu1 = [
         }, 
     {
         'restaurant_id':'1',
-        'item_id': '2',
+        'id': '2',
         'item_name': 'Chicken', 
         'price': '10.00', 
         'description': 'Mmmm chicken', 
@@ -116,7 +116,7 @@ test_menu1 = [
 test_menu2 = [
     {
         'restaurant_id':'2',
-        'item_id': '1',
+        'id': '1',
         'item_name': 'Curry', 
         'price': '12.99', 
         'description': 'Japanese Curry', 
@@ -124,7 +124,7 @@ test_menu2 = [
         }, 
     {
         'restaurant_id':'2',
-        'item_id': '2',
+        'id': '2',
         'item_name': 'Chicken', 
         'price': '10.00', 
         'description': 'Mmmm chicken', 
@@ -201,6 +201,6 @@ def test_load_menu():
     assert menu == test_menu1
 
 def test_save_menu():
-    save_menu(3,test_menu1)
-    temp_menu = load_menu(3)
-    assert temp_menu == test_menu1
+    save_menu(2,test_menu2)
+    temp_menu = load_menu(2)
+    assert temp_menu == test_menu2

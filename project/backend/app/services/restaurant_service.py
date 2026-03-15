@@ -15,7 +15,7 @@ def list_restaurants() -> List[Restaurant]:
         menu = []
         for m in r.get("menu"):
             menu.append(MenuItem(
-                item_id = m.get("item_id"),
+                id = m.get("item_id"),
                 restaurant_id= r.get("id"),
                 item_name = m.get("item_name"),
                 price = m.get("price"),

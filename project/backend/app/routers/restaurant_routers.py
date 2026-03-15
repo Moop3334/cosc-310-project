@@ -39,11 +39,11 @@ def get_menu_item(restaurant_id: int, item_id: int):
     return get_menu_item_by_id(restaurant_id, item_id)
 
 @menu_router.post("/{restaurant_id}/menu", response_model=MenuItem, status_code=201)
-def post_menu_item(restaurant_id: int, payload: MenuItemCreate):
-    create_menu_item(payload)
+def post_menu_item(payload: MenuItemCreate):
+    return create_menu_item(payload)
 
 @menu_router.post("/{restaurant_id}/menu/{item_id}", response_model=MenuItem, status_code=201)
-def post_menu_item_update(restaurant_id: int, payload: MenuItemUpdate, item_id: int):
+def post_menu_item_update(payload: MenuItemUpdate, item_id: int):
     return update_menu_item(item_id, payload)
 
 @menu_router.delete("/{restaurant_id}/menu/{item_id}", response_model=None, status_code=201)

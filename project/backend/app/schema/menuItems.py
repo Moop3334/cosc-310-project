@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 class MenuItem(BaseModel):
-    item_id: int
+    id: int
     restaurant_id: int
     item_name: str
     price: float

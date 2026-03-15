@@ -8,7 +8,7 @@ def list_menu(restaurant_id: int) -> List[MenuItem]:
     menu = load_menu(restaurant_id)
     for m in menu:
         m_list.append(MenuItem(
-                item_id = m.get("item_id"),
+                id = m.get("id"),
                 restaurant_id= restaurant_id,
                 item_name = m.get("item_name"),
                 price = m.get("price"),
@@ -21,7 +21,7 @@ def create_menu_item(payload: MenuItemCreate) -> MenuItem:
     items = list_menu(restaurant_id=payload.restaurant_id)
     new_id = len(items) + 1
     new_item = MenuItem(
-        item_id=new_id, 
+        id=new_id, 
         restaurant_id=payload.restaurant_id, 
         item_name=payload.item_name.strip(), 
         price=payload.price, 
@@ -29,22 +29,22 @@ def create_menu_item(payload: MenuItemCreate) -> MenuItem:
         image=payload.image.strip()
     )
     items.append(new_item.dict())
-    save_menu(items)
+    save_menu(payload.restaurant_id,items)
     return new_item
 
 def get_menu_item_by_id(restaurant_id: int, item_id: int) -> MenuItem:
     items = list_menu(restaurant_id)
     for it in items:
-        if it.item_id == item_id:
+        if it.id == item_id:
             return it
     raise HTTPException(status_code=404, detail=f"Menu Item '{item_id}' not found for restaurant {restaurant_id}")
 
 def update_menu_item(item_id: int, payload: MenuItemUpdate) -> MenuItem:
     items = list_menu(payload.restaurant_id)
     for idx, it in enumerate(items):
-        if it.item_id == item_id:
+        if it.id == item_id:
             updated = MenuItem(
-                item_id=item_id,
+                id=item_id,
                 restaurant_id=payload.restaurant_id,
                 item_name=payload.item_name.strip(),
                 price=payload.price,
@@ -58,7 +58,7 @@ def update_menu_item(item_id: int, payload: MenuItemUpdate) -> MenuItem:
 
 def delete_menu_item(restaurant_id: int, item_id: int) -> None:
     items = list_menu(restaurant_id=restaurant_id)
-    new_items = [it for it in items if it.item_id != item_id]
+    new_items = [it for it in items if it.id != item_id]
     if len(new_items) == len(items):
         raise HTTPException(status_code=404, detail=f"Menu Item '{item_id}' not found for restaurant {restaurant_id}")
     save_menu(restaurant_id, new_items)
