@@ -1,3 +1,4 @@
+import datetime
 from typing import List
 from app.schema.order import Order
 
@@ -29,13 +30,16 @@ class User():
     def get_editable_restaurants(self):
         return self.editable_restaurants
 
-    def create_order(self, menu_items):
+    def create_order(self, order_id, restaurant_name, menu_items):
         if not menu_items:
             return None
         return Order(
-            user=self,
-            items=menu_items
-        )
+            id=order_id,
+            user=self.name,
+            restaurant=restaurant_name,
+            items=menu_items,
+            creation_date=datetime.now()
+            )
 
     def cancel_order(self, order):
         if order is None:
