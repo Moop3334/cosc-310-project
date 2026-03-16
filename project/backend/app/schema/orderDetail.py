@@ -1,4 +1,4 @@
-from menuItems import MenuItem
+from app.schema.menuItems import MenuItem
 from pydantic import BaseModel
 
 class OrderItem(BaseModel):

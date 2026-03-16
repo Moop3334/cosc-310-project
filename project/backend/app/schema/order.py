@@ -1,9 +1,9 @@
 from typing import List
 import datetime
 from enum import Enum
-from orderDetail import OrderItem
-from user import User
-from resturant import Restaurant
+from app.schema.orderDetail import OrderItem
+from app.schema.user import User
+from app.schema.resturant import Restaurant
 from pydantic import BaseModel, Field
 
 class OrderStatus(str, Enum):
