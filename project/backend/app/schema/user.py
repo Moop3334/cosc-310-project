@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from typing import List
 from app.schema.order import Order
 
@@ -39,7 +39,7 @@ class User():
             restaurant=restaurant_name,
             items=menu_items,
             creation_date=datetime.now()
-            )
+        )
 
     def cancel_order(self, order):
         if order is None:
@@ -48,5 +48,3 @@ class User():
             return False
         order.status = "cancelled"
         return True
-        
-    
