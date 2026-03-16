@@ -1,4 +1,3 @@
-import pytest
 from datetime import datetime
 from app.schema.user import User
 from app.schema.orderDetail import OrderItem
