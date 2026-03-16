@@ -17,7 +17,7 @@ class User():
     def get_name(self):
         return self.name
 
-    def get_phone_number(self):
+    def get_phone_Number(self):
         return self.phone_number
 
     def get_address(self):
@@ -44,3 +44,5 @@ class User():
             return False
         order.status = "cancelled"
         return True
+        
+    
