@@ -1,7 +1,7 @@
-restaurant_id,item_id,item_name,price,description,image
+restaurant_id,id,item_name,price,description,image
 1,1,Curry,12.99,Japanese Curry,N/A
-1,2,Chicken,10.00,Mmmm chicken,N/A
+1,2,Chicken,10.0,Mmmm chicken,N/A
 2,1,Curry,12.99,Japanese Curry,N/A
-2,2,Chicken,10.00,Mmmm chicken,N/A
+2,2,Chicken,10.0,Mmmm chicken,N/A
 3,1,Curry,12.99,Japanese Curry,N/A
-3,2,Chicken,10.00,Mmmm chicken,N/A
+3,2,Chicken,10.0,Mmmm chicken,N/A
