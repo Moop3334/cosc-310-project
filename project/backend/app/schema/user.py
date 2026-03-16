@@ -17,7 +17,7 @@ class User():
     def get_name(self):
         return self.name
 
-    def get_phone_Number(self):
+    def get_phone_number(self):
         return self.phone_number
 
     def get_address(self):
