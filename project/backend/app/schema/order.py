@@ -21,7 +21,7 @@ class Order(BaseModel):
     user: str
     restaurant: str
     items: List[OrderItem] = Field(default_factory=list)
-    creation_date: datetime
+    creation_date: datetime.datetime
     status: OrderStatus = OrderStatus.PENDING
 
     def calculateTotal(self):
