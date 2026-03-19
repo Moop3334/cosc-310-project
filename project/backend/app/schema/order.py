@@ -1,7 +1,7 @@
 from typing import List
 import datetime
 from enum import Enum
-from orderDetail import OrderItem
+from app.schema.orderDetail import OrderItem
 #from user import User
 #from resturant import Restaurant
 #need pull request accepted to get user & restaurant files
@@ -21,7 +21,7 @@ class Order(BaseModel):
     user: str
     restaurant: str
     items: List[OrderItem] = Field(default_factory=list)
-    creation_date: datetime
+    creation_date: datetime.datetime
     status: OrderStatus = OrderStatus.PENDING
 
     def calculateTotal(self):
