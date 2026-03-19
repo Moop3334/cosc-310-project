@@ -1,6 +1,7 @@
 from datetime import datetime
 from app.schema.user import User
-from app.schema.orderDetail import OrderItem
+from app.schema.order import OrderStatus
+from app.schema.order import OrderItem
 
 # test data
 user = User(1, "John Smith", "123-456-7890", "123 Main St")
