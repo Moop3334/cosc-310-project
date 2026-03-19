@@ -10,7 +10,9 @@ from app.repositories import (
     load_all_restaurants,
     load_menu,
     load_menu_item,
-    save_menu
+    save_menu,
+    load_all_order,
+    save_all_orders
 )
 
 test_order_1 = {
@@ -149,6 +151,39 @@ test_restaurant2 = {
     "close_times":['21:00:00', '21:00:00', '21:00:00', '21:00:00', '21:00:00', '21:00:00', '21:00:00'],
     'menu':test_menu2
 }
+
+test_order1 = {
+    "order_id":"154b2cZ",
+    "customer_id":"d0125022-ae80-451f-91c6-17cb18f1224a",
+    "restaurant_id":"72",
+    "food_item":"Cookie",
+    "order_time":"2024-06-15",
+}
+test_order2 = {
+    "order_id":"154b2cz",
+    "customer_id":"d0125022-ae80-451f-91c6-17cb18f1224a",
+    "restaurant_id":"72",
+    "food_item":"Cookie",
+    "order_time":"2024-06-15",
+}
+
+def test_order_load():
+    orders = load_all_order()
+    order = {}
+    for row in orders:
+        if row["order_id"] == test_order_1["order_id"]:
+            order = row
+    assert order == test_order1
+
+def test_order_save():
+    orders = load_all_order()
+    orders.append(test_order2)
+    save_all_orders(orders)
+    o = load_all_order()
+    hasMatch = False
+    for row in o:
+        hasMatch = row == test_order2
+    assert hasMatch
 
 def test_delivery_load():
     deliveries = load_all_deliveries()

@@ -17,11 +17,11 @@ class OrderStatus(str, Enum):
 
 class Order(BaseModel):
     id: int
-    user: User
-    restaurant: Restaurant
-    items: List[OrderItem] = Field(default_factory=list)
+    user_id: int
+    restaurant_id: int
+    items: str
     creation_date: datetime
-    status: OrderStatus = OrderStatus.PENDING
+    status: str
 
     def calculateTotal(self):
         return sum(item.calculateSubTotal() for item in self.items) * 1.05
