@@ -2,6 +2,7 @@ from typing import List
 import datetime
 from enum import Enum
 from pydantic import BaseModel, Field
+from app.schema.orderDetail import OrderItem
 
 class OrderStatus(str, Enum):
     PENDING = "Pending Approval"
