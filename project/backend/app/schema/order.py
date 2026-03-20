@@ -17,7 +17,7 @@ class Order(BaseModel):
     user_id: int
     restaurant_id: int
     items: str
-    creation_date: datetime
+    creation_date: datetime.datetime 
     status: str
 
     def calculateTotal(self):
