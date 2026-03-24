@@ -2,12 +2,21 @@ from datetime import datetime
 from app.schema.user import User
 from app.schema.order import OrderStatus
 from app.schema.orderDetail import OrderItem
+from app.schema.menuItems import MenuItem
 
 # test data
 user = User(1, "John Smith", "123-456-7890", "123 Main St")
 items = [
-    OrderItem(item="Curry", quantity=2),
-    OrderItem(item="Chicken", quantity=1)
+    OrderItem(item=MenuItem(id=1,restaurant_id=4,item_name="Curry",price=12.99,description="Japanese Curry",image="N/A"), quantity=2),
+    OrderItem(item=
+    MenuItem(
+        id=2,
+        restaurant_id=4,
+        item_name="Chicken",
+        price=10,
+        description="Mmmm chicken",
+        image="N/A"
+    ), quantity=1)
 ]
 
 
