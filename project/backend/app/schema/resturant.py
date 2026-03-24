@@ -1,10 +1,10 @@
 from typing import List
 import datetime
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, NonNegativeInt
 from app.schema.menuItems import MenuItem
 
 class Restaurant(BaseModel):
-    id: int
+    id: int = NonNegativeInt
     name: str = Field(min_length=1)
     address: str = Field(min_length=1)
     open_times: List[datetime.time] = Field(default_factory=list, min_length=7, max_length=7)
