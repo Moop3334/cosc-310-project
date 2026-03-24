@@ -6,7 +6,6 @@ from app.repositories.menu_items_repos import load_menu, save_menu
 def list_menu(restaurant_id: int) -> List[MenuItem]:
     m_list = []
     menu = load_menu(restaurant_id)
-    # Make sure to check if the input is a valid restaurant id (might be done in the repos method)
     for m in menu:
         m_list.append(MenuItem(
                 id = m.get("id"),
