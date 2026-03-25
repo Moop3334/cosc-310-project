@@ -87,3 +87,42 @@ def test_delete_restaurant():
     assert True
 
 #Menu Router Tests
+
+def test_list_menu():
+    assert True
+
+def test_list_invalid_restaurant_menu():
+    assert True
+
+def test_get_menu_item_by_id():
+    assert True
+
+def test_get_invalid_menu_item():
+    assert True
+
+def test_get_menu_item_from_invalid_restaurant():
+    assert True
+
+def test_create_menu_item():
+    assert True
+
+def test_create_invalid_restaurant_menu_item():
+    assert True
+
+def test_create_menu_item_invalid_input():
+    assert True
+
+def test_update_menu_item():
+    assert True
+
+def test_update_invalid_restaurant_menu_item():
+    assert True
+
+def test_update_invalid_menu_item():
+    assert True
+
+def test_update_menu_item_invalid_input():
+    assert True
+
+def test_delete_menu_item():
+    assert True
