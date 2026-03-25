@@ -411,7 +411,8 @@ def test_list_menu():
         assert menu[m].__dict__ == response.json()[m]
 
 def test_list_invalid_restaurant_menu():
-    assert True
+    response = client.get("/99/menu")
+    menu = list_menu(1)
 
 def test_get_menu_item_by_id():
     assert True
