@@ -177,12 +177,12 @@ def test_get_restaurant_with_id():
 })
 
 def test_get_invalid_restaurant_id():
-    response = client.get("/restaurant/99")
+    response = client.get("/restaurants/99")
     assert response.status_code == 404
-    assert response.json() == {"detail": 'Not Found'}
+    assert response.json() == {"detail": "Restaurant '99' not found"}
 
 def test_update_restaurant():
-    response = client.post("/restaurant/1", json={
+    response = client.post("/restaurants/1", json={
   "name": "Tester's Dinner",
   "address": "123 Road Dr",
   "open_times": [
@@ -226,7 +226,7 @@ def test_update_restaurant():
     assert response.json() == {
   "id": 1,
   "name": "Tester's Dinner",
-  "address": "123 Road dr",
+  "address": "123 Road Dr",
   "open_times": [
     "09:00:00",
     "09:00:00",
@@ -264,9 +264,49 @@ def test_update_restaurant():
     }
   ]
 }
+    client.post("/restaurants/1", json={
+  "name": "Tester's Dinner",
+  "address": "123 Road dr",
+  "open_times": [
+    "09:00:00",
+    "09:00:00",
+    "09:00:00",
+    "09:00:00",
+    "09:00:00",
+    "09:00:00",
+    "09:00:00"
+  ],
+  "close_times": [
+    "21:00:00",
+    "21:00:00",
+    "21:00:00",
+    "21:00:00",
+    "21:00:00",
+    "21:00:00",
+    "21:00:00"
+  ],
+  "menu": [
+    {
+      "id": 1,
+      "restaurant_id": 1,
+      "item_name": "Curry",
+      "price": 12.99,
+      "description": "Japanese Curry",
+      "image": "N/A"
+    },
+    {
+      "id": 2,
+      "restaurant_id": 1,
+      "item_name": "Chicken",
+      "price": 10.0,
+      "description": "Mmmm chicken",
+      "image": "N/A"
+    }
+  ]
+})
 
 def test_update_invalid_restaurant():
-    response = client.post("/restaurant/999", json={
+    response = client.post("/restaurants/999", json={
   "name": "Tester's Dinner",
   "address": "123 Road Dr",
   "open_times": [
@@ -307,13 +347,12 @@ def test_update_invalid_restaurant():
   ]
 })
     assert response.status_code == 404
-    assert response.json() == {"detail": 'Not Found'}
+    assert response.json() == {"detail": "Restaurant '999' not found"}
 
 def test_update_restaurant_invalid_input():
     assert True
 
 def test_delete_restaurant():
-    response = client.delete("/restaurant/4")
     assert True
 
 #Menu Router Tests
