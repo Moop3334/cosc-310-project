@@ -4,9 +4,8 @@ from fastapi import FastAPI, HTTPException
 from fastapi.testclient import TestClient
 from datetime import time
 from app.routers.restaurant_routers import router as restaurant_router, menu_router
-from app.services.restaurant_service import list_restaurants, create_restaurant
-from app.schema.resturant import Restaurant, RestaurantCreate, RestaurantUpdate
-from app.schema.menuItems import MenuItem, MenuItemCreate, MenuItemUpdate
+from app.services.restaurant_service import list_restaurants
+from app.services.menu_service import list_menu
 
 temp_restaurant_creator = {
     "name":"Test", 
@@ -132,7 +131,7 @@ def test_create_existing_restaurant():
 
 def test_get_restaurant_with_id():
     response = client.get("/restaurants/1")
-    assert response.status_code == 201
+    assert response.status_code == 200
     assert response.json() == ({
   "id": 1,
   "name": "Tester's Dinner",
@@ -398,23 +397,18 @@ def test_update_restaurant_invalid_input():
 def test_delete_restaurant():
     try:
         response = client.delete("/restaurants/4")
+        assert response.status_code == 200
     except HTTPException:
         pytest.fail("Restaurant does not exist")
 
 #Menu Router Tests
 
 def test_list_menu():
-    response = client.get("/restaurants")
-    restaurants = list_restaurants()
+    response = client.get("/1/menu")
+    menu = list_menu(1)
     assert response.status_code == 200
-    for r in range(1, len(response.json())):
-        tmp = restaurants[r].__dict__
-        for t in range(0, len(tmp["close_times"])):
-            tmp["close_times"][t] = time.isoformat(tmp["close_times"][t])
-            tmp["open_times"][t] = time.isoformat(tmp["open_times"][t])
-        for m in range(0, len(tmp["menu"])):
-            tmp["menu"][m] = tmp["menu"][m].__dict__
-        assert tmp == response.json()[r]assert True
+    for m in range(1, len(response.json())):
+        assert menu[m].__dict__ == response.json()[m]
 
 def test_list_invalid_restaurant_menu():
     assert True

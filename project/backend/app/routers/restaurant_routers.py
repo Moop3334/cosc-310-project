@@ -16,7 +16,7 @@ def get_restaurants():
 def post_restaurant(payload: RestaurantCreate):
     return create_restaurant(payload)
 
-@router.get("/{restaurant_id}", response_model=Restaurant, status_code=201)
+@router.get("/{restaurant_id}", response_model=Restaurant, status_code=200)
 def get_restaurant(restaurant_id: int):
     return get_restaurant_by_id(restaurant_id=restaurant_id)
 
@@ -24,17 +24,17 @@ def get_restaurant(restaurant_id: int):
 def post_restaurant_update(restaurant_id: int,payload: RestaurantUpdate):
     return update_restaurant(restaurant_id, payload)
 
-@router.delete("/{restaurant_id}", response_model=None, status_code=201)
+@router.delete("/{restaurant_id}", response_model=None, status_code=200)
 def delete_r(restaurant_id: int):
     return delete_restaurant(restaurant_id)
 
 menu_router = APIRouter(prefix="", tags=["menu"])
 
-@menu_router.get("/{restaurant_id}/menu", response_model=List[MenuItem], status_code=201)
+@menu_router.get("/{restaurant_id}/menu", response_model=List[MenuItem], status_code=200)
 def get_menu(restaurant_id: int):
     return list_menu(restaurant_id)
 
-@menu_router.get("/{restaurant_id}/menu/{item_id}", response_model=MenuItem, status_code=201)
+@menu_router.get("/{restaurant_id}/menu/{item_id}", response_model=MenuItem, status_code=200)
 def get_menu_item(restaurant_id: int, item_id: int):
     return get_menu_item_by_id(restaurant_id, item_id)
 
@@ -46,6 +46,6 @@ def post_menu_item(payload: MenuItemCreate):
 def post_menu_item_update(payload: MenuItemUpdate, item_id: int):
     return update_menu_item(item_id, payload)
 
-@menu_router.delete("/{restaurant_id}/menu/{item_id}", response_model=None, status_code=201)
+@menu_router.delete("/{restaurant_id}/menu/{item_id}", response_model=None, status_code=200)
 def delete_item(restaurant_id: int, item_id: int):
     return delete_menu_item(restaurant_id, item_id)
