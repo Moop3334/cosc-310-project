@@ -159,7 +159,8 @@ test_order_1 = {
     "user_id":"2222",
     "restaurant_id":"2",
     "item":"Curry",
-    "creation_date":"2026-01-01 12:00:00"
+    "creation_date":"2026-01-01 12:00:00",
+    "status":"Pending Approval"
 }
 test_order_2 = {
     "id":"2222",
@@ -167,6 +168,7 @@ test_order_2 = {
     "restaurant_id":"72",
     "food_item":"Cookie",
     "order_time":"2024-06-15",
+    "status":"Pending Approval"
 }
 
 def test_order_load():
