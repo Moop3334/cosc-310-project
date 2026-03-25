@@ -1,5 +1,6 @@
 from pathlib import Path
 import csv
+from fastapi import HTTPException
 from typing import Dict, Any, List
 # pylint: disable=duplicate-code
 
@@ -19,7 +20,7 @@ def load_menu(restaurant_id: int) -> List[Dict[Any, Any]]:
         if (len(items) > 0):
             return items
         else:
-            raise IndexError(f"Error: Unable to find menu items for restaurant id:{restaurant_id}")
+            raise HTTPException(status_code=404, detail=f"Unable to find a restaurant with id {restaurant_id}")
         
 def load_menu_item(restaurant_id: int, item_id: int) -> Dict[Any, Any]:
     if not DATA_PATH.exists():
@@ -31,7 +32,7 @@ def load_menu_item(restaurant_id: int, item_id: int) -> Dict[Any, Any]:
         for row in reader:
             if (int(row["restaurant_id"]) == restaurant_id and int(row["id"]) == item_id):
                 return row
-        raise IndexError(f"Error: Unable to find item id:{item_id} belonging to restaurant id:{restaurant_id}")
+        raise HTTPException(status_code=404, detail=f"Error: Unable to find item id:{item_id} belonging to restaurant id:{restaurant_id}")
 
 def save_menu(restaurant_id: int, items: List[Dict[Any, Any]]) -> None:
     fieldNames = ['restaurant_id','id','item_name','price','description','image']
