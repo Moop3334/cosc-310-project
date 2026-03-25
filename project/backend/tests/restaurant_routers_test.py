@@ -122,7 +122,14 @@ def test_create_restaurant_invalid_data():
     assert response.json()["detail"][3]["msg"] == "List should have at most 7 items after validation, not 8"
 
 def test_create_existing_restaurant():
-    assert True
+    respose = client.post("/restaurants", json={
+    "name":"Tester's Dinner", 
+    "address":"123 Road dr", 
+    "open_times":['09:00:00', '09:00:00', '09:00:00', '09:00:00', '09:00:00', '09:00:00', '09:00:00'], 
+    "close_times":['21:00:00', '21:00:00', '21:00:00', '21:00:00', '21:00:00', '21:00:00', '21:00:00'],
+    'menu':[]})
+    assert respose.status_code == 409
+    assert respose.json() == {"detail": "Restaurant Already Exists"}
 
 def test_get_restaurant_with_id():
     response = client.get("/restaurants/1")
@@ -175,10 +182,132 @@ def test_get_invalid_restaurant_id():
     assert response.json() == {"detail": 'Not Found'}
 
 def test_update_restaurant():
-    assert True
+    response = client.post("/restaurant/1", json={
+  "name": "Tester's Dinner",
+  "address": "123 Road Dr",
+  "open_times": [
+    "09:00:00",
+    "09:00:00",
+    "09:00:00",
+    "09:00:00",
+    "09:00:00",
+    "09:00:00",
+    "09:00:00"
+  ],
+  "close_times": [
+    "21:00:00",
+    "21:00:00",
+    "21:00:00",
+    "21:00:00",
+    "21:00:00",
+    "21:00:00",
+    "21:00:00"
+  ],
+  "menu": [
+    {
+      "id": 1,
+      "restaurant_id": 1,
+      "item_name": "Curry",
+      "price": 12.99,
+      "description": "Japanese Curry",
+      "image": "N/A"
+    },
+    {
+      "id": 2,
+      "restaurant_id": 1,
+      "item_name": "Chicken",
+      "price": 10.0,
+      "description": "Mmmm chicken",
+      "image": "N/A"
+    }
+  ]
+})
+    assert response.status_code == 201
+    assert response.json() == {
+  "id": 1,
+  "name": "Tester's Dinner",
+  "address": "123 Road dr",
+  "open_times": [
+    "09:00:00",
+    "09:00:00",
+    "09:00:00",
+    "09:00:00",
+    "09:00:00",
+    "09:00:00",
+    "09:00:00"
+  ],
+  "close_times": [
+    "21:00:00",
+    "21:00:00",
+    "21:00:00",
+    "21:00:00",
+    "21:00:00",
+    "21:00:00",
+    "21:00:00"
+  ],
+  "menu": [
+    {
+      "id": 1,
+      "restaurant_id": 1,
+      "item_name": "Curry",
+      "price": 12.99,
+      "description": "Japanese Curry",
+      "image": "N/A"
+    },
+    {
+      "id": 2,
+      "restaurant_id": 1,
+      "item_name": "Chicken",
+      "price": 10.0,
+      "description": "Mmmm chicken",
+      "image": "N/A"
+    }
+  ]
+}
 
 def test_update_invalid_restaurant():
-    assert True
+    response = client.post("/restaurant/999", json={
+  "name": "Tester's Dinner",
+  "address": "123 Road Dr",
+  "open_times": [
+    "09:00:00",
+    "09:00:00",
+    "09:00:00",
+    "09:00:00",
+    "09:00:00",
+    "09:00:00",
+    "09:00:00"
+  ],
+  "close_times": [
+    "21:00:00",
+    "21:00:00",
+    "21:00:00",
+    "21:00:00",
+    "21:00:00",
+    "21:00:00",
+    "21:00:00"
+  ],
+  "menu": [
+    {
+      "id": 1,
+      "restaurant_id": 1,
+      "item_name": "Curry",
+      "price": 12.99,
+      "description": "Japanese Curry",
+      "image": "N/A"
+    },
+    {
+      "id": 2,
+      "restaurant_id": 1,
+      "item_name": "Chicken",
+      "price": 10.0,
+      "description": "Mmmm chicken",
+      "image": "N/A"
+    }
+  ]
+})
+    assert response.status_code == 404
+    assert response.json() == {"detail": 'Not Found'}
 
 def test_update_restaurant_invalid_input():
     assert True
