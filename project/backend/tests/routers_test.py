@@ -109,7 +109,6 @@ def test_create_restaurant():
     response = client.post("/restaurants", json=temp_restaurant_creator)
     assert response.status_code == 201
     assert response.json() == temp_restaurant
-    assert True
 
 def test_create_restaurant_invalid_data():
     response = client.post("/restaurants", json=temp_invalid_restaurant_creator)
@@ -403,6 +402,28 @@ def test_delete_restaurant():
 
 #Menu Router Tests
 
+test_menu_creator = {
+  "item_name": "Test Burger",
+  "restaurant_id": 1,
+  "price": 10.00,
+  "description": "Test",
+  "image": "N/A"
+}
+invalid_menu_creator = {
+  "item_name": "",
+  "restaurant_id": -1,
+  "price": 0,
+  "description": "",
+  "image": ""
+}
+invalid_restaurant_menu_creator = {
+  "item_name": "Test",
+  "restaurant_id": 99,
+  "price": 19.99,
+  "description": "Testing",
+  "image": "N/A"
+}
+
 def test_list_menu():
     response = client.get("/1/menu")
     menu = list_menu(1)
@@ -427,10 +448,16 @@ def test_get_invalid_menu_item():
     assert response.json() == {"detail":"Menu Item 99 not found for restaurant 1"}
 
 def test_get_menu_item_from_invalid_restaurant():
-    assert True
+    response = client.get("/99/menu/1")
+    assert response.status_code == 404
+    assert response.json() == {"detail":"Unable to find a restaurant with id 99"}
 
 def test_create_menu_item():
-    assert True
+    response = client.post("/1/menu", json=test_menu_creator)
+    assert response.status_code == 201
+    test_menu_creator["id"] = 3
+    assert response.json() == test_menu_creator
+    response = client.delete("1/menu/3")
 
 def test_create_invalid_restaurant_menu_item():
     assert True
