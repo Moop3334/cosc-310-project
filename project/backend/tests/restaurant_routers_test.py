@@ -350,7 +350,51 @@ def test_update_invalid_restaurant():
     assert response.json() == {"detail": "Restaurant '999' not found"}
 
 def test_update_restaurant_invalid_input():
-    assert True
+  response = client.post("/restaurants/1", json={
+  "name": "",
+  "address": "",
+  "open_times": [
+    "09:00:00",
+    "09:00:00",
+    "09:00:00",
+    "09:00:00",
+    "09:00:00",
+    "09:00:00"
+  ],
+  "close_times": [
+    "21:00:00",
+    "21:00:00",
+    "21:00:00",
+    "21:00:00",
+    "21:00:00",
+    "21:00:00",
+    "21:00:00",
+    "21:00:00"
+  ],
+  "menu": [
+    {
+      "id": 1,
+      "restaurant_id": 1,
+      "item_name": "Curry",
+      "price": 12.99,
+      "description": "Japanese Curry",
+      "image": "N/A"
+    },
+    {
+      "id": 2,
+      "restaurant_id": 1,
+      "item_name": "Chicken",
+      "price": 10.0,
+      "description": "Mmmm chicken",
+      "image": "N/A"
+    }
+  ]
+})
+  assert response.status_code == 422
+  assert response.json()["detail"][0]["msg"] == "String should have at least 1 character"
+  assert response.json()["detail"][1]["msg"] == "String should have at least 1 character"
+  assert response.json()["detail"][2]["msg"] == "List should have at least 7 items after validation, not 6"
+  assert response.json()["detail"][3]["msg"] == "List should have at most 7 items after validation, not 8"
 
 def test_delete_restaurant():
     assert True
