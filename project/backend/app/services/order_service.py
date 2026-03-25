@@ -13,6 +13,7 @@ def list_orders() -> List[Order]:
                 user_id=o.get("user_id"),
                 restaurant_id=o.get("restaurant_id"),
                 item=o.get("item"),
+                price=o.get("price"),
                 creation_date=o.get("creation_date"),
                 status=o.get("status")
             ))
@@ -25,11 +26,12 @@ def get_specific_order(order_id: int) -> Order:
         user_id=o.get("user_id"),
         restaurant_id=o.get("restaurant_id"),
         item=o.get("item"),
+        price=o.get("price"),
         creation_date=o.get("creation_date"),
         status=o.get("status")
     )
 
-def save_an_order(new_uid: int, new_rid: int, new_item: str) -> str:
+def save_an_order(new_uid: int, new_rid: int, new_item: str, new_price: float) -> str:
     orders = list_orders()
     new_id = len(orders) + 1
     new_order = Order(
@@ -37,21 +39,13 @@ def save_an_order(new_uid: int, new_rid: int, new_item: str) -> str:
         user_id=new_uid,
         restaurant_id=new_rid,
         item=new_item,
+        price=new_price,
         creation_date=datetime.datetime.now(),
         status="Pending Approval"
     )
     orders.append(new_order.dict())
     save_all_orders(orders)
     return f"Order with id {new_id} created successfully."
-
-def delete_specific_order(order_id: int) -> str:
-    orders = load_all_order()
-    for idx, order in enumerate(orders):
-        if order["id"] == order_id:
-            del orders[idx]
-            save_all_orders(orders)
-            return f"Order with id {order_id} deleted successfully."
-    raise IndexError(f"Error: Unable to find order id:{order_id}")
 
 def update_order_status(order_id: int, new_status: str) -> str:
     orders = load_all_order()
@@ -60,4 +54,13 @@ def update_order_status(order_id: int, new_status: str) -> str:
             orders[idx]["status"] = new_status
             save_all_orders(orders)
             return f"Status with order id {order_id} updated successfully."
+    raise IndexError(f"Error: Unable to find order id:{order_id}")
+
+def delete_specific_order(order_id: int) -> str:
+    orders = load_all_order()
+    for idx, order in enumerate(orders):
+        if order["id"] == order_id:
+            del orders[idx]
+            save_all_orders(orders)
+            return f"Order with id {order_id} deleted successfully."
     raise IndexError(f"Error: Unable to find order id:{order_id}")

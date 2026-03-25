@@ -13,14 +13,14 @@ def get_orders():
 def get_order(order_id: str):
     return get_specific_order(order_id)
 
-@router.post("/{order_id}", response_model=str)
-def create_order(new_uid: int, new_rid: int, new_item: str):
-    return save_an_order(new_uid, new_rid, new_item)
-
-@router.delete("/{order_id}", response_model=str)
-def delete_order(order_id: str):
-    return delete_specific_order(order_id)
+@router.post("", response_model=str)
+def create_order(new_uid: int, new_rid: int, new_item: str, new_price: float):
+    return save_an_order(new_uid, new_rid, new_item, new_price)
 
 @router.post("/{order_id}/status", response_model=str)
 def update_status(order_id: str, new_status: str):
     return update_order_status(order_id, new_status)
+
+@router.delete("/{order_id}", response_model=str)
+def delete_order(order_id: str):
+    return delete_specific_order(order_id)

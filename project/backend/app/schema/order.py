@@ -10,6 +10,7 @@ class Order(BaseModel):
     user_id: int
     restaurant_id: int
     item: str
+    price: float
     creation_date: datetime.datetime
     status: str
 
