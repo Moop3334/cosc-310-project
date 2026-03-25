@@ -5,7 +5,7 @@ from fastapi.testclient import TestClient
 from datetime import time
 from app.routers.restaurant_routers import router as restaurant_router, menu_router
 from app.services.restaurant_service import list_restaurants
-from app.services.menu_service import list_menu
+from app.services.menu_service import list_menu, get_menu_item_by_id
 
 temp_restaurant_creator = {
     "name":"Test", 
@@ -416,10 +416,15 @@ def test_list_invalid_restaurant_menu():
     assert response.json() == {"detail":"Unable to find a restaurant with id 99"}
 
 def test_get_menu_item_by_id():
-    assert True
+    response = client.get("/1/menu/1")
+    menu_item = get_menu_item_by_id(1,1)
+    assert response.status_code == 200
+    assert menu_item.__dict__ == response.json()
 
 def test_get_invalid_menu_item():
-    assert True
+    response = client.get("/1/menu/99")
+    assert response.status_code == 404
+    assert response.json() == {"detail":"Menu Item 99 not found for restaurant 1"}
 
 def test_get_menu_item_from_invalid_restaurant():
     assert True
