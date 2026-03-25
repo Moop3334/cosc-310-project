@@ -34,7 +34,7 @@ def list_restaurants() -> List[Restaurant]:
     return r_list
 
 def create_restaurant(payload: RestaurantCreate) -> Restaurant:
-    items = load_all_restaurants()
+    items = load_all_restaurants() #make sure all data types in payload are correct
     for r in items:
         if r.get("name") == payload.name.strip() and r.address == payload.address.strip():
             raise HTTPException(status_code=409, detail=f"Restaurant Already Exists")
@@ -61,7 +61,7 @@ def get_restaurant_by_id(restaurant_id: int) -> Restaurant:
     raise HTTPException(status_code=404, detail=f"Restaurant '{restaurant_id}' not found")
 
 def update_restaurant(restaurant_id: int, payload: RestaurantUpdate) -> Restaurant:
-    items = list_restaurants()
+    items = list_restaurants() #make sure all data types in payload are correct
     for idx, it in enumerate(items):
         if it.id == restaurant_id:
             updated = Restaurant(
