@@ -24,6 +24,7 @@ def create_menu_item(payload: MenuItemCreate) -> MenuItem:
     except IndexError:
         items = []
     new_id = len(items) + 1
+    #check to make sure all the inputs are the proper data type
     new_item = MenuItem(
         id=new_id, 
         restaurant_id=payload.restaurant_id, 
@@ -44,7 +45,7 @@ def get_menu_item_by_id(restaurant_id: int, item_id: int) -> MenuItem:
     raise HTTPException(status_code=404, detail=f"Menu Item '{item_id}' not found for restaurant {restaurant_id}")
 
 def update_menu_item(item_id: int, payload: MenuItemUpdate) -> MenuItem:
-    items = list_menu(payload.restaurant_id)
+    items = list_menu(payload.restaurant_id) #Make sure all data types in the payload are correct
     for idx, it in enumerate(items):
         if it.id == item_id:
             updated = MenuItem(
