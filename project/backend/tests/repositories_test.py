@@ -164,10 +164,10 @@ test_order_1 = {
 }
 test_order_2 = {
     "id":"2222",
-    "customer_id":"d0125022-ae80-451f-91c6-17cb18f1224a",
+    "user_id":"d0125022-ae80-451f-91c6-17cb18f1224a",
     "restaurant_id":"72",
-    "food_item":"Cookie",
-    "order_time":"2024-06-15",
+    "item":"Cookie",
+    "creation_date":"2024-06-15",
     "status":"Pending Approval"
 }
 
@@ -175,9 +175,9 @@ def test_order_load():
     orders = load_all_order()
     order = {}
     for row in orders:
-        if row.get("id") == test_order_1["id"]:
+        if row.get("id") == test_order_2["id"]:
             order = row
-    assert order == test_order_1
+    assert order == test_order_2
 
 def test_order_save():
     orders = load_all_order()
@@ -195,7 +195,7 @@ def test_delivery_load():
     for row in deliveries:
         if row["order_id"] == test_delivery_1["order_id"]:
             order = row
-    assert order == test_order_1
+    assert order == test_delivery_1
     
 
 def test_single_delivery_load():

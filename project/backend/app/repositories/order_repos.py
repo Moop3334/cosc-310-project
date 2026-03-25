@@ -29,7 +29,7 @@ def load_specific_order(order_id: str) -> Dict[str, Any]:
     raise IndexError(f"Error: Unable to find order id:{order_id}")
 
 def save_all_orders(orders: List[Dict[Any, Any]]) -> None:
-    fieldNames = ["order_id", "customer_id", "restaurant_id", "food_item", "order_time"]
+    fieldNames = ["id","user_id","restaurant_id","item","creation_date","status"]
     with DATA_PATH.open("w", encoding="utf-8", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldNames)
         writer.writeheader()
