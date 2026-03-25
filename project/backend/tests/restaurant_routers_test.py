@@ -4,8 +4,85 @@ from fastapi import FastAPI
 from fastapi.testclient import TestClient
 from datetime import time
 from app.routers.restaurant_routers import router as restaurant_router, menu_router
-from app.services.restaurant_service import list_restaurants
-from app.schema.resturant import Restaurant
+from app.services.restaurant_service import list_restaurants, create_restaurant
+from app.schema.resturant import Restaurant, RestaurantCreate, RestaurantUpdate
+from app.schema.menuItems import MenuItem, MenuItemCreate, MenuItemUpdate
+
+temp_restaurant_creator = {
+    "name":"Test", 
+    "address":"123 Road dr", 
+    "open_times":['09:00:00', '09:00:00', '09:00:00', '09:00:00', '09:00:00', '09:00:00', '09:00:00'], 
+    "close_times":['21:00:00', '21:00:00', '21:00:00', '21:00:00', '21:00:00', '21:00:00', '21:00:00'],
+    'menu':[
+    {
+        'restaurant_id':4,
+        'id': '1',
+        'item_name': 'Curry', 
+        'price': '12.99', 
+        'description': 'Japanese Curry', 
+        'image': 'N/A'
+        }, 
+    {
+        'restaurant_id':4,
+        'id': '2',
+        'item_name': 'Chicken', 
+        'price': '10.0', 
+        'description': 'Mmmm chicken', 
+        'image': 'N/A'
+    }
+]
+}
+
+temp_invalid_restaurant_creator = {
+    "name":"", 
+    "address":"", 
+    "open_times":['09:00:00', '09:00:00', '09:00:00', '09:00:00', '09:00:00', '09:00:00'], 
+    "close_times":['21:00:00', '21:00:00', '21:00:00', '21:00:00', '21:00:00', '21:00:00', '21:00:00', '21:00:00'],
+    'menu':[
+    {
+        'restaurant_id':4,
+        'id': '1',
+        'item_name': 'Curry', 
+        'price': '12.99', 
+        'description': 'Japanese Curry', 
+        'image': 'N/A'
+        }, 
+    {
+        'restaurant_id':4,
+        'id': '2',
+        'item_name': 'Chicken', 
+        'price': '10.0', 
+        'description': 'Mmmm chicken', 
+        'image': 'N/A'
+    }
+]
+}
+
+temp_restaurant = {
+    "id":4,
+    "name":"Test", 
+    "address":"123 Road dr", 
+    "open_times":['09:00:00', '09:00:00', '09:00:00', '09:00:00', '09:00:00', '09:00:00', '09:00:00'], 
+    "close_times":['21:00:00', '21:00:00', '21:00:00', '21:00:00', '21:00:00', '21:00:00', '21:00:00'],
+    'menu':[
+    {
+        'restaurant_id':4,
+        'id': 1,
+        'item_name': 'Curry', 
+        'price': 12.99, 
+        'description': 'Japanese Curry', 
+        'image': 'N/A'
+        }, 
+    {
+        'restaurant_id':4,
+        'id': 2,
+        'item_name': 'Chicken', 
+        'price': 10.0, 
+        'description': 'Mmmm chicken', 
+        'image': 'N/A'
+    }
+]
+}
 
 app = FastAPI()
 
@@ -30,10 +107,19 @@ def test_get_restaurant_list(): #NOTE: There is almost certainly a better way to
         assert tmp == response.json()[r]
 
 def test_create_restaurant():
+    response = client.post("/restaurants", json=temp_restaurant_creator)
+    client.delete("/restaurants/4")
+    assert response.status_code == 201
+    assert response.json() == temp_restaurant
     assert True
 
 def test_create_restaurant_invalid_data():
-    assert True
+    response = client.post("/restaurants", json=temp_invalid_restaurant_creator)
+    assert response.status_code == 422
+    assert response.json()["detail"][0]["msg"] == "String should have at least 1 character"
+    assert response.json()["detail"][1]["msg"] == "String should have at least 1 character"
+    assert response.json()["detail"][2]["msg"] == "List should have at least 7 items after validation, not 6"
+    assert response.json()["detail"][3]["msg"] == "List should have at most 7 items after validation, not 8"
 
 def test_create_existing_restaurant():
     assert True
@@ -76,7 +162,7 @@ def test_get_restaurant_with_id():
       "id": 2,
       "restaurant_id": 1,
       "item_name": "Chicken",
-      "price": 10,
+      "price": 10.0,
       "description": "Mmmm chicken",
       "image": "N/A"
     }
@@ -98,6 +184,7 @@ def test_update_restaurant_invalid_input():
     assert True
 
 def test_delete_restaurant():
+    response = client.delete("/restaurant/4")
     assert True
 
 #Menu Router Tests
