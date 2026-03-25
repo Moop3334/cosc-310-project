@@ -14,9 +14,9 @@ class OrderStatus(str, Enum):
 #Should hopefully help to keep status messages consistent when updating across classes
 
 class Order(BaseModel):
-    id: str
-    user_id: str
-    restaurant_id: str
+    id: int
+    user_id: int
+    restaurant_id: int
     items: str
     creation_date: datetime.datetime
     status: str
