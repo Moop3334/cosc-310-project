@@ -153,14 +153,14 @@ test_restaurant2 = {
 }
 
 test_order1 = {
-    "order_id":"154b2cZ",
-    "customer_id":"d0125022-ae80-451f-91c6-17cb18f1224a",
-    "restaurant_id":"72",
-    "food_item":"Cookie",
-    "order_time":"2024-06-15",
+    "id":"1111",
+    "user_id":"2222",
+    "restaurant_id":"2",
+    "item":"Curry",
+    "creation_date":"2026-01-01 12:00:00"
 }
 test_order2 = {
-    "order_id":"154b2cz",
+    "order_id":"2222",
     "customer_id":"d0125022-ae80-451f-91c6-17cb18f1224a",
     "restaurant_id":"72",
     "food_item":"Cookie",

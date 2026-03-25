@@ -2,8 +2,8 @@ from pathlib import Path
 import csv
 from typing import Dict,Any,List
 
-DATA_PATH = Path(__file__).resolve().parents[1] / "data" / "food_delivery.csv"
-COLUMNS_TO_KEEP = ["order_id", "customer_id", "restaurant_id", "food_item", "order_time"]
+DATA_PATH = Path(__file__).resolve().parents[1] / "data" / "orders.csv"
+#COLUMNS_TO_KEEP = ["order_id", "customer_id", "restaurant_id", "food_item", "order_time"]
 
 def load_all_order() -> List[Dict[str, Any]]:
     if not DATA_PATH.exists():
@@ -17,10 +17,16 @@ def load_all_order() -> List[Dict[str, Any]]:
         reader = csv.DictReader(f, delimiter=",")
 
         for row in reader:
-            filtered_row = {col: row[col] for col in COLUMNS_TO_KEEP}
-            orders.append(filtered_row)
+            #filtered_row = {col: row[col] for col in COLUMNS_TO_KEEP}
+            orders.append(row)
     return orders
     
+def load_specific_order(order_id: str) -> Dict[str, Any]:
+    orders = load_all_order()
+    for order in orders:
+        if order["id"] == order_id:
+            return order
+    raise IndexError(f"Error: Unable to find order id:{order_id}")
 
 def save_all_orders(orders: List[Dict[Any, Any]]) -> None:
     fieldNames = ["order_id", "customer_id", "restaurant_id", "food_item", "order_time"]
