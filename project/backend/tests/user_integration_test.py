@@ -64,7 +64,7 @@ def test_add_multiple_restaurants():
 
 
 # create order tests
-def test_create_order_ok():
+def test_create_order_ok(): #Fails
     u = User(1, "John Smith", "123-456-7890", "123 Main St")
     o = u.create_order(1, "Test Restaurant", items)
     assert o != None
@@ -82,19 +82,19 @@ def test_create_order_with_none():
     o = u.create_order(1, "Test Restaurant", None)
     assert o == None
 
-def test_order_default_st():
+def test_order_default_st(): #Fails
     u = User(1, "John Smith", "123-456-7890", "123 Main St")
     o = u.create_order(1, "Test Restaurant", items)
     assert o.status == OrderStatus.PENDING
 
-def test_order_has_time():
+def test_order_has_time(): #Fails
     u = User(1, "John Smith", "123-456-7890", "123 Main St")
     o = u.create_order(1, "Test Restaurant", items)
     assert type(o.creation_date) == datetime
 
 
 # cancel order tests
-def test_cancel_success():
+def test_cancel_success(): #Fails
     u = User(1, "John Smith", "123-456-7890", "123 Main St")
     o = u.create_order(1, "Test Restaurant", items)
     r = u.cancel_order(o)
@@ -105,14 +105,14 @@ def test_cancel_none_order():
     u = User(1, "John Smith", "123-456-7890", "123 Main St")
     assert u.cancel_order(None) == False
 
-def test_cancel_delivered_order():
+def test_cancel_delivered_order(): #Fails
     u = User(1, "John Smith", "123-456-7890", "123 Main St")
     o = u.create_order(1, "Test Restaurant", items)
     o.status = OrderStatus.DELIVERED
     r = u.cancel_order(o)
     assert r == False
 
-def test_cancel_twice():
+def test_cancel_twice(): #Fails
     u = User(1, "John Smith", "123-456-7890", "123 Main St")
     o = u.create_order(1, "Test Restaurant", items)
     u.cancel_order(o)

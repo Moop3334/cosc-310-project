@@ -30,6 +30,7 @@ class User():
     def get_editable_restaurants(self):
         return self.editable_restaurants
 
+    #The following two methods should probably be moved into user_services 
     def create_order(self, order_id, restaurant_name, menu_items):
         if not menu_items:
             return None
