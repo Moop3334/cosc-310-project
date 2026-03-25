@@ -2,10 +2,12 @@
 # pylint: disable=wildcard-import
 # pylint: disable=unused-import
 import pytest
-from app.repositories import (
+from app.repositories.delivery_repos import (
     load_all_deliveries,
     load_specific_delivery,
     save_all_deliveries,
+)
+from app.repositories import (
     save_all_restaurants,
     load_all_restaurants,
     load_menu,
@@ -15,7 +17,7 @@ from app.repositories import (
     save_all_orders
 )
 
-test_order_1 = {
+test_delivery_1 = {
     'order_id': '154b2cZ', 
     'restaurant_id': '72', 
     'food_item': 'Cookie', 
@@ -51,7 +53,7 @@ test_order_1 = {
     'traffic_avoidance': 'No'
 }
 
-test_order_2 = {
+test_delivery_2 = {
     'order_id': '154b2cz', 
     'restaurant_id': '72', 
     'food_item': 'Cookie', 
@@ -152,15 +154,15 @@ test_restaurant2 = {
     'menu':test_menu2
 }
 
-test_order1 = {
+test_order_1 = {
     "id":"1111",
     "user_id":"2222",
     "restaurant_id":"2",
     "item":"Curry",
     "creation_date":"2026-01-01 12:00:00"
 }
-test_order2 = {
-    "order_id":"2222",
+test_order_2 = {
+    "id":"2222",
     "customer_id":"d0125022-ae80-451f-91c6-17cb18f1224a",
     "restaurant_id":"72",
     "food_item":"Cookie",
@@ -171,41 +173,41 @@ def test_order_load():
     orders = load_all_order()
     order = {}
     for row in orders:
-        if row["order_id"] == test_order_1["order_id"]:
+        if row.get("id") == test_order_1["id"]:
             order = row
-    assert order == test_order1
+    assert order == test_order_1
 
 def test_order_save():
     orders = load_all_order()
-    orders.append(test_order2)
+    orders.append(test_order_2)
     save_all_orders(orders)
     o = load_all_order()
     hasMatch = False
     for row in o:
-        hasMatch = row == test_order2
+        hasMatch = row == test_order_2
     assert hasMatch
 
 def test_delivery_load():
     deliveries = load_all_deliveries()
     order = {}
     for row in deliveries:
-        if row["order_id"] == test_order_1["order_id"]:
+        if row["order_id"] == test_delivery_1["order_id"]:
             order = row
     assert order == test_order_1
     
 
 def test_single_delivery_load():
     delivery = load_specific_delivery("154b2cZ")
-    assert delivery == test_order_1
+    assert delivery == test_delivery_1
 
 def test_delivery_save():
     deliveries = load_all_deliveries()
-    deliveries.append(test_order_2)
+    deliveries.append(test_delivery_2)
     save_all_deliveries(deliveries)
     d = load_all_deliveries()
     hasMatch = False
     for row in d:
-        hasMatch = row == test_order_2
+        hasMatch = row == test_delivery_2
     assert hasMatch
 
 def test_restaurant_load():
