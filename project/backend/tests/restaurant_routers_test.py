@@ -412,7 +412,8 @@ def test_list_menu():
 
 def test_list_invalid_restaurant_menu():
     response = client.get("/99/menu")
-    menu = list_menu(1)
+    assert response.status_code == 404
+    assert response.json() == {"detail":"Unable to find a restaurant with id 99"}
 
 def test_get_menu_item_by_id():
     assert True

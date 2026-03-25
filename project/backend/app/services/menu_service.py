@@ -21,7 +21,7 @@ def create_menu_item(payload: MenuItemCreate) -> MenuItem:
     items = List[MenuItem]
     try:
         items = list_menu(restaurant_id=payload.restaurant_id)
-    except IndexError:
+    except HTTPException:
         items = []
     new_id = len(items) + 1
     #check to make sure all the inputs are the proper data type
