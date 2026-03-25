@@ -1,0 +1,63 @@
+from typing import List
+import datetime
+from fastapi import HTTPException
+from app.schema.order import Order
+from app.repositories.order_repos import load_all_order, load_specific_order, save_all_orders
+
+def list_orders() -> List[Order]:
+    o_list = []
+    for o in load_all_order():
+        o_list.append(
+            Order(
+                id=o.get("id"),
+                user_id=o.get("user_id"),
+                restaurant_id=o.get("restaurant_id"),
+                item=o.get("item"),
+                creation_date=o.get("creation_date"),
+                status=o.get("status")
+            ))
+    return o_list
+
+def get_specific_order(order_id: int) -> Order:
+    o = load_specific_order(order_id)
+    return Order(
+        id=o.get("id"),
+        user_id=o.get("user_id"),
+        restaurant_id=o.get("restaurant_id"),
+        item=o.get("item"),
+        creation_date=o.get("creation_date"),
+        status=o.get("status")
+    )
+
+def save_an_order(new_uid: int, new_rid: int, new_item: str) -> str:
+    orders = list_orders()
+    new_id = len(orders) + 1
+    new_order = Order(
+        id=new_id,
+        user_id=new_uid,
+        restaurant_id=new_rid,
+        item=new_item,
+        creation_date=datetime.datetime.now(),
+        status="Pending Approval"
+    )
+    orders.append(new_order.dict())
+    save_all_orders(orders)
+    return f"Order with id {new_id} created successfully."
+
+def delete_specific_order(order_id: int) -> str:
+    orders = load_all_order()
+    for idx, order in enumerate(orders):
+        if order["id"] == order_id:
+            del orders[idx]
+            save_all_orders(orders)
+            return f"Order with id {order_id} deleted successfully."
+    raise IndexError(f"Error: Unable to find order id:{order_id}")
+
+def update_order_status(order_id: int, new_status: str) -> str:
+    orders = load_all_order()
+    for idx, order in enumerate(orders):
+        if order["id"] == order_id:
+            orders[idx]["status"] = new_status
+            save_all_orders(orders)
+            return f"Status with order id {order_id} updated successfully."
+    raise IndexError(f"Error: Unable to find order id:{order_id}")
