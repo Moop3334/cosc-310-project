@@ -2,7 +2,7 @@ from app.schema.menuItems import MenuItem
 from pydantic import BaseModel
 
 class OrderItem(BaseModel):
-    item: MenuItem
+    item: str
     quantity: int
 
     def calculateSubTotal(self):

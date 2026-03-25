@@ -155,19 +155,19 @@ test_restaurant2 = {
 }
 
 test_order_1 = {
-    "id":"1111",
-    "user_id":"2222",
-    "restaurant_id":"2",
+    "id":"1",
+    "user_id":"1",
+    "restaurant_id":"1",
     "item":"Curry",
     "creation_date":"2026-01-01 12:00:00",
     "status":"Pending Approval"
 }
 test_order_2 = {
-    "id":"2222",
-    "user_id":"d0125022-ae80-451f-91c6-17cb18f1224a",
-    "restaurant_id":"72",
+    "id":"9",
+    "user_id":"9",
+    "restaurant_id":"9",
     "item":"Cookie",
-    "creation_date":"2024-06-15",
+    "creation_date":"2026-01-01 13:00:00",
     "status":"Pending Approval"
 }
 
@@ -175,9 +175,9 @@ def test_order_load():
     orders = load_all_order()
     order = {}
     for row in orders:
-        if row.get("id") == test_order_2["id"]:
+        if row.get("id") == test_order_1["id"]:
             order = row
-    assert order == test_order_2
+    assert order == test_order_1
 
 def test_order_save():
     orders = load_all_order()
