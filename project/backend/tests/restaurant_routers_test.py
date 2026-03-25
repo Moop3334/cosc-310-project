@@ -1,6 +1,6 @@
 import pytest
 import json
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.testclient import TestClient
 from datetime import time
 from app.routers.restaurant_routers import router as restaurant_router, menu_router
@@ -108,7 +108,6 @@ def test_get_restaurant_list(): #NOTE: There is almost certainly a better way to
 
 def test_create_restaurant():
     response = client.post("/restaurants", json=temp_restaurant_creator)
-    client.delete("/restaurants/4")
     assert response.status_code == 201
     assert response.json() == temp_restaurant
     assert True
@@ -397,7 +396,10 @@ def test_update_restaurant_invalid_input():
   assert response.json()["detail"][3]["msg"] == "List should have at most 7 items after validation, not 8"
 
 def test_delete_restaurant():
-    assert True
+    try:
+        response = client.delete("/restaurants/4")
+    except HTTPException:
+        pytest.fail("Restaurant does not exist")
 
 #Menu Router Tests
 
