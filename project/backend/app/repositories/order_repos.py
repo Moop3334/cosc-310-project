@@ -11,7 +11,7 @@ def load_all_order() -> List[Dict[str, Any]]:
             "Error: The storage csv does not exist or otherwise cannot be accessed"
         )
 
-    orders: List[Dict[str, Any]] = []
+    orders = []
 
     with DATA_PATH.open("r", encoding="utf-8", newline="") as f:
         reader = csv.DictReader(f, delimiter=",")
