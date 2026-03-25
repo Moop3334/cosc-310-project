@@ -404,7 +404,17 @@ def test_delete_restaurant():
 #Menu Router Tests
 
 def test_list_menu():
-    assert True
+    response = client.get("/restaurants")
+    restaurants = list_restaurants()
+    assert response.status_code == 200
+    for r in range(1, len(response.json())):
+        tmp = restaurants[r].__dict__
+        for t in range(0, len(tmp["close_times"])):
+            tmp["close_times"][t] = time.isoformat(tmp["close_times"][t])
+            tmp["open_times"][t] = time.isoformat(tmp["open_times"][t])
+        for m in range(0, len(tmp["menu"])):
+            tmp["menu"][m] = tmp["menu"][m].__dict__
+        assert tmp == response.json()[r]assert True
 
 def test_list_invalid_restaurant_menu():
     assert True
