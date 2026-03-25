@@ -1,7 +1,7 @@
 from typing import List
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from app.schema.order import Order
-from app.services.order_service import list_orders, get_specific_order, delete_specific_order
+from app.services.order_service import list_orders, get_specific_order, delete_specific_order, save_an_order
 
 router = APIRouter(prefix="/orders", tags=["orders"])
 
@@ -13,6 +13,10 @@ def get_orders():
 def get_order(order_id: str):
     return get_specific_order(order_id)
 
-@router.delete("/{order_id}", response_model=None)
+@router.post("/{order_id}", response_model=str)
+def create_order(new_uid: int, new_rid: int, new_item: str):
+    return save_an_order(new_uid, new_rid, new_item)
+
+@router.delete("/{order_id}", response_model=str)
 def delete_order(order_id: str):
     return delete_specific_order(order_id)

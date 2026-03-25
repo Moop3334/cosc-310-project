@@ -17,7 +17,7 @@ class Order(BaseModel):
     id: int
     user_id: int
     restaurant_id: int
-    items: str
+    item: str
     creation_date: datetime.datetime
     status: str
 

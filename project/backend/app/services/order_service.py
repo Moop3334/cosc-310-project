@@ -12,7 +12,7 @@ def list_orders() -> List[Order]:
                 id=o.get("id"),
                 user_id=o.get("user_id"),
                 restaurant_id=o.get("restaurant_id"),
-                items=o.get("item"),
+                item=o.get("item"),
                 creation_date=o.get("creation_date"),
                 status=o.get("status")
             ))
@@ -24,16 +24,31 @@ def get_specific_order(order_id: int) -> Order:
         id=o.get("id"),
         user_id=o.get("user_id"),
         restaurant_id=o.get("restaurant_id"),
-        items=o.get("item"),
+        item=o.get("item"),
         creation_date=o.get("creation_date"),
         status=o.get("status")
     )
 
-def delete_specific_order(order_id: int) -> None:
+def save_an_order(new_uid: int, new_rid: int, new_item: str) -> str:
+    orders = list_orders()
+    new_id = len(orders) + 1
+    new_order = Order(
+        id=new_id,
+        user_id=new_uid,
+        restaurant_id=new_rid,
+        item=new_item,
+        creation_date=datetime.datetime.now(),
+        status="Pending Approval"
+    )
+    orders.append(new_order.dict())
+    save_all_orders(orders)
+    return f"Order with id {new_id} created successfully."
+
+def delete_specific_order(order_id: int) -> str:
     orders = load_all_order()
     for idx, order in enumerate(orders):
         if order["id"] == order_id:
             del orders[idx]
             save_all_orders(orders)
-            return
+            return f"Order with id {order_id} deleted successfully."
     raise IndexError(f"Error: Unable to find order id:{order_id}")
