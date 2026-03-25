@@ -10,6 +10,20 @@ app.include_router(menu_router)
 
 client = TestClient(app)
 
+#Restaurant Router Tests
+
+def test_get_restaurant_list():
+    assert True
+
+def test_create_restaurant():
+    assert True
+
+def test_create_restaurant_invalid_data():
+    assert True
+
+def test_create_existing_restaurant():
+    assert True
+
 def test_get_restaurant_with_id():
     response = client.get("/restaurants/1")
     assert response.status_code == 201
@@ -59,3 +73,17 @@ def test_get_invalid_restaurant_id():
     response = client.get("/restaurant/99")
     assert response.status_code == 404
     assert response.json() == {"detail": 'Not Found'}
+
+def test_update_restaurant():
+    assert True
+
+def test_update_invalid_restaurant():
+    assert True
+
+def test_update_restaurant_invalid_input():
+    assert True
+
+def test_delete_restaurant():
+    assert True
+
+#Menu Router Tests
