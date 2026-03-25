@@ -52,3 +52,12 @@ def delete_specific_order(order_id: int) -> str:
             save_all_orders(orders)
             return f"Order with id {order_id} deleted successfully."
     raise IndexError(f"Error: Unable to find order id:{order_id}")
+
+def update_order_status(order_id: int, new_status: str) -> str:
+    orders = load_all_order()
+    for idx, order in enumerate(orders):
+        if order["id"] == order_id:
+            orders[idx]["status"] = new_status
+            save_all_orders(orders)
+            return f"Status with order id {order_id} updated successfully."
+    raise IndexError(f"Error: Unable to find order id:{order_id}")

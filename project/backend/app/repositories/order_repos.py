@@ -39,5 +39,3 @@ def save_all_orders(orders: List[Dict[Any, Any]]) -> None:
             orders_temp.append(row)
         writer.writerows(orders_temp)
         
-
-
