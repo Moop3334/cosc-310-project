@@ -37,3 +37,14 @@ def test_login_user():
 
     response = client.post("/users/login", json=payload)
     assert response.status_code == 200
+
+
+def test_login_user_returns_string():
+    payload = {
+        "username": "smith1",
+        "password_hash": "pass123"
+    }
+
+    response = client.post("/users/login", json=payload)
+    assert response.status_code == 200
+    assert isinstance(response.json(), str)
