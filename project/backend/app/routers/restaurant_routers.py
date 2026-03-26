@@ -1,6 +1,7 @@
 # defines API endpoints/urls, groups related endpoints/scripts together and keeps main.py clean
 from typing import List
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
+from app.repositories.restaurant_repos import load_all_restaurants
 from app.schema.resturant import Restaurant, RestaurantCreate, RestaurantUpdate
 from app.schema.menuItems import MenuItem, MenuItemCreate, MenuItemUpdate
 from app.services.restaurant_service import list_restaurants, create_restaurant, update_restaurant, delete_restaurant, get_restaurant_by_id
@@ -40,6 +41,11 @@ def get_menu_item(restaurant_id: int, item_id: int):
 
 @menu_router.post("/{restaurant_id}/menu", response_model=MenuItem, status_code=201)
 def post_menu_item(payload: MenuItemCreate):
+    # This check needs to be here and not in services because the create_menu_item() function is also called when creating a new restaurant, 
+    # which will cause this to raise an error since the restaurant hasn't been saved yet
+    restaurant_ids = [int(it["id"]) for it in load_all_restaurants()] 
+    if payload.restaurant_id not in restaurant_ids:
+        raise HTTPException(status_code=404, detail=f"Restaurant {payload.restaurant_id} not found {restaurant_ids}")
     return create_menu_item(payload)
 
 @menu_router.post("/{restaurant_id}/menu/{item_id}", response_model=MenuItem, status_code=201)
