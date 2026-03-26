@@ -5,7 +5,7 @@ from fastapi.testclient import TestClient
 from datetime import time
 from app.routers.restaurant_routers import router as restaurant_router, menu_router
 from app.services.restaurant_service import list_restaurants
-from app.services.menu_service import list_menu, get_menu_item_by_id
+from app.services.menu_service import list_menu, get_menu_item_by_id, update_menu_item
 
 temp_restaurant_creator = {
     "name":"Test", 
@@ -400,6 +400,9 @@ def test_delete_restaurant():
     except HTTPException:
         pytest.fail("Restaurant does not exist")
 
+def test_delete_invalid_restaurant():
+    assert True
+
 #Menu Router Tests
 
 test_menu_creator = {
@@ -457,7 +460,6 @@ def test_create_menu_item():
     assert response.status_code == 201
     test_menu_creator["id"] = 3
     assert response.json() == test_menu_creator
-    response = client.delete("1/menu/3")
 
 def test_create_invalid_restaurant_menu_item():
     response = client.post("/99/menu", json=invalid_restaurant_menu_creator)
@@ -465,22 +467,49 @@ def test_create_invalid_restaurant_menu_item():
     assert response.json() == {"detail":"Unable to find a restaurant with id 99"}
 
 def test_create_menu_item_invalid_input():
-    response = client.post("/99/menu", json=invalid_menu_creator)
+    response = client.post("/1/menu", json=invalid_menu_creator)
     assert response.status_code == 422
     details = response.json()["detail"]
     assert details[0]["msg"] == "String should have at least 1 character"
+    assert details[1]["msg"] == "Input should be greater than or equal to 0"
+    assert details[2]["msg"] == "Input should be greater than 0"
+    assert details[3]["msg"] == "String should have at least 1 character"
+    assert details[4]["msg"] == "String should have at least 1 character"
 
 def test_update_menu_item():
-    assert True
+    item = get_menu_item_by_id(1,1)
+    response = client.post("/1/menu/1", json=test_menu_creator)
+    assert response.status_code == 201
+    test_menu_creator["id"] = 1
+    assert response.json() == test_menu_creator
+    update_menu_item(1, item)
 
 def test_update_invalid_restaurant_menu_item():
-    assert True
+    response = client.post("/99/menu/1", json=invalid_restaurant_menu_creator)
+    assert response.status_code == 404
+    assert response.json() == {"detail":"Unable to find a restaurant with id 99"}
 
 def test_update_invalid_menu_item():
-    assert True
+    response = client.post("/1/menu/99", json=test_menu_creator)
+    assert response.status_code == 404
+    assert response.json() == {"detail":"Menu Item 99 not found for restaurant 1"}
 
 def test_update_menu_item_invalid_input():
-    assert True
+    response = client.post("/1/menu", json=invalid_menu_creator)
+    assert response.status_code == 422
+    details = response.json()["detail"]
+    assert details[0]["msg"] == "String should have at least 1 character"
+    assert details[1]["msg"] == "Input should be greater than or equal to 0"
+    assert details[2]["msg"] == "Input should be greater than 0"
+    assert details[3]["msg"] == "String should have at least 1 character"
+    assert details[4]["msg"] == "String should have at least 1 character"
 
 def test_delete_menu_item():
+    try:
+        response = client.delete("1/menu/3")
+        assert response.status_code == 200
+    except HTTPException:
+        pytest.fail("Restaurant does not exist")
+
+def test_delete_invalid_menu_item():
     assert True
