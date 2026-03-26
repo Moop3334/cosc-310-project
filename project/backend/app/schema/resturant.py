@@ -1,7 +1,7 @@
 from typing import List
 import datetime
 from pydantic import BaseModel, Field, NonNegativeInt
-from app.schema.menuItems import MenuItem
+from project.backend.app.schema.menu_items import MenuItem
 
 class Restaurant(BaseModel):
     id: NonNegativeInt = Field(ge=0)

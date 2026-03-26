@@ -4,7 +4,7 @@ import re
 import datetime
 from fastapi import HTTPException
 from app.schema.resturant import Restaurant, RestaurantCreate, RestaurantUpdate
-from app.schema.menuItems import MenuItem, MenuItemCreate, MenuItemUpdate
+from project.backend.app.schema.menu_items import MenuItem, MenuItemCreate, MenuItemUpdate
 from app.services.menu_service import create_menu_item, delete_menu_item
 from app.repositories.restaurant_repos import load_all_restaurants, save_all_restaurants
 

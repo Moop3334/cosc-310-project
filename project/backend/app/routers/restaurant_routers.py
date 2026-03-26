@@ -3,7 +3,7 @@ from typing import List
 from fastapi import APIRouter, HTTPException
 from app.repositories.restaurant_repos import load_all_restaurants
 from app.schema.resturant import Restaurant, RestaurantCreate, RestaurantUpdate
-from app.schema.menuItems import MenuItem, MenuItemCreate, MenuItemUpdate
+from project.backend.app.schema.menu_items import MenuItem, MenuItemCreate, MenuItemUpdate
 from app.services.restaurant_service import list_restaurants, create_restaurant, update_restaurant, delete_restaurant, get_restaurant_by_id, filter_restaurants
 from app.services.menu_service import list_menu, get_menu_item_by_id, create_menu_item, update_menu_item, delete_menu_item, filter_menu_items
 

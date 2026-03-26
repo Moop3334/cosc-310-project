@@ -4,7 +4,7 @@ from fastapi import HTTPException
 from typing import Dict, Any, List
 # pylint: disable=duplicate-code
 
-DATA_PATH = Path(__file__).resolve().parents[1] / "data" / "menuItems.csv"
+DATA_PATH = Path(__file__).resolve().parents[1] / "data" / "menu_items.csv"
 
 def load_menu(restaurant_id: int) -> List[Dict[Any, Any]]:
     if not DATA_PATH.exists():

@@ -2,7 +2,7 @@ from types import NoneType
 from typing import List
 import re
 from fastapi import HTTPException
-from app.schema.menuItems import MenuItem, MenuItemCreate, MenuItemUpdate
+from project.backend.app.schema.menu_items import MenuItem, MenuItemCreate, MenuItemUpdate
 from app.repositories.menu_items_repos import load_menu, save_menu
 
 def list_menu(restaurant_id: int) -> List[MenuItem]:
