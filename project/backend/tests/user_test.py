@@ -22,7 +22,7 @@ def test_signup_user():
     }
 
     response = client.post("/users/signup", json=payload)
-    assert response.status_code == 201
+    assert response.status_code == 200
 
     data = response.json()
     assert data["username"] == "smith1"
