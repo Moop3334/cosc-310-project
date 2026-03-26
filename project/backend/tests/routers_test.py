@@ -20,7 +20,7 @@ def client_1():
 def test_user():
     return UserLogin(
         username= "testuser",
-        password_hash= get_password_hash("testpass")
+        password_hash= "testpass"
     )
 
 temp_restaurant_creator = {
@@ -167,7 +167,7 @@ app.include_router(order_router)
 client = TestClient(app)
 
 def test_login(client_1, test_user):
-  response = client_1.post("/token", data=test_user)
+  response = client.post("/token", data=test_user)
   assert response.status_code == 200
   token = response.json()["access_token"]
   assert token is not None
@@ -257,7 +257,7 @@ def test_get_invalid_restaurant_id():
     assert response.json() == {"detail": "Restaurant '99' not found"}
 
 def test_update_restaurant():
-    response = client.post("/restaurants/1", json=restaurant_1)
+    response = client.post("/restaurants/1", json=restaurant_1, data={"username":"testuser","password":"testpass"})
     assert response.status_code == 201
     assert response.json() == restaurant_1
     client.post("/restaurants/1", json=restaurant_1)
