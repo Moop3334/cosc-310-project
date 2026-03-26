@@ -3,6 +3,7 @@ import datetime
 from fastapi import HTTPException
 from app.schema.order import Order
 from app.repositories.order_repos import load_all_order, load_specific_order, save_all_orders
+from app.repositories.delivery_repos import save_a_delivery
 
 def list_orders() -> List[Order]:
     o_list = []
@@ -63,4 +64,48 @@ def delete_specific_order(order_id: int) -> str:
             del orders[idx]
             save_all_orders(orders)
             return f"Order with id {order_id} deleted successfully."
+    raise IndexError(f"Error: Unable to find order id:{order_id}")
+
+def complete_an_order(order_id: int) -> str:
+    orders = load_all_order()
+    for idx, order in enumerate(orders):
+        if order["id"] == order_id:
+            orders[idx]["status"] = "Completed"
+            save_a_delivery({
+               "order_id": order_id,
+               "restaurant_id": order["restaurant_id"],
+               "food_item": order["item"],
+               "order_time": order["creation_date"],
+               "delivery_time": None,
+               "delivery_distance": None,
+               "order_value": order["price"],
+               "delivery_method": None,
+               "traffic_condition": None,
+               "weather_condition": None,
+               "delivery_time_actual": None,
+               "delivery_delay": None,
+               "route_taken": None,
+               "customer_id": order["user_id"],
+               "age": None,
+               "gender": None,
+               "location": None,
+               "order_history": None,
+               "customer_rating": None,
+               "preferred_cuisine": None,
+               "order_frequency": None,
+               "loyalty_program": None,
+               "food_temperature": None,
+               "food_freshness": None,
+               "packaging_quality": None,
+               "food_condition": None,
+               'customer_satisfaction': None, 
+                'small_route': None, 
+                'bike_friendly_route': None, 
+                'route_type': None, 
+                'route_efficiency': None, 
+                'predicted_delivery_mode': None, 
+                'traffic_avoidance': None
+            })
+            delete_specific_order(order_id)
+            return f"Order with id {order_id} completed successfully."
     raise IndexError(f"Error: Unable to find order id:{order_id}")
