@@ -1,8 +1,5 @@
-from typing import List
 import datetime
-from enum import Enum
 from pydantic import BaseModel, Field, NonNegativeInt, PositiveFloat
-from app.schema.orderDetail import OrderItem
 
 class Order(BaseModel):
     id: NonNegativeInt
