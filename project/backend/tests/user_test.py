@@ -17,7 +17,8 @@ def test_signup_user():
         "address": "Okanagan",
         "username": "smith1",
         "email": "smith@example.com",
-        "password": "pass123"
+        "password_hash": "pass123",
+        "role": "customer"
     }
 
     response = client.post("/users/signup", json=payload)
@@ -28,11 +29,10 @@ def test_signup_user():
     assert data["email"] == "smith@example.com"
 
 
-
 def test_login_user():
     payload = {
         "username": "smith1",
-        "password": "pass123"
+        "password_hash": "pass123"
     }
 
     response = client.post("/users/login", json=payload)
