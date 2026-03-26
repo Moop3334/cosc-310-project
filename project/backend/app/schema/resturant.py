@@ -1,28 +1,28 @@
 from typing import List
 import datetime
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, NonNegativeInt
 from app.schema.menuItems import MenuItem
 
 class Restaurant(BaseModel):
-    id: int
-    name: str
-    address: str
-    open_times: List[datetime.time] = Field(default_factory=list)
-    close_times: List[datetime.time] = Field(default_factory=list)
+    id: NonNegativeInt = Field(ge=0)
+    name: str = Field(min_length=1)
+    address: str = Field(min_length=1)
+    open_times: List[datetime.time] = Field(default_factory=list, min_length=7, max_length=7)
+    close_times: List[datetime.time] = Field(default_factory=list, min_length=7, max_length=7)
     menu: List[MenuItem] = Field(default_factory=list)
     #openDays has been removed in favour of consolidating it into openTimes/closeTimes
     #menu has been added to keep track of which menu items belong to each restaurant
 
 class RestaurantCreate(BaseModel):
-    name: str
-    address: str
-    open_times: List[datetime.time] = Field(default_factory=list)
-    close_times: List[datetime.time] = Field(default_factory=list)
+    name: str = Field(min_length=1)
+    address: str = Field(min_length=1)
+    open_times: List[datetime.time] = Field(default_factory=list, min_length=7, max_length=7)
+    close_times: List[datetime.time] = Field(default_factory=list, min_length=7, max_length=7)
     menu: List[MenuItem] = Field(default_factory=list)
 
 class RestaurantUpdate(BaseModel):
-    name: str
-    address: str
-    open_times: List[datetime.time] = Field(default_factory=list)
-    close_times: List[datetime.time] = Field(default_factory=list)
+    name: str = Field(min_length=1)
+    address: str = Field(min_length=1)
+    open_times: List[datetime.time] = Field(default_factory=list, min_length=7, max_length=7)
+    close_times: List[datetime.time] = Field(default_factory=list, min_length=7, max_length=7)
     menu: List[MenuItem] = Field(default_factory=list)

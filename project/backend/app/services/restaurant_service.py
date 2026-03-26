@@ -1,5 +1,6 @@
-import uuid
-from typing import List, Dict, Any
+from types import NoneType
+from typing import List
+import re
 import datetime
 from fastapi import HTTPException
 from app.schema.resturant import Restaurant, RestaurantCreate, RestaurantUpdate
@@ -34,9 +35,9 @@ def list_restaurants() -> List[Restaurant]:
     return r_list
 
 def create_restaurant(payload: RestaurantCreate) -> Restaurant:
-    items = load_all_restaurants()
+    items = load_all_restaurants() #make sure all data types in payload are correct
     for r in items:
-        if r.get("name") == payload.name.strip() and r.address == payload.address.strip():
+        if r.get("name") == payload.name.strip() and r.get("address") == payload.address.strip():
             raise HTTPException(status_code=409, detail=f"Restaurant Already Exists")
     new_id = len(items) + 1
     new_menu = []
@@ -61,7 +62,7 @@ def get_restaurant_by_id(restaurant_id: int) -> Restaurant:
     raise HTTPException(status_code=404, detail=f"Restaurant '{restaurant_id}' not found")
 
 def update_restaurant(restaurant_id: int, payload: RestaurantUpdate) -> Restaurant:
-    items = list_restaurants()
+    items = list_restaurants() #make sure all data types in payload are correct
     for idx, it in enumerate(items):
         if it.id == restaurant_id:
             updated = Restaurant(
@@ -87,3 +88,12 @@ def delete_restaurant(restaurant_id: int) -> None:
     if len(new_items) == len(items):
         raise HTTPException(status_code=404, detail=f"Restaurant '{restaurant_id}' not found")
     save_all_restaurants(new_items)
+
+def filter_restaurants(search: str):
+    restaurants = list_restaurants()
+    r_matches = []
+    for r in restaurants:
+        m = re.search(search, r.name, re.IGNORECASE)
+        if type(m) is not NoneType:
+            r_matches.append(r)
+    return r_matches
