@@ -15,4 +15,4 @@ class Order(BaseModel):
 
     def calculateTotal(self):
         return (self.price * 1.05) + 3
-    #TODO: Refactor later so tax and delivery fee are not hard coded
+    #TODO: Refactor later so tax and delivery fee are not hard coded, also potentially move to services file under payment.
