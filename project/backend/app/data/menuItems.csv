@@ -4,4 +4,4 @@ restaurant_id,id,item_name,price,description,image
 2,1,Curry,12.99,Japanese Curry,N/A
 2,2,Chicken,10.0,Mmmm chicken,N/A
 3,1,Curry,12.99,Japanese Curry,N/A
-3,2,Chicken,10.0,Mmmm chicken,N/A
+3,2,Pizza,3.99,Pizza!,N/A
