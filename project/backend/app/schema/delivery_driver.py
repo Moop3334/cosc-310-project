@@ -6,7 +6,7 @@ class DeliveryDriver(BaseModel):
     driver_id: int
     name: str
     phone_number: str
-    username: str
+    drivername: str
     email: EmailStr
     password_hash: str
     vehicle_type: Optional[str] = None
@@ -22,8 +22,8 @@ class DeliveryDriver(BaseModel):
     def get_phone_number(self):
         return self.phone_number
 
-    def get_username(self):
-        return self.username
+    def get_drivername(self):
+        return self.drivername
 
     def get_email(self):
         return self.email
