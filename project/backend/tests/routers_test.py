@@ -470,7 +470,6 @@ def test_create_menu_item_invalid_input():
     details = response.json()["detail"]
     assert details[0]["msg"] == "String should have at least 1 character"
 
-
 def test_update_menu_item():
     assert True
 

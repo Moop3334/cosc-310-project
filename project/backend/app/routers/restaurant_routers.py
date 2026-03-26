@@ -45,7 +45,7 @@ def post_menu_item(payload: MenuItemCreate):
     # which will cause this to raise an error since the restaurant hasn't been saved yet
     restaurant_ids = [int(it["id"]) for it in load_all_restaurants()] 
     if payload.restaurant_id not in restaurant_ids:
-        raise HTTPException(status_code=404, detail=f"Restaurant {payload.restaurant_id} not found {restaurant_ids}")
+        raise HTTPException(status_code=404, detail=f"Unable to find a restaurant with id {payload.restaurant_id}")
     return create_menu_item(payload)
 
 @menu_router.post("/{restaurant_id}/menu/{item_id}", response_model=MenuItem, status_code=201)
