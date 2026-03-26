@@ -1,4 +1,6 @@
+from types import NoneType
 from typing import List
+import re
 from fastapi import HTTPException
 from app.schema.menuItems import MenuItem, MenuItemCreate, MenuItemUpdate
 from app.repositories.menu_items_repos import load_menu, save_menu
@@ -17,7 +19,7 @@ def list_menu(restaurant_id: int) -> List[MenuItem]:
             ))
     return m_list
 
-def create_menu_item(payload: MenuItemCreate) -> MenuItem:
+def create_menu_item(restaurant_id: int, payload: MenuItemCreate) -> MenuItem:
     items = List[MenuItem]
     try:
         items = list_menu(restaurant_id=payload.restaurant_id)
@@ -43,7 +45,7 @@ def get_menu_item_by_id(restaurant_id: int, item_id: int) -> MenuItem:
             return it
     raise HTTPException(status_code=404, detail=f"Menu Item {item_id} not found for restaurant {restaurant_id}")
 
-def update_menu_item(item_id: int, payload: MenuItemUpdate) -> MenuItem:
+def update_menu_item(restaurant_id: int, item_id: int, payload: MenuItemUpdate) -> MenuItem:
     items = list_menu(payload.restaurant_id) #Make sure all data types in the payload are correct
     for idx, it in enumerate(items):
         if it.id == item_id:
@@ -66,3 +68,12 @@ def delete_menu_item(restaurant_id: int, item_id: int) -> None:
     if len(new_items) == len(items):
         raise HTTPException(status_code=404, detail=f"Menu Item {item_id} not found for restaurant {restaurant_id}")
     save_menu(restaurant_id, new_items)
+
+def filter_menu_items(restaurant_id: int, search: str):
+    items = list_menu(restaurant_id)
+    r_matches = []
+    for it in items:
+        m = re.search(search, it.item_name, re.IGNORECASE)
+        if type(m) is not NoneType:
+            r_matches.append(it)
+    return r_matches
