@@ -14,7 +14,7 @@ class User(BaseModel):
     role: Optional[str] = None
     is_active: bool = True
 
-    editable_restaurants: List[str] = []
+    editable_restaurants: List[int] = []
 
     def activate(self):
         self.is_active = True
