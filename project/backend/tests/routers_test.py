@@ -401,7 +401,9 @@ def test_delete_restaurant():
         pytest.fail("Restaurant does not exist")
 
 def test_delete_invalid_restaurant():
-    assert True
+    response = client.delete("/restaurants/4")
+    assert response.status_code == 404
+    assert response.json() == {"detail": "Restaurant '4' not found"}
 
 #Menu Router Tests
 
@@ -512,4 +514,6 @@ def test_delete_menu_item():
         pytest.fail("Restaurant does not exist")
 
 def test_delete_invalid_menu_item():
-    assert True
+    response = client.delete("/1/menu/3")
+    assert response.status_code == 404
+    assert response.json() == {"detail":"Menu Item 3 not found for restaurant 1"}
