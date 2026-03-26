@@ -15,13 +15,18 @@ def test_signup_user():
         "name": "Will Smith",
         "phone_number": "123-456-799",
         "address": "Okanagan",
-        "username": "testuser1",
-        "email": "test1@example.com",
+        "username": "smith1",
+        "email": "smith@example.com",
         "password": "pass123"
     }
 
     response = client.post("/users/signup", json=payload)
     assert response.status_code == 201
+
+    data =  data = response.json()
+    assert data["username"] == "smith1"
+    assert data["email"] == "smith@example.com"
+
 
 
 def test_login_user():
