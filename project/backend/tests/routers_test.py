@@ -83,6 +83,48 @@ temp_restaurant = {
 ]
 }
 
+restaurant_1 = ({
+  "id": 1,
+  "name": "Tester's Dinner",
+  "address": "123 Road dr",
+  "open_times": [
+    "09:00:00",
+    "09:00:00",
+    "09:00:00",
+    "09:00:00",
+    "09:00:00",
+    "09:00:00",
+    "09:00:00"
+  ],
+  "close_times": [
+    "21:00:00",
+    "21:00:00",
+    "21:00:00",
+    "21:00:00",
+    "21:00:00",
+    "21:00:00",
+    "21:00:00"
+  ],
+  "menu": [
+    {
+      "id": 1,
+      "restaurant_id": 1,
+      "item_name": "Curry",
+      "price": 12.99,
+      "description": "Japanese Curry",
+      "image": "N/A"
+    },
+    {
+      "id": 2,
+      "restaurant_id": 1,
+      "item_name": "Chicken",
+      "price": 10.0,
+      "description": "Mmmm chicken",
+      "image": "N/A"
+    }
+  ]
+})
+
 app = FastAPI()
 
 app.include_router(restaurant_router)
@@ -104,6 +146,29 @@ def test_get_restaurant_list(): #NOTE: There is almost certainly a better way to
         for m in range(0, len(tmp["menu"])):
             tmp["menu"][m] = tmp["menu"][m].__dict__
         assert tmp == response.json()[r]
+
+def test_search_restaurant():
+    response = client.get("/restaurants", params={"name":"Tester's Dinner"})
+    assert response.status_code == 200
+    assert response.json()[0] == restaurant_1
+
+def test_blank_search_restaurant():
+    response = client.get("/restaurants", params={"name":""})
+    restaurants = list_restaurants()
+    assert response.status_code == 200
+    for r in range(1, len(response.json())):
+        tmp = restaurants[r].__dict__
+        for t in range(0, len(tmp["close_times"])):
+            tmp["close_times"][t] = time.isoformat(tmp["close_times"][t])
+            tmp["open_times"][t] = time.isoformat(tmp["open_times"][t])
+        for m in range(0, len(tmp["menu"])):
+            tmp["menu"][m] = tmp["menu"][m].__dict__
+        assert tmp == response.json()[r]
+
+def test_search_restaurant_not_found():
+    response = client.get("/restaurants", params={"name":"Zanzibar"})
+    assert response.status_code == 200
+    assert response.json() == []
 
 def test_create_restaurant():
     response = client.post("/restaurants", json=temp_restaurant_creator)
@@ -131,47 +196,7 @@ def test_create_existing_restaurant():
 def test_get_restaurant_with_id():
     response = client.get("/restaurants/1")
     assert response.status_code == 200
-    assert response.json() == ({
-  "id": 1,
-  "name": "Tester's Dinner",
-  "address": "123 Road dr",
-  "open_times": [
-    "09:00:00",
-    "09:00:00",
-    "09:00:00",
-    "09:00:00",
-    "09:00:00",
-    "09:00:00",
-    "09:00:00"
-  ],
-  "close_times": [
-    "21:00:00",
-    "21:00:00",
-    "21:00:00",
-    "21:00:00",
-    "21:00:00",
-    "21:00:00",
-    "21:00:00"
-  ],
-  "menu": [
-    {
-      "id": 1,
-      "restaurant_id": 1,
-      "item_name": "Curry",
-      "price": 12.99,
-      "description": "Japanese Curry",
-      "image": "N/A"
-    },
-    {
-      "id": 2,
-      "restaurant_id": 1,
-      "item_name": "Chicken",
-      "price": 10.0,
-      "description": "Mmmm chicken",
-      "image": "N/A"
-    }
-  ]
-})
+    assert response.json() == restaurant_1
 
 def test_get_invalid_restaurant_id():
     response = client.get("/restaurants/99")
@@ -179,170 +204,13 @@ def test_get_invalid_restaurant_id():
     assert response.json() == {"detail": "Restaurant '99' not found"}
 
 def test_update_restaurant():
-    response = client.post("/restaurants/1", json={
-  "name": "Tester's Dinner",
-  "address": "123 Road Dr",
-  "open_times": [
-    "09:00:00",
-    "09:00:00",
-    "09:00:00",
-    "09:00:00",
-    "09:00:00",
-    "09:00:00",
-    "09:00:00"
-  ],
-  "close_times": [
-    "21:00:00",
-    "21:00:00",
-    "21:00:00",
-    "21:00:00",
-    "21:00:00",
-    "21:00:00",
-    "21:00:00"
-  ],
-  "menu": [
-    {
-      "id": 1,
-      "restaurant_id": 1,
-      "item_name": "Curry",
-      "price": 12.99,
-      "description": "Japanese Curry",
-      "image": "N/A"
-    },
-    {
-      "id": 2,
-      "restaurant_id": 1,
-      "item_name": "Chicken",
-      "price": 10.0,
-      "description": "Mmmm chicken",
-      "image": "N/A"
-    }
-  ]
-})
+    response = client.post("/restaurants/1", json=restaurant_1)
     assert response.status_code == 201
-    assert response.json() == {
-  "id": 1,
-  "name": "Tester's Dinner",
-  "address": "123 Road Dr",
-  "open_times": [
-    "09:00:00",
-    "09:00:00",
-    "09:00:00",
-    "09:00:00",
-    "09:00:00",
-    "09:00:00",
-    "09:00:00"
-  ],
-  "close_times": [
-    "21:00:00",
-    "21:00:00",
-    "21:00:00",
-    "21:00:00",
-    "21:00:00",
-    "21:00:00",
-    "21:00:00"
-  ],
-  "menu": [
-    {
-      "id": 1,
-      "restaurant_id": 1,
-      "item_name": "Curry",
-      "price": 12.99,
-      "description": "Japanese Curry",
-      "image": "N/A"
-    },
-    {
-      "id": 2,
-      "restaurant_id": 1,
-      "item_name": "Chicken",
-      "price": 10.0,
-      "description": "Mmmm chicken",
-      "image": "N/A"
-    }
-  ]
-}
-    client.post("/restaurants/1", json={
-  "name": "Tester's Dinner",
-  "address": "123 Road dr",
-  "open_times": [
-    "09:00:00",
-    "09:00:00",
-    "09:00:00",
-    "09:00:00",
-    "09:00:00",
-    "09:00:00",
-    "09:00:00"
-  ],
-  "close_times": [
-    "21:00:00",
-    "21:00:00",
-    "21:00:00",
-    "21:00:00",
-    "21:00:00",
-    "21:00:00",
-    "21:00:00"
-  ],
-  "menu": [
-    {
-      "id": 1,
-      "restaurant_id": 1,
-      "item_name": "Curry",
-      "price": 12.99,
-      "description": "Japanese Curry",
-      "image": "N/A"
-    },
-    {
-      "id": 2,
-      "restaurant_id": 1,
-      "item_name": "Chicken",
-      "price": 10.0,
-      "description": "Mmmm chicken",
-      "image": "N/A"
-    }
-  ]
-})
+    assert response.json() == restaurant_1
+    client.post("/restaurants/1", json=restaurant_1)
 
 def test_update_invalid_restaurant():
-    response = client.post("/restaurants/999", json={
-  "name": "Tester's Dinner",
-  "address": "123 Road Dr",
-  "open_times": [
-    "09:00:00",
-    "09:00:00",
-    "09:00:00",
-    "09:00:00",
-    "09:00:00",
-    "09:00:00",
-    "09:00:00"
-  ],
-  "close_times": [
-    "21:00:00",
-    "21:00:00",
-    "21:00:00",
-    "21:00:00",
-    "21:00:00",
-    "21:00:00",
-    "21:00:00"
-  ],
-  "menu": [
-    {
-      "id": 1,
-      "restaurant_id": 1,
-      "item_name": "Curry",
-      "price": 12.99,
-      "description": "Japanese Curry",
-      "image": "N/A"
-    },
-    {
-      "id": 2,
-      "restaurant_id": 1,
-      "item_name": "Chicken",
-      "price": 10.0,
-      "description": "Mmmm chicken",
-      "image": "N/A"
-    }
-  ]
-})
+    response = client.post("/restaurants/999", json=restaurant_1)
     assert response.status_code == 404
     assert response.json() == {"detail": "Restaurant '999' not found"}
 
@@ -435,6 +303,24 @@ def test_list_menu():
     assert response.status_code == 200
     for m in range(1, len(response.json())):
         assert menu[m].__dict__ == response.json()[m]
+
+def test_search_menu():
+    response = client.get("/1/menu", params={"name":"Curry"})
+    curry = list_menu(1)[0]
+    assert response.status_code == 200
+    assert response.json()[0] == curry.__dict__
+
+def test_blank_search_menu():
+    response = client.get("/1/menu", params={"name":""})
+    menu = list_menu(1)
+    assert response.status_code == 200
+    for m in range(1, len(response.json())):
+        assert menu[m].__dict__ == response.json()[m]
+
+def test_search_menu_not_found():
+    response = client.get("/1/menu", params={"name":"Nutrition Brick"})
+    assert response.status_code == 200
+    assert response.json() == []
 
 def test_list_invalid_restaurant_menu():
     response = client.get("/99/menu")
