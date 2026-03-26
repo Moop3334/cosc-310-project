@@ -1,4 +1,6 @@
+from types import NoneType
 from typing import List
+import re
 from fastapi import HTTPException
 from app.schema.menuItems import MenuItem, MenuItemCreate, MenuItemUpdate
 from app.repositories.menu_items_repos import load_menu, save_menu
@@ -66,3 +68,12 @@ def delete_menu_item(restaurant_id: int, item_id: int) -> None:
     if len(new_items) == len(items):
         raise HTTPException(status_code=404, detail=f"Menu Item {item_id} not found for restaurant {restaurant_id}")
     save_menu(restaurant_id, new_items)
+
+def filter_menu_items(restaurant_id: int, search: str):
+    items = list_menu(restaurant_id)
+    r_matches = []
+    for it in items:
+        m = re.search(search, it.item_name, re.IGNORECASE)
+        if type(m) is not NoneType:
+            r_matches.append(it)
+    return r_matches
