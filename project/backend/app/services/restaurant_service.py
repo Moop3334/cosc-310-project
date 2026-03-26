@@ -41,7 +41,7 @@ def create_restaurant(payload: RestaurantCreate) -> Restaurant:
     new_id = len(items) + 1
     new_menu = []
     for m in payload.menu:
-        new_menu.append(create_menu_item(MenuItemCreate(
+        new_menu.append(create_menu_item(new_id, MenuItemCreate(
             item_name=m.item_name,
             restaurant_id=new_id,
             price=m.price,

@@ -484,7 +484,7 @@ def test_update_menu_item():
     assert response.status_code == 201
     test_menu_creator["id"] = 1
     assert response.json() == test_menu_creator
-    update_menu_item(1, item)
+    update_menu_item(1,1, item)
 
 def test_update_invalid_restaurant_menu_item():
     response = client.post("/99/menu/1", json=invalid_restaurant_menu_creator)

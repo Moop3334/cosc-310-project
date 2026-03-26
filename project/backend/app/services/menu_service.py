@@ -46,12 +46,12 @@ def get_menu_item_by_id(restaurant_id: int, item_id: int) -> MenuItem:
     raise HTTPException(status_code=404, detail=f"Menu Item {item_id} not found for restaurant {restaurant_id}")
 
 def update_menu_item(restaurant_id: int, item_id: int, payload: MenuItemUpdate) -> MenuItem:
-    items = list_menu(payload.restaurant_id) #Make sure all data types in the payload are correct
+    items = list_menu(restaurant_id) #Make sure all data types in the payload are correct
     for idx, it in enumerate(items):
         if it.id == item_id:
             updated = MenuItem(
                 id=item_id,
-                restaurant_id=payload.restaurant_id,
+                restaurant_id=restaurant_id,
                 item_name=payload.item_name.strip(),
                 price=payload.price,
                 description=payload.description,
