@@ -1,5 +1,6 @@
-import uuid
-from typing import List, Dict, Any
+from types import NoneType
+from typing import List
+import re
 import datetime
 from fastapi import HTTPException
 from app.schema.resturant import Restaurant, RestaurantCreate, RestaurantUpdate
@@ -87,3 +88,12 @@ def delete_restaurant(restaurant_id: int) -> None:
     if len(new_items) == len(items):
         raise HTTPException(status_code=404, detail=f"Restaurant '{restaurant_id}' not found")
     save_all_restaurants(new_items)
+
+def filter_restaurants(search: str):
+    restaurants = list_restaurants()
+    r_matches = []
+    for r in restaurants:
+        m = re.search(search, r.name, re.IGNORECASE)
+        if type(m) is not NoneType:
+            r_matches.append(r)
+    return r_matches
