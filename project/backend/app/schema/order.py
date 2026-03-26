@@ -13,6 +13,5 @@ class Order(BaseModel):
     creation_date: datetime.datetime
     status: str
 
-    def calculateTotal(self):
-        return sum(item.calculateSubTotal() for item in self.items) * 1.05
-    #Tax calculation can be improved and delivery fee can be added in future
+    
+

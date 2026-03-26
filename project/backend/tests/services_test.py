@@ -3,8 +3,11 @@ import pytest
 from fastapi import HTTPException
 from app.schema.resturant import Restaurant, RestaurantCreate, RestaurantUpdate
 from app.schema.menuItems import MenuItem, MenuItemCreate, MenuItemUpdate
+from app.schema.order import Order
 from app.repositories.restaurant_repos import save_all_restaurants
 from app.repositories.menu_items_repos import save_menu
+from app.repositories.order_repos import save_all_orders
+from app.services.order_service import list_orders, get_specific_order, delete_specific_order, save_an_order, update_order_status, complete_an_order, calculate_total
 from app.services.restaurant_service import list_restaurants, create_restaurant, get_restaurant_by_id, update_restaurant, delete_restaurant
 from app.services.menu_service import list_menu, get_menu_item_by_id, create_menu_item, update_menu_item, delete_menu_item
 
@@ -219,6 +222,47 @@ test_restaurant_update = RestaurantUpdate(
 )
 
 save_all_restaurants(test_restaurants)
+
+test_orders = List[Order]
+test_orders = [
+    Order(
+        id=1,
+        user_id=1,
+        restaurant_id=1,
+        item="Curry",
+        price=12.99,
+        creation_date="2026-01-01 12:00:00",
+        status="Pending Approval"
+    ),
+    Order(
+        id=2,
+        user_id=1,
+        restaurant_id=2,
+        item="Chicken",
+        price=10.0,
+        creation_date="2026-01-01 12:05:00",
+        status="Pending Approval"
+    )
+]
+
+test_order_create = Order(
+    id=3,
+    user_id=1,
+    restaurant_id=3,
+    item="Cookie",
+    price=2.99,
+    creation_date="2026-01-01 13:00:00",
+    status="Pending Approval"
+)
+
+save_all_orders(test_orders)
+
+def test_list_orders():
+    assert test_orders == list_orders()
+
+def test_create_order():
+    save_an_order(test_order_create.user_id, test_order_create.restaurant_id, test_order_create.item, test_order_create.price)
+    assert test_order_create == get_specific_order(3)
 
 def test_list_restaurants():
     assert test_restaurants == list_restaurants()

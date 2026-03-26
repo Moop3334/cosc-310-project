@@ -1,7 +1,7 @@
 from typing import List
 from fastapi import APIRouter, HTTPException
 from app.schema.order import Order
-from app.services.order_service import list_orders, get_specific_order, delete_specific_order, save_an_order, update_order_status, complete_an_order
+from app.services.order_service import calculate_total, list_orders, get_specific_order, delete_specific_order, save_an_order, update_order_status, complete_an_order
 
 router = APIRouter(prefix="/orders", tags=["orders"])
 
@@ -28,3 +28,7 @@ def delete_order(order_id: str):
 @router.post("/{order_id}/complete", response_model=str)
 def complete_order(order_id: str):
     return complete_an_order(order_id)
+
+@router.get("/{order_id}/total", response_model=float)
+def get_total(order_id: str):
+    return calculate_total(order_id)

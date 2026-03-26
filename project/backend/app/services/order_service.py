@@ -109,3 +109,7 @@ def complete_an_order(order_id: int) -> str:
             delete_specific_order(order_id)
             return f"Order with id {order_id} completed successfully."
     raise IndexError(f"Error: Unable to find order id:{order_id}")
+
+def calculate_total(order_id: int) -> float:
+    order = get_specific_order(order_id)
+    return (order.price * 1.05) + 3
