@@ -256,7 +256,7 @@ def test_list_menu():
     assert test_menu1 == list_menu(1)
 
 def test_create_menu_item():
-    assert create_menu_item(menu_item_factory) == get_restaurant_by_id(3).menu[2]
+    assert create_menu_item(3,menu_item_factory) == get_restaurant_by_id(3).menu[2]
 
 def test_delete_menu_item():
     try:
@@ -280,9 +280,9 @@ def test_get_invalid_restaurant_menu_item():
         get_menu_item_by_id(100, 1)
 
 def test_update_menu_item():
-    test_menu1 = update_menu_item(2, menu_item_updater)
+    test_menu1 = update_menu_item(3,2, menu_item_updater)
     assert test_menu1 == list_menu(3)[1]
 
 def test_update_invalid_menu_item_id():
     with pytest.raises(HTTPException):
-        update_restaurant(3, update_menu_item(3, menu_item_updater))
+        update_menu_item(3, 3, menu_item_updater)

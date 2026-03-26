@@ -6,6 +6,8 @@ from datetime import time
 from app.routers.restaurant_routers import router as restaurant_router, menu_router
 from app.services.restaurant_service import list_restaurants
 from app.services.menu_service import list_menu, get_menu_item_by_id, update_menu_item
+from app.routers.order_routers import router as order_router
+from app.services.order_service import list_orders, get_specific_order, save_an_order, update_order_status, delete_specific_order, complete_an_order
 
 temp_restaurant_creator = {
     "name":"Test", 
@@ -83,6 +85,23 @@ temp_restaurant = {
 ]
 }
 
+temp_order_creator = {
+    "id": 8,
+    "user_id": 8,
+    "restaurant_id": 8,
+    "item": "Curry",
+    "price": 12.99,
+    "status": "Pending Approval"
+}
+
+temp_order = {
+    "id": 8,
+    "user_id": 8,
+    "restaurant_id": 8,
+    "item": "Curry",
+    "price": 12.99,
+    "status": "Pending Approval"
+}
 restaurant_1 = ({
   "id": 1,
   "name": "Tester's Dinner",
@@ -129,8 +148,21 @@ app = FastAPI()
 
 app.include_router(restaurant_router)
 app.include_router(menu_router)
+app.include_router(order_router)
 
 client = TestClient(app)
+
+#Order Router Tests
+
+def test_list_orders():
+    response = client.get("/orders")
+    orders = list_orders()
+    assert response.status_code == 200
+    for o in range(1, len(response.json())):
+        tmp = orders[o].__dict__
+        tmp["creation_date"] = tmp["creation_date"].isoformat()
+        assert tmp == response.json()[o]
+
 
 #Restaurant Router Tests
 
@@ -370,7 +402,7 @@ def test_update_menu_item():
     assert response.status_code == 201
     test_menu_creator["id"] = 1
     assert response.json() == test_menu_creator
-    update_menu_item(1, item)
+    update_menu_item(1,1, item)
 
 def test_update_invalid_restaurant_menu_item():
     response = client.post("/99/menu/1", json=invalid_restaurant_menu_creator)

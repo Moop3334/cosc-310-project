@@ -1,18 +1,18 @@
 from typing import List
 import datetime
 from enum import Enum
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, NonNegativeInt, PositiveFloat
 from app.schema.orderDetail import OrderItem
 
 class Order(BaseModel):
-    id: int
-    user_id: int
-    restaurant_id: int
-    item: str
-    price: float
-    creation_date: datetime.datetime
-    status: str
+    id: NonNegativeInt
+    user_id: NonNegativeInt
+    restaurant_id: NonNegativeInt
+    item: str = Field(min_length=1)
+    price: PositiveFloat
+    creation_date: datetime.datetime = Field(default_factory=datetime.datetime.now)
+    status: str = Field(min_length=1)
 
     def calculateTotal(self):
-        return sum(item.calculateSubTotal() for item in self.items) * 1.05
-    #Tax calculation can be improved and delivery fee can be added in future
+        return (self.price * 1.05) + 3
+    #TODO: Refactor later so tax and delivery fee are not hard coded, also potentially move to services file under payment.
