@@ -460,10 +460,16 @@ def test_create_menu_item():
     response = client.delete("1/menu/3")
 
 def test_create_invalid_restaurant_menu_item():
-    assert True
+    response = client.post("/99/menu", json=invalid_restaurant_menu_creator)
+    assert response.status_code == 404
+    assert response.json() == {"detail":"Unable to find a restaurant with id 99"}
 
 def test_create_menu_item_invalid_input():
-    assert True
+    response = client.post("/99/menu", json=invalid_menu_creator)
+    assert response.status_code == 422
+    details = response.json()["detail"]
+    assert details[0]["msg"] == "String should have at least 1 character"
+
 
 def test_update_menu_item():
     assert True
