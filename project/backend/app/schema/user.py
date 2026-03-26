@@ -3,7 +3,6 @@ from typing import List, Optional
 
 
 class User(BaseModel):
-
     user_id: int
     name: str
     phone_number: str
@@ -28,3 +27,18 @@ class User(BaseModel):
         if self.username == "" or self.password_hash == "":
             return False
         return True
+
+
+class UserCreate(BaseModel):
+    name: str
+    phone_number: str
+    address: str
+    username: str
+    email: EmailStr
+    password_hash: str
+    role: Optional[str] = None
+
+
+class UserLogin(BaseModel): #simple user login
+    username: str
+    password_hash: str
