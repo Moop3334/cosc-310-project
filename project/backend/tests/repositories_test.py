@@ -2,6 +2,7 @@
 # pylint: disable=wildcard-import
 # pylint: disable=unused-import
 import pytest
+from fastapi import HTTPException
 from app.repositories.delivery_repos import (
     load_all_deliveries,
     load_specific_delivery,
@@ -226,11 +227,11 @@ def test_restaurant_save():
     assert r[1] == test_restaurant2
 
 def test_load_menu_item_error():
-    with pytest.raises(IndexError):
+    with pytest.raises(HTTPException):
         load_menu_item(100,3)
 
 def test_load_menu_error():
-    with pytest.raises(IndexError):
+    with pytest.raises(HTTPException):
         load_menu(100)
 
 def test_load_menu_item():

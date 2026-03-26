@@ -1,4 +1,6 @@
+from types import NoneType
 from typing import List
+import re
 from fastapi import HTTPException
 from app.schema.menuItems import MenuItem, MenuItemCreate, MenuItemUpdate
 from app.repositories.menu_items_repos import load_menu, save_menu
@@ -21,10 +23,9 @@ def create_menu_item(payload: MenuItemCreate) -> MenuItem:
     items = List[MenuItem]
     try:
         items = list_menu(restaurant_id=payload.restaurant_id)
-    except IndexError:
+    except HTTPException:
         items = []
     new_id = len(items) + 1
-    #check to make sure all the inputs are the proper data type
     new_item = MenuItem(
         id=new_id, 
         restaurant_id=payload.restaurant_id, 
@@ -42,7 +43,7 @@ def get_menu_item_by_id(restaurant_id: int, item_id: int) -> MenuItem:
     for it in items:
         if it.id == item_id:
             return it
-    raise HTTPException(status_code=404, detail=f"Menu Item '{item_id}' not found for restaurant {restaurant_id}")
+    raise HTTPException(status_code=404, detail=f"Menu Item {item_id} not found for restaurant {restaurant_id}")
 
 def update_menu_item(item_id: int, payload: MenuItemUpdate) -> MenuItem:
     items = list_menu(payload.restaurant_id) #Make sure all data types in the payload are correct
@@ -59,11 +60,20 @@ def update_menu_item(item_id: int, payload: MenuItemUpdate) -> MenuItem:
             items[idx] = updated.dict()
             save_menu(payload.restaurant_id,items)
             return updated
-    raise HTTPException(status_code=404, detail=f"Menu Item '{item_id}' not found for restaurant {payload.restaurant_id}")
+    raise HTTPException(status_code=404, detail=f"Menu Item {item_id} not found for restaurant {payload.restaurant_id}")
 
 def delete_menu_item(restaurant_id: int, item_id: int) -> None:
     items = list_menu(restaurant_id=restaurant_id)
     new_items = [it for it in items if it.id != item_id]
     if len(new_items) == len(items):
-        raise HTTPException(status_code=404, detail=f"Menu Item '{item_id}' not found for restaurant {restaurant_id}")
+        raise HTTPException(status_code=404, detail=f"Menu Item {item_id} not found for restaurant {restaurant_id}")
     save_menu(restaurant_id, new_items)
+
+def filter_menu_items(restaurant_id: int, search: str):
+    items = list_menu(restaurant_id)
+    r_matches = []
+    for it in items:
+        m = re.search(search, it.item_name, re.IGNORECASE)
+        if type(m) is not NoneType:
+            r_matches.append(it)
+    return r_matches

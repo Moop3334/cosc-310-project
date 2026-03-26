@@ -276,7 +276,7 @@ def test_get_invalid_menu_item_id():
         get_menu_item_by_id(1, 100)
 
 def test_get_invalid_restaurant_menu_item():
-    with pytest.raises(IndexError):
+    with pytest.raises(HTTPException):
         get_menu_item_by_id(100, 1)
 
 def test_update_menu_item():
