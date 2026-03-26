@@ -50,3 +50,9 @@ def save_all_deliveries(deliveries: List[Dict[Any, Any]]) -> None:
         for row in deliveries:
             orders_temp.append(row)
         writer.writerows(orders_temp)
+
+def save_a_delivery(new_delivery: Dict[Any, Any]) -> str:
+    deliveries = load_all_deliveries()
+    deliveries.append(new_delivery)
+    save_all_deliveries(deliveries)
+    return f"Delivery with order id {new_delivery.get('order_id')} created successfully."

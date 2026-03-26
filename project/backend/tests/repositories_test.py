@@ -159,6 +159,7 @@ test_order_1 = {
     "user_id":"1",
     "restaurant_id":"1",
     "item":"Curry",
+    "price":"12.99",
     "creation_date":"2026-01-01 12:00:00",
     "status":"Pending Approval"
 }
@@ -167,6 +168,7 @@ test_order_2 = {
     "user_id":"9",
     "restaurant_id":"9",
     "item":"Cookie",
+    "price":"2.99",
     "creation_date":"2026-01-01 13:00:00",
     "status":"Pending Approval"
 }
