@@ -23,7 +23,7 @@ def test_signup_user():
     response = client.post("/users/signup", json=payload)
     assert response.status_code == 201
 
-    data =  data = response.json()
+    data = response.json()
     assert data["username"] == "smith1"
     assert data["email"] == "smith@example.com"
 
@@ -31,7 +31,7 @@ def test_signup_user():
 
 def test_login_user():
     payload = {
-        "username": "Will Smith",
+        "username": "smith1",
         "password": "pass123"
     }
 
