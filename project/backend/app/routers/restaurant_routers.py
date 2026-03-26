@@ -8,7 +8,7 @@ from app.schema.menuItems import MenuItem, MenuItemCreate, MenuItemUpdate
 from app.schema.user import User
 from app.services.restaurant_service import list_restaurants, create_restaurant, update_restaurant, delete_restaurant, get_restaurant_by_id, filter_restaurants
 from app.services.menu_service import list_menu, get_menu_item_by_id, create_menu_item, update_menu_item, delete_menu_item, filter_menu_items
-from app.routers.auth_router import get_current_user
+from app.services.auth_services import get_current_user
 
 router = APIRouter(prefix="/restaurants", tags=["restaurants"])
 
@@ -33,14 +33,14 @@ async def get_restaurant(restaurant_id: int):
     return get_restaurant_by_id(restaurant_id=restaurant_id)
 
 @router.post("/{restaurant_id}", response_model=Restaurant, status_code=201)
-async def post_restaurant_update(restaurant_id: int,payload: RestaurantUpdate, user: Annotated[User, Depends(get_current_user())]):
+async def post_restaurant_update(restaurant_id: int,payload: RestaurantUpdate, user: Annotated[User, Depends(get_current_user)]):
     if (restaurant_id in user.editable_restaurants):
         return update_restaurant(restaurant_id, payload)
     else:
         raise HTTPException(status_code=401, detail="You are not authorized to edit this restaurant")
 
 @router.delete("/{restaurant_id}", response_model=None, status_code=200)
-async def delete_r(restaurant_id: int, user: Annotated[User, Depends(get_current_user())]):
+async def delete_r(restaurant_id: int, user: Annotated[User, Depends(get_current_user)]):
     if (restaurant_id in user.editable_restaurants):
         return delete_restaurant(restaurant_id)
     else:
@@ -63,7 +63,7 @@ async def get_menu_item(restaurant_id: int, item_id: int):
     return get_menu_item_by_id(restaurant_id, item_id)
 
 @menu_router.post("/{restaurant_id}/menu", response_model=MenuItem, status_code=201)
-async def post_menu_item(restaurant_id: int, payload: MenuItemCreate, user: Annotated[User, Depends(get_current_user())]):
+async def post_menu_item(restaurant_id: int, payload: MenuItemCreate, user: Annotated[User, Depends(get_current_user)]):
     # This check needs to be here and not in services because the create_menu_item() function is also called when creating a new restaurant, 
     # which will cause this to raise an error since the restaurant hasn't been saved 
     if (restaurant_id in user.editable_restaurants):
@@ -75,14 +75,14 @@ async def post_menu_item(restaurant_id: int, payload: MenuItemCreate, user: Anno
         raise HTTPException(status_code=401, detail="You are not authorized to edit this restaurant")
 
 @menu_router.post("/{restaurant_id}/menu/{item_id}", response_model=MenuItem, status_code=201)
-async def post_menu_item_update(restaurant_id: int, payload: MenuItemUpdate, item_id: int, user: Annotated[User, Depends(get_current_user())]):
+async def post_menu_item_update(restaurant_id: int, payload: MenuItemUpdate, item_id: int, user: Annotated[User, Depends(get_current_user)]):
     if (restaurant_id in user.editable_restaurants):
         return update_menu_item(restaurant_id, item_id, payload)
     else:
         raise HTTPException(status_code=401, detail="You are not authorized to edit this restaurant")
 
 @menu_router.delete("/{restaurant_id}/menu/{item_id}", response_model=None, status_code=200)
-async def delete_item(restaurant_id: int, item_id: int, user: Annotated[User, Depends(get_current_user())]):
+async def delete_item(restaurant_id: int, item_id: int, user: Annotated[User, Depends(get_current_user)]):
     if (restaurant_id in user.editable_restaurants):
         return delete_menu_item(restaurant_id, item_id)
     else:

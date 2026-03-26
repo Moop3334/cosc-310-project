@@ -8,6 +8,20 @@ from app.services.restaurant_service import list_restaurants
 from app.services.menu_service import list_menu, get_menu_item_by_id, update_menu_item
 from app.routers.order_routers import router as order_router
 from app.services.order_service import list_orders, get_specific_order, save_an_order, update_order_status, delete_specific_order, complete_an_order
+from app.schema.user import User, UserCreate, UserLogin
+from app.services.auth_services import get_password_hash
+
+@pytest.fixture(scope="module")
+def client_1():
+    with TestClient(app) as c:
+      yield c
+
+@pytest.fixture(scope="module")
+def test_user():
+    return UserLogin(
+        username= "testuser",
+        password_hash= get_password_hash("testpass")
+    )
 
 temp_restaurant_creator = {
     "name":"Test", 
@@ -151,6 +165,13 @@ app.include_router(menu_router)
 app.include_router(order_router)
 
 client = TestClient(app)
+
+def test_login(client_1, test_user):
+  response = client_1.post("/token", data=test_user)
+  assert response.status_code == 200
+  token = response.json()["access_token"]
+  assert token is not None
+  return token
 
 #Order Router Tests
 
