@@ -9,7 +9,7 @@
 | app\\repositories\\restaurant\_repos.py  |       46 |        1 |     98% |
 | app\\routers\\\_\_init\_\_.py            |        3 |        0 |    100% |
 | app\\routers\\order\_routers.py          |       23 |       23 |      0% |
-| app\\routers\\restaurant\_routers.py     |       42 |        0 |    100% |
+| app\\routers\\restaurant\_routers.py     |       52 |        0 |    100% |
 | app\\schema\\\_\_init\_\_.py             |        0 |        0 |    100% |
 | app\\schema\\delivery\_driver.py         |       17 |       17 |      0% |
 | app\\schema\\menuItems.py                |       13 |        0 |    100% |
@@ -19,7 +19,7 @@
 | app\\schema\\resturant.py                |       23 |        0 |    100% |
 | app\\schema\\user.py                     |       34 |       34 |      0% |
 | app\\services\\\_\_init\_\_.py           |        0 |        0 |    100% |
-| app\\services\\menu\_service.py          |       42 |        0 |    100% |
+| app\\services\\menu\_service.py          |       52 |        0 |    100% |
 | app\\services\\order\_service.py         |       46 |       46 |      0% |
-| app\\services\\restaurant\_service.py    |       56 |        0 |    100% |
-| **TOTAL**                                |  **495** |  **173** | **65%** |
+| app\\services\\restaurant\_service.py    |       65 |        0 |    100% |
+| **TOTAL**                                |  **524** |  **173** | **67%** |
