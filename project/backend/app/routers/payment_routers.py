@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from app.schema.payment import payment
+from app.schema.payment import Payment
 from app.services.payment_service import calculate_total
 
 router = APIRouter(prefix="/payments", tags=["payments"])

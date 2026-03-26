@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from app.schema.payment import payment
+from app.schema.payment import Payment
 from app.services.order_service import get_specific_order
 
 def calculate_total(order_id: int) -> float:
