@@ -6,11 +6,9 @@ class DeliveryDriver(BaseModel):
     driver_id: int
     name: str
     phone_number: str
-
     username: str
     email: EmailStr
     password_hash: str
-
     vehicle_type: Optional[str] = None
     is_active: bool = True
     completed_orders: List[int] = Field(default_factory=list)
