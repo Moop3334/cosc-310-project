@@ -1,0 +1,25 @@
+| Name                                     |    Stmts |     Miss |   Cover |
+|----------------------------------------- | -------: | -------: | ------: |
+| app\\\_\_init\_\_.py                     |        0 |        0 |    100% |
+| app\\main.py                             |       11 |       11 |      0% |
+| app\\repositories\\\_\_init\_\_.py       |        5 |        0 |    100% |
+| app\\repositories\\delivery\_repos.py    |       36 |        7 |     81% |
+| app\\repositories\\menu\_items\_repos.py |       44 |        3 |     93% |
+| app\\repositories\\order\_repos.py       |       29 |        6 |     79% |
+| app\\repositories\\restaurant\_repos.py  |       46 |        1 |     98% |
+| app\\routers\\\_\_init\_\_.py            |        3 |        0 |    100% |
+| app\\routers\\order\_routers.py          |       23 |       23 |      0% |
+| app\\routers\\restaurant\_routers.py     |       42 |        0 |    100% |
+| app\\schema\\\_\_init\_\_.py             |        0 |        0 |    100% |
+| app\\schema\\delivery\_driver.py         |       17 |       17 |      0% |
+| app\\schema\\menuItems.py                |       13 |        0 |    100% |
+| app\\schema\\order.py                    |        8 |        8 |      0% |
+| app\\schema\\orderDetail.py              |        5 |        5 |      0% |
+| app\\schema\\payment.py                  |       12 |       12 |      0% |
+| app\\schema\\resturant.py                |       23 |        0 |    100% |
+| app\\schema\\user.py                     |       34 |       34 |      0% |
+| app\\services\\\_\_init\_\_.py           |        0 |        0 |    100% |
+| app\\services\\menu\_service.py          |       42 |        0 |    100% |
+| app\\services\\order\_service.py         |       46 |       46 |      0% |
+| app\\services\\restaurant\_service.py    |       56 |        0 |    100% |
+| **TOTAL**                                |  **495** |  **173** | **65%** |
