@@ -2,7 +2,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Annotated
 
 import jwt
-from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jwt.exceptions import InvalidTokenError
 from pwdlib import PasswordHash
@@ -43,15 +43,6 @@ def get_password_hash(password):
 def get_user():
     return test_user
 
-def auth_user(username:str, password:str):
-    user = get_user() #get user from storage, should return an error if user isn't found
-    if not user:
-        verify_password(password, DUMMY_HASH)
-        return False
-    if not verify_password(password, user.password_hash):
-        return False
-    return user
-
 def create_token(data: dict, expires: timedelta | None = None):
     encode = data.copy()
     if expires:
@@ -62,3 +53,63 @@ def create_token(data: dict, expires: timedelta | None = None):
     encoded = jwt.encode(encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded
 
+def auth_user(username:str, password:str):
+    user = get_user() #get user from storage, should return an error if user isn't found
+    if not user:
+        verify_password(password, DUMMY_HASH)
+        return False
+    if not verify_password(password, user.password_hash):
+        return False
+    return user
+
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get("sub")
+        if username is None:
+            raise HTTPException(401, detail="Could not validate credentials", headers={"WWW-Authenticate": "Bearer"})
+        token_data = TokenData(username=username)
+    except HTTPException(401, detail="Could not validate credentials", headers={"WWW-Authenticate": "Bearer"}):
+        raise HTTPException(401, detail="Could not validate credentials", headers={"WWW-Authenticate": "Bearer"})
+    user = get_user()
+    if user is None:
+        raise HTTPException(401, detail="Could not validate credentials", headers={"WWW-Authenticate": "Bearer"})
+    return user
+
+async def get_active_user(current_user: Annotated[User, Depends(get_current_user)]):
+    if not current_user.is_active:
+        raise HTTPException(status_code=400, detail="Inactive user")
+    return current_user
+
+async def login_for_access(form_data: Annotated[OAuth2PasswordRequestForm, Depends()],) -> Token:
+    user = auth_user(form_data.username, form_data.password)
+    if not user:
+        raise HTTPException(
+            status_code=401,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_token(
+        data={"sub":user.username}, 
+        expires=access_token_expires
+    )
+    return Token(access_token, "bearer")
+
+
+@app.post("/token")
+async def login_for_access_token(
+    form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
+) -> Token:
+    user = auth_user(form_data.username, form_data.password)
+    if not user:
+        raise HTTPException(
+            status_code=401,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_token(
+        data={"sub": user.username}, expires_delta=access_token_expires
+    )
+    return Token(access_token=access_token, token_type="bearer")
