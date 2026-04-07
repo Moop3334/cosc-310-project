@@ -158,7 +158,6 @@ def test_list_orders():
         tmp["creation_date"] = tmp["creation_date"].isoformat()
         assert tmp == response.json()[o]
 
-
 #Restaurant Router Tests
 
 def test_get_restaurant_list(): #NOTE: There is almost certainly a better way to do this, but this works and won't impact the runtime of the actual website
