@@ -6,6 +6,7 @@ from app.schema.shopping_cart import CartItem
 from app.repositories.order_repos import load_all_order, load_specific_order, save_all_orders
 from app.repositories.delivery_repos import save_a_delivery
 from app.services.cart_service import clear_cart, get_cart
+from app.services.payment_service import calculate_subtotal, calculate_total
 
 def dict_to_order(order_dict) -> Order:
     """Convert a dictionary from CSV to an Order object."""
@@ -13,10 +14,10 @@ def dict_to_order(order_dict) -> Order:
     if order_dict.get("items"):
         for item_data in order_dict["items"]:
             items.append(CartItem(
-                item_id=item_data.get("item_id"),
-                item_name=item_data.get("item_name"),
-                quantity=item_data.get("quantity"),
-                price=item_data.get("price")
+                item_id=int(item_data.get("item_id", 0)),
+                item_name=item_data.get("item_name", ""),
+                quantity=int(item_data.get("quantity", 1)),
+                price=float(item_data.get("price", 0.0))
             ))
     
     return Order(
@@ -24,7 +25,7 @@ def dict_to_order(order_dict) -> Order:
         user_id=int(order_dict.get("user_id", 0)),
         restaurant_id=int(order_dict.get("restaurant_id", 0)),
         items=items,
-        total_price=float(order_dict.get("total_price", 0.0)),
+        total_price=calculate_subtotal(items),
         creation_date=order_dict.get("creation_date"),
         status=order_dict.get("status", "Pending Approval")
     )
@@ -52,12 +53,23 @@ def checkout(user_id: int) -> Order:
         user_id=user_id,
         restaurant_id=cart.restaurant_id,
         items=cart.items,
-        total_price=cart.total * 1.05 + 3, #TODO: need to refactor payment method to accept list of items
+        total_price=calculate_total(cart), #TODO: need to refactor payment method to accept list of items
         creation_date=datetime.datetime.now(),
         status="Pending Approval"
     )
 
-    orders.append(new_order.model_dump())
+    # Convert Order to dict format for storage
+    order_dict = {
+        "id": new_order.id,
+        "user_id": new_order.user_id,
+        "restaurant_id": new_order.restaurant_id,
+        "items": [item.model_dump() for item in new_order.items],
+        "total_price": new_order.total_price,
+        "creation_date": new_order.creation_date,
+        "status": new_order.status
+    }
+    
+    orders.append(order_dict)
     save_all_orders(orders)
     clear_cart(user_id)
 
@@ -84,11 +96,11 @@ def delete_specific_order(order_id: int) -> str:
 def complete_an_order(order_id: int) -> str:
     orders = load_all_order()
     for idx, order in enumerate(orders):
-        if int(order["id"]) == order_id:
+        if int(order.get("id", 0)) == order_id:
             orders[idx]["status"] = "Completed"
             
-            # TODO: Change later
-            items_str = ", ".join([f"{item['item_name']} (qty: {item['quantity']})" for item in order.get("items", [])])
+            # Convert items list to comma-separated string
+            items_str = ", ".join([f"{item.get('item_name', '')} (qty: {item.get('quantity', 1)})" for item in order.get("items", [])])
             
             save_a_delivery({
                "order_id": order_id,
@@ -125,6 +137,6 @@ def complete_an_order(order_id: int) -> str:
                'predicted_delivery_mode': None, 
                'traffic_avoidance': None
             })
-            delete_specific_order(order_id)
+            save_all_orders(orders)
             return f"Order with id {order_id} completed successfully."
     raise IndexError(f"Error: Unable to find order id:{order_id}")

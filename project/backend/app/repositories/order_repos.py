@@ -1,23 +1,38 @@
 from pathlib import Path
 import csv
-from typing import Dict,Any,List
+from typing import Dict, Any, List
+import json
 
 DATA_PATH = Path(__file__).resolve().parents[1] / "data" / "orders.csv"
 
 #TODO: Break down shopping cart into various entries with the same order id, and take all orders with the same order id and convert them to a shopping cart object
 
 def load_all_order() -> List[Dict[str, Any]]:
+    """Load all orders from CSV, parsing items JSON."""
     if not DATA_PATH.exists():
         raise FileExistsError(
             "Error: The storage csv does not exist or otherwise cannot be accessed"
         )
-
     orders = []
-
     with DATA_PATH.open("r", encoding="utf-8", newline="") as f:
         reader = csv.DictReader(f, delimiter=",")
-
         for row in reader:
+            # Parse items JSON if present
+            if "items" in row and row["items"]:
+                try:
+                    row["items"] = json.loads(row["items"])
+                except json.JSONDecodeError:
+                    row["items"] = []
+            else:
+                row["items"] = []
+            
+            # Convert total_price to float
+            if "total_price" in row:
+                try:
+                    row["total_price"] = float(row["total_price"])
+                except (ValueError, TypeError):
+                    row["total_price"] = 0.0
+            
             orders.append(row)
     return orders
     
@@ -29,13 +44,20 @@ def load_specific_order(order_id: int) -> Dict[str, Any]:
     raise IndexError(f"Error: Unable to find order id:{order_id}")
 
 def save_all_orders(orders: List[Dict[Any, Any]]) -> None:
-    fieldNames = ["id", "user_id", "restaurant_id", "item", "price", "creation_date", "status"]
+    fieldNames = ["id", "user_id", "restaurant_id", "items", "total_price", "creation_date", "status"]
     with DATA_PATH.open("w", encoding="utf-8", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldNames)
         writer.writeheader()
-        orders_temp = []
-        for row in orders:
-            row = dict(row)
-            orders_temp.append(row)
-        writer.writerows(orders_temp)
+        
+        for order in orders:
+            row = {
+                "id": str(order.get("id", "")),
+                "user_id": str(order.get("user_id", "")),
+                "restaurant_id": str(order.get("restaurant_id", "")),
+                "items": json.dumps(order.get("items", [])),
+                "total_price": str(order.get("total_price", 0.0)),
+                "creation_date": str(order.get("creation_date", "")),
+                "status": str(order.get("status", ""))
+            }
+            writer.writerow(row)
         

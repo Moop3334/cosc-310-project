@@ -4,6 +4,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.testclient import TestClient
 from datetime import time
 from app.routers.restaurant_routers import router as restaurant_router, menu_router
+from app.routers.cart_routers import router as cart_router
 from app.services.restaurant_service import list_restaurants
 from app.services.menu_service import list_menu, get_menu_item_by_id, update_menu_item
 from app.routers.order_routers import router as order_router
