@@ -4,4 +4,4 @@ from app.services.order_service import get_specific_order
 
 def calculate_total(order_id: int) -> float:
     order = get_specific_order(order_id)
-    return (order.price * 1.05) + 3
+    return (order.price * 1.05) + 3 #Magic numbers, please change to literals to make it easier to understand
