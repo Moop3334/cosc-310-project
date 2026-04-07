@@ -1,10 +1,8 @@
 from typing import Dict, List
-from app.schema.order import CartItem
-from app.schema.shopping_cart import ShoppingCart
+from app.schema.shopping_cart import CartItem, ShoppingCart
 from app.services.payment_service import calculate_subtotal
 
 #TODO: Throw errors if cart/user doesn't exist
-
 # In-memory store, easier to implement than persistent storage
 active_carts: Dict[int, ShoppingCart] = {}
 
