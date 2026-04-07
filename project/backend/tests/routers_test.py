@@ -154,6 +154,8 @@ def test_list_orders():
     assert response.status_code == 200
     for o in range(1, len(response.json())):
         tmp = orders[o].__dict__
+        for i in range(0, len(tmp["items"])):
+            tmp["items"][i] = tmp["items"][i].__dict__
         tmp["creation_date"] = tmp["creation_date"].isoformat()
         assert tmp == response.json()[o]
 
