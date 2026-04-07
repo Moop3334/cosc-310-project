@@ -3,6 +3,7 @@ from app.routers.restaurant_routers import router as restaurant_router, menu_rou
 from app.routers.order_routers import router as order_router
 from app.routers.payment_routers import router as payment_router
 from app.routers.user_routers import router as user_router
+from app.routers.cart_routers import router as cart_router
 
 app = FastAPI()
 
@@ -20,3 +21,4 @@ app.include_router(menu_router)
 app.include_router(order_router)
 app.include_router(payment_router)
 app.include_router(user_router)
+app.include_router(cart_router)
