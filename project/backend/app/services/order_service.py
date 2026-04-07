@@ -2,38 +2,42 @@ from typing import List
 import datetime
 from fastapi import HTTPException
 from app.schema.order import Order
+from app.schema.shopping_cart import CartItem
 from app.repositories.order_repos import load_all_order, load_specific_order, save_all_orders
 from app.repositories.delivery_repos import save_a_delivery
 from app.services.cart_service import clear_cart, get_cart
 
-#TODO: update to use shopping cart instead of menu item
+def dict_to_order(order_dict) -> Order:
+    """Convert a dictionary from CSV to an Order object."""
+    items = []
+    if order_dict.get("items"):
+        for item_data in order_dict["items"]:
+            items.append(CartItem(
+                item_id=item_data.get("item_id"),
+                item_name=item_data.get("item_name"),
+                quantity=item_data.get("quantity"),
+                price=item_data.get("price")
+            ))
+    
+    return Order(
+        id=int(order_dict.get("id", 0)),
+        user_id=int(order_dict.get("user_id", 0)),
+        restaurant_id=int(order_dict.get("restaurant_id", 0)),
+        items=items,
+        total_price=float(order_dict.get("total_price", 0.0)),
+        creation_date=order_dict.get("creation_date"),
+        status=order_dict.get("status", "Pending Approval")
+    )
 
 def list_orders() -> List[Order]:
     o_list = []
     for o in load_all_order():
-        o_list.append(
-            Order(
-                id=o.get("id"),
-                user_id=o.get("user_id"),
-                restaurant_id=o.get("restaurant_id"),
-                item=o.get("item"),
-                price=o.get("price"),
-                creation_date=o.get("creation_date"),
-                status=o.get("status")
-            ))
+        o_list.append(dict_to_order(o))
     return o_list
 
 def get_specific_order(order_id: int) -> Order:
     o = load_specific_order(order_id)
-    return Order(
-        id=o.get("id"),
-        user_id=o.get("user_id"),
-        restaurant_id=o.get("restaurant_id"),
-        item=o.get("item"),
-        price=o.get("price"),
-        creation_date=o.get("creation_date"),
-        status=o.get("status")
-    )
+    return dict_to_order(o)
 
 def checkout(user_id: int) -> Order:
     cart = get_cart(user_id)
@@ -48,7 +52,7 @@ def checkout(user_id: int) -> Order:
         user_id=user_id,
         restaurant_id=cart.restaurant_id,
         items=cart.items,
-        price=cart.total * 1.05 + 3, #TODO: need to refactor payment method to accept list of items
+        total_price=cart.total * 1.05 + 3, #TODO: need to refactor payment method to accept list of items
         creation_date=datetime.datetime.now(),
         status="Pending Approval"
     )
@@ -62,7 +66,7 @@ def checkout(user_id: int) -> Order:
 def update_order_status(order_id: int, new_status: str) -> str:
     orders = load_all_order()
     for idx, order in enumerate(orders):
-        if order["id"] == order_id:
+        if int(order["id"]) == order_id:
             orders[idx]["status"] = new_status
             save_all_orders(orders)
             return f"Status with order id {order_id} updated successfully."
@@ -71,7 +75,7 @@ def update_order_status(order_id: int, new_status: str) -> str:
 def delete_specific_order(order_id: int) -> str:
     orders = load_all_order()
     for idx, order in enumerate(orders):
-        if order["id"] == order_id:
+        if int(order["id"]) == order_id:
             del orders[idx]
             save_all_orders(orders)
             return f"Order with id {order_id} deleted successfully."
@@ -80,16 +84,20 @@ def delete_specific_order(order_id: int) -> str:
 def complete_an_order(order_id: int) -> str:
     orders = load_all_order()
     for idx, order in enumerate(orders):
-        if order["id"] == order_id:
+        if int(order["id"]) == order_id:
             orders[idx]["status"] = "Completed"
+            
+            # TODO: Change later
+            items_str = ", ".join([f"{item['item_name']} (qty: {item['quantity']})" for item in order.get("items", [])])
+            
             save_a_delivery({
                "order_id": order_id,
                "restaurant_id": order["restaurant_id"],
-               "food_item": order["item"],
+               "food_item": items_str,
                "order_time": order["creation_date"],
                "delivery_time": None,
                "delivery_distance": None,
-               "order_value": order["price"],
+               "order_value": order["total_price"],
                "delivery_method": None,
                "traffic_condition": None,
                "weather_condition": None,
@@ -110,12 +118,12 @@ def complete_an_order(order_id: int) -> str:
                "packaging_quality": None,
                "food_condition": None,
                'customer_satisfaction': None, 
-                'small_route': None, 
-                'bike_friendly_route': None, 
-                'route_type': None, 
-                'route_efficiency': None, 
-                'predicted_delivery_mode': None, 
-                'traffic_avoidance': None
+               'small_route': None, 
+               'bike_friendly_route': None, 
+               'route_type': None, 
+               'route_efficiency': None, 
+               'predicted_delivery_mode': None, 
+               'traffic_avoidance': None
             })
             delete_specific_order(order_id)
             return f"Order with id {order_id} completed successfully."
