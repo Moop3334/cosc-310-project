@@ -2,7 +2,7 @@ from typing import List
 import pytest
 from fastapi import HTTPException
 from app.schema.resturant import Restaurant, RestaurantCreate, RestaurantUpdate
-from app.schema.menuItems import MenuItem, MenuItemCreate, MenuItemUpdate
+from app.schema.menu_items import MenuItem, MenuItemCreate, MenuItemUpdate
 from app.repositories.restaurant_repos import save_all_restaurants
 from app.repositories.menu_items_repos import save_menu
 from app.services.restaurant_service import list_restaurants, create_restaurant, get_restaurant_by_id, update_restaurant, delete_restaurant
