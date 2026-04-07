@@ -4,6 +4,7 @@ from fastapi import HTTPException
 from app.schema.order import Order
 from app.repositories.order_repos import load_all_order, load_specific_order, save_all_orders
 from app.repositories.delivery_repos import save_a_delivery
+from app.services.cart_service import clear_cart, get_cart
 
 #TODO: update to use shopping cart instead of menu item
 
@@ -34,6 +35,31 @@ def get_specific_order(order_id: int) -> Order:
         status=o.get("status")
     )
 
+def checkout(user_id: int) -> Order:
+    cart = get_cart(user_id)
+    if not cart or not cart.items:
+        raise ValueError("Error: Cart is empty")
+    
+    orders = list_orders()
+    new_id = len(orders) + 1
+
+    new_order = Order(
+        id=new_id,
+        user_id=user_id,
+        restaurant_id=cart.restaurant_id,
+        items=cart.items,
+        price=cart.total * 1.05 + 3, #TODO: need to refactor payment method to accept list of items
+        creation_date=datetime.datetime.now(),
+        status="Pending Approval"
+    )
+
+    orders.append(new_order.model_dump())
+    save_all_orders(orders)
+    clear_cart(user_id)
+
+    return new_order
+
+#NOTE: Only here until all references can be changed to use the checkout method instead
 def save_an_order(new_uid: int, new_rid: int, new_item: str, new_price: float) -> str:
     orders = list_orders()
     new_id = len(orders) + 1
