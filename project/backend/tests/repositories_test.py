@@ -95,8 +95,7 @@ test_menu_item = {
     'id': '1', 
     'item_name': 'Curry', 
     'price': '12.99', 
-    'description': 'Japanese Curry', 
-    'image': 'N/A'
+    'description': 'Japanese Curry'
 }
 
 test_menu1 = [
@@ -105,16 +104,14 @@ test_menu1 = [
         'id': '1',
         'item_name': 'Curry', 
         'price': '12.99', 
-        'description': 'Japanese Curry', 
-        'image': 'N/A'
+        'description': 'Japanese Curry'
         }, 
     {
         'restaurant_id':'1',
         'id': '2',
         'item_name': 'Chicken', 
         'price': '10.0', 
-        'description': 'Mmmm chicken', 
-        'image': 'N/A'
+        'description': 'Mmmm chicken'
     }
 ]
 
@@ -124,16 +121,14 @@ test_menu2 = [
         'id': '1',
         'item_name': 'Curry', 
         'price': '12.99', 
-        'description': 'Japanese Curry', 
-        'image': 'N/A'
+        'description': 'Japanese Curry'
         }, 
     {
         'restaurant_id':'2',
         'id': '2',
         'item_name': 'Chicken', 
         'price': '10.0', 
-        'description': 'Mmmm chicken', 
-        'image': 'N/A'
+        'description': 'Mmmm chicken'
     }
 ]
 

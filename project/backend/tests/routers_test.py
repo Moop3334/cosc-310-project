@@ -20,16 +20,14 @@ temp_restaurant_creator = {
         'id': '1',
         'item_name': 'Curry', 
         'price': '12.99', 
-        'description': 'Japanese Curry', 
-        'image': 'N/A'
+        'description': 'Japanese Curry'
         }, 
     {
         'restaurant_id':4,
         'id': '2',
         'item_name': 'Chicken', 
         'price': '10.0', 
-        'description': 'Mmmm chicken', 
-        'image': 'N/A'
+        'description': 'Mmmm chicken'
     }
 ]
 }
@@ -45,16 +43,14 @@ temp_invalid_restaurant_creator = {
         'id': '1',
         'item_name': 'Curry', 
         'price': '12.99', 
-        'description': 'Japanese Curry', 
-        'image': 'N/A'
+        'description': 'Japanese Curry'
         }, 
     {
         'restaurant_id':4,
         'id': '2',
         'item_name': 'Chicken', 
         'price': '10.0', 
-        'description': 'Mmmm chicken', 
-        'image': 'N/A'
+        'description': 'Mmmm chicken'
     }
 ]
 }
@@ -71,16 +67,14 @@ temp_restaurant = {
         'id': 1,
         'item_name': 'Curry', 
         'price': 12.99, 
-        'description': 'Japanese Curry', 
-        'image': 'N/A'
+        'description': 'Japanese Curry'
         }, 
     {
         'restaurant_id':4,
         'id': 2,
         'item_name': 'Chicken', 
         'price': 10.0, 
-        'description': 'Mmmm chicken', 
-        'image': 'N/A'
+        'description': 'Mmmm chicken'
     }
 ]
 }
@@ -130,16 +124,14 @@ restaurant_1 = ({
       "restaurant_id": 1,
       "item_name": "Curry",
       "price": 12.99,
-      "description": "Japanese Curry",
-      "image": "N/A"
+      "description": "Japanese Curry"
     },
     {
       "id": 2,
       "restaurant_id": 1,
       "item_name": "Chicken",
       "price": 10.0,
-      "description": "Mmmm chicken",
-      "image": "N/A"
+      "description": "Mmmm chicken"
     }
   ]
 })
@@ -274,16 +266,14 @@ def test_update_restaurant_invalid_input():
       "restaurant_id": 1,
       "item_name": "Curry",
       "price": 12.99,
-      "description": "Japanese Curry",
-      "image": "N/A"
+      "description": "Japanese Curry"
     },
     {
       "id": 2,
       "restaurant_id": 1,
       "item_name": "Chicken",
       "price": 10.0,
-      "description": "Mmmm chicken",
-      "image": "N/A"
+      "description": "Mmmm chicken"
     }
   ]
 })
@@ -311,22 +301,19 @@ test_menu_creator = {
   "item_name": "Test Burger",
   "restaurant_id": 1,
   "price": 10.00,
-  "description": "Test",
-  "image": "N/A"
+  "description": "Test"
 }
 invalid_menu_creator = {
   "item_name": "",
   "restaurant_id": -1,
   "price": 0,
-  "description": "",
-  "image": ""
+  "description": ""
 }
 invalid_restaurant_menu_creator = {
   "item_name": "Test",
   "restaurant_id": 99,
   "price": 19.99,
-  "description": "Testing",
-  "image": "N/A"
+  "description": "Testing"
 }
 
 def test_list_menu():
@@ -394,7 +381,6 @@ def test_create_menu_item_invalid_input():
     assert details[1]["msg"] == "Input should be greater than or equal to 0"
     assert details[2]["msg"] == "Input should be greater than 0"
     assert details[3]["msg"] == "String should have at least 1 character"
-    assert details[4]["msg"] == "String should have at least 1 character"
 
 def test_update_menu_item():
     item = get_menu_item_by_id(1,1)
@@ -422,7 +408,6 @@ def test_update_menu_item_invalid_input():
     assert details[1]["msg"] == "Input should be greater than or equal to 0"
     assert details[2]["msg"] == "Input should be greater than 0"
     assert details[3]["msg"] == "String should have at least 1 character"
-    assert details[4]["msg"] == "String should have at least 1 character"
 
 def test_delete_menu_item():
     try:

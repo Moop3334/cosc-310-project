@@ -35,7 +35,7 @@ def load_menu_item(restaurant_id: int, item_id: int) -> Dict[Any, Any]:
         raise HTTPException(status_code=404, detail=f"Error: Unable to find item id:{item_id} belonging to restaurant id:{restaurant_id}")
 
 def save_menu(restaurant_id: int, items: List[Dict[Any, Any]]) -> None:
-    fieldNames = ['restaurant_id','id','item_name','price','description','image']
+    fieldNames = ['restaurant_id','id','item_name','price','description']
     if not DATA_PATH.exists():
         raise FileExistsError(
             "Error: The storage csv does not exist or otherwise cannot be accessed"
