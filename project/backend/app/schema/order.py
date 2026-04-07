@@ -5,7 +5,7 @@ class Order(BaseModel):
     id: NonNegativeInt
     user_id: NonNegativeInt
     restaurant_id: NonNegativeInt
-    item: str = Field(min_length=1)
+    item: str = Field(min_length=1) #TODO: change to accept a shopping cart/list of items
     price: PositiveFloat
     creation_date: datetime.datetime = Field(default_factory=datetime.datetime.now)
     status: str = Field(min_length=1)

@@ -3,6 +3,8 @@ from fastapi import APIRouter
 from app.schema.order import Order
 from app.services.order_service import list_orders, get_specific_order, delete_specific_order, save_an_order, update_order_status, complete_an_order
 
+#TODO: update to use shopping cart instead of menu item
+
 router = APIRouter(prefix="/orders", tags=["orders"])
 
 @router.get("", response_model=List[Order])

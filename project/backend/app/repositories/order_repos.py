@@ -4,6 +4,8 @@ from typing import Dict,Any,List
 
 DATA_PATH = Path(__file__).resolve().parents[1] / "data" / "orders.csv"
 
+#TODO: Break down shopping cart into various entries with the same order id, and take all orders with the same order id and convert them to a shopping cart object
+
 def load_all_order() -> List[Dict[str, Any]]:
     if not DATA_PATH.exists():
         raise FileExistsError(

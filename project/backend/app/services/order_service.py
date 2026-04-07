@@ -5,6 +5,8 @@ from app.schema.order import Order
 from app.repositories.order_repos import load_all_order, load_specific_order, save_all_orders
 from app.repositories.delivery_repos import save_a_delivery
 
+#TODO: update to use shopping cart instead of menu item
+
 def list_orders() -> List[Order]:
     o_list = []
     for o in load_all_order():

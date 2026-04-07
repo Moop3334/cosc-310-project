@@ -6,6 +6,8 @@ from typing import Dict,Any,List
 
 DATA_PATH = Path(__file__).resolve().parents[1] / "data" / "food_delivery.csv"
 
+#TODO: Break down shopping cart into various entries with the same order id, and take all orders with the same order id and convert them to a shopping cart object
+
 #Returnes a list of dicts where each dict maps to an order
 def load_all_deliveries() -> List[Dict[Any, Any]]:
     if not DATA_PATH.exists():
