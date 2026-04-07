@@ -7,7 +7,7 @@ from app.routers.restaurant_routers import router as restaurant_router, menu_rou
 from app.services.restaurant_service import list_restaurants
 from app.services.menu_service import list_menu, get_menu_item_by_id, update_menu_item
 from app.routers.order_routers import router as order_router
-from app.services.order_service import list_orders, get_specific_order, save_an_order, update_order_status, delete_specific_order, complete_an_order
+from app.services.order_service import list_orders, get_specific_order, checkout, update_order_status, delete_specific_order, complete_an_order
 
 temp_restaurant_creator = {
     "name":"Test", 
@@ -141,6 +141,7 @@ app = FastAPI()
 app.include_router(restaurant_router)
 app.include_router(menu_router)
 app.include_router(order_router)
+app.include_router(cart_router)
 
 client = TestClient(app)
 

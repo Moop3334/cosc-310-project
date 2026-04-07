@@ -59,23 +59,6 @@ def checkout(user_id: int) -> Order:
 
     return new_order
 
-#NOTE: Only here until all references can be changed to use the checkout method instead
-def save_an_order(new_uid: int, new_rid: int, new_item: str, new_price: float) -> str:
-    orders = list_orders()
-    new_id = len(orders) + 1
-    new_order = Order(
-        id=new_id,
-        user_id=new_uid,
-        restaurant_id=new_rid,
-        item=new_item,
-        price=new_price,
-        creation_date=datetime.datetime.now(),
-        status="Pending Approval"
-    )
-    orders.append(new_order.dict())
-    save_all_orders(orders)
-    return f"Order with id {new_id} created successfully."
-
 def update_order_status(order_id: int, new_status: str) -> str:
     orders = load_all_order()
     for idx, order in enumerate(orders):
