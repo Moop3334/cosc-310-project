@@ -17,6 +17,8 @@ from app.repositories import (
     load_all_order,
     save_all_orders
 )
+from app.schema.order import Order
+from app.services.order_service import dict_to_order
 
 test_delivery_1 = {
     'order_id': '154b2cZ', 
@@ -184,7 +186,8 @@ def test_order_load():
 
 def test_order_save():
     orders = load_all_order()
-    orders.append(test_order_2)
+    orders = [dict_to_order(o) for o in orders]
+    orders.append(dict_to_order(test_order_2))
     save_all_orders(orders)
     o = load_all_order()
     hasMatch = False

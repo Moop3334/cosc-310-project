@@ -8,6 +8,7 @@ from app.services.restaurant_service import list_restaurants
 from app.services.menu_service import list_menu, get_menu_item_by_id, update_menu_item
 from app.routers.order_routers import router as order_router
 from app.services.order_service import list_orders, get_specific_order, checkout, update_order_status, delete_specific_order, complete_an_order
+from app.services.cart_service import add_to_cart, get_cart, get_or_create_cart, remove_from_cart, remove_all_from_cart, clear_cart
 
 temp_restaurant_creator = {
     "name":"Test", 
@@ -136,6 +137,43 @@ restaurant_1 = ({
   ]
 })
 
+temp_cart_item_1 = {
+  "item_id": 1,
+  "item_name": "Curry",
+  "quantity": 1,
+  "price": 12.99
+}
+
+temp_cart_item_2 = {
+  "item_id": 2,
+  "item_name": "Chicken",
+  "quantity": 2,
+  "price": 10.00
+}
+
+temp_cart_checked_out = {
+  "id": 6,
+  "user_id": 1,
+  "restaurant_id": 1,
+  "items": [
+    {
+      "item_id": 1,
+      "item_name": "Curry",
+      "quantity": 1,
+      "price": 12.99
+    },
+    {
+      "item_id": 2,
+      "item_name": "Chicken",
+      "quantity": 2,
+      "price": 10
+    }
+  ],
+  "total_price": 37.639500000000005,
+  "creation_date": "2026-04-08T06:20:52.881000",
+  "status": "Pending Approval"
+}
+
 app = FastAPI()
 
 app.include_router(restaurant_router)
@@ -145,7 +183,71 @@ app.include_router(cart_router)
 
 client = TestClient(app)
 
-#Order Router Tests
+#Shopping cart router tests
+
+def test_add_item():
+    response = client.post("/cart/1/add", params={"restaurant_id":"1"}, json=temp_cart_item_1)
+    assert response.status_code == 200
+    assert response.json()["message"] == "Item 'Curry' (qty: 1) added to cart"
+    assert temp_cart_item_1 == get_cart(1).items[0].model_dump()
+
+def test_add_multipule_items():
+    response = client.post("/cart/1/add", params={"restaurant_id":"1"}, json=temp_cart_item_2)
+    assert response.status_code == 200
+    assert response.json()["message"] == "Item 'Chicken' (qty: 2) added to cart"
+    assert temp_cart_item_2 == get_cart(1).items[1].model_dump()
+
+def test_view_cart():
+    response = client.get("/cart/1")
+    assert response.status_code == 200
+    body = response.json()
+    assert body["user_id"] == 1 and body["restaurant_id"] == 1
+    items = body["items"]
+    assert items[0] == temp_cart_item_1
+    assert items[1] == temp_cart_item_2
+    assert body["total"] == 32.99
+
+def test_remove_one():
+    response = client.delete("/cart/1/items/2")
+    assert response.status_code == 200
+    assert response.json()["message"] == "Item 2 removed from cart"
+    tmp_cart_2 = temp_cart_item_2.copy()
+    tmp_cart_2["quantity"] = 1
+    assert tmp_cart_2 == get_cart(1).items[1].model_dump()
+
+def test_remove_all():
+    client.post("/cart/1/add", params={"restaurant_id":"1"}, json=temp_cart_item_1)
+
+    response = client.delete("/cart/1/items/1/clear")
+    assert response.status_code == 200
+    assert response.json()["message"] == "Item 1 removed from cart"
+    assert len(get_cart(1).items) == 1
+    assert temp_cart_item_1 not in get_cart(1).items
+
+def test_clear_cart():
+    response = client.delete("/cart/1/clear")
+    assert response.status_code == 200
+    assert response.json()["message"] == "Cart cleared successfully"
+    assert get_cart(1) is None
+
+def test_cart_summary():
+    client.post("/cart/1/add", params={"restaurant_id":"1"}, json=temp_cart_item_1)
+    client.post("/cart/1/add", params={"restaurant_id":"1"}, json=temp_cart_item_2)
+
+    response = client.get("/cart/1/summary")
+    assert response.status_code == 200
+    body = response.json()
+    assert body["user_id"] == 1 and body["restaurant_id"] == 1
+    assert body["item_count"] == 2 and body["items"] == [temp_cart_item_1, temp_cart_item_2]
+    assert body["subtotal"] == 32.99 and body["tax"] == 1.65 and body["delivery_fee"] == 3 and body["total_with_fees"] == 37.64 #TODO: Change magic numbers
+
+#Order Router Tests TODO: MAKE MORE ORDER TESTS CHIP
+
+def test_checkout():
+    response = client.post("/orders/1/checkout")
+    assert response.status_code == 200 #Probably should be 201
+    temp_cart_checked_out["creation_date"] = response.json()["creation_date"]
+    assert response.json() == temp_cart_checked_out
 
 def test_list_orders():
     response = client.get("/orders")

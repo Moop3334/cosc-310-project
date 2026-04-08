@@ -53,23 +53,12 @@ def checkout(user_id: int) -> Order:
         user_id=user_id,
         restaurant_id=cart.restaurant_id,
         items=cart.items,
-        total_price=calculate_total(cart), #TODO: need to refactor payment method to accept list of items
+        total_price=calculate_total(cart.items), #TODO: need to refactor payment method to accept list of items
         creation_date=datetime.datetime.now(),
         status="Pending Approval"
     )
-
-    # Convert Order to dict format for storage
-    order_dict = {
-        "id": new_order.id,
-        "user_id": new_order.user_id,
-        "restaurant_id": new_order.restaurant_id,
-        "items": [item.model_dump() for item in new_order.items],
-        "total_price": new_order.total_price,
-        "creation_date": new_order.creation_date,
-        "status": new_order.status
-    }
     
-    orders.append(order_dict)
+    orders.append(new_order)
     save_all_orders(orders)
     clear_cart(user_id)
 
