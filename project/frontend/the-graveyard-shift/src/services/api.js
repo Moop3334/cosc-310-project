@@ -148,3 +148,101 @@ export const userAPI = {
     }
   },
 };
+
+export const cartAPI = {
+  // Add item to cart
+  addToCart: async (userId, restaurantId, item) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/cart/${userId}/add?restaurant_id=${restaurantId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(item),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Failed to add item to cart');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error adding item to cart:', error);
+      throw error;
+    }
+  },
+
+  // Get cart for user
+  getCart: async (userId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/cart/${userId}`);
+      if (!response.ok) throw new Error('Failed to fetch cart');
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching cart:', error);
+      throw error;
+    }
+  },
+
+  // Remove one of an item from cart
+  removeItem: async (userId, itemId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/cart/${userId}/items/${itemId}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Failed to remove item from cart');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error removing item from cart:', error);
+      throw error;
+    }
+  },
+
+  // Remove all of an item from cart
+  removeAllItems: async (userId, itemId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/cart/${userId}/items/${itemId}/clear`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Failed to remove all items from cart');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error removing all items from cart:', error);
+      throw error;
+    }
+  },
+
+  // Clear entire cart
+  clearCart: async (userId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/cart/${userId}/clear`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Failed to clear cart');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error clearing cart:', error);
+      throw error;
+    }
+  },
+
+  // Get cart summary with pricing breakdown
+  getCartSummary: async (userId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/cart/${userId}/summary`);
+      if (!response.ok) throw new Error('Failed to fetch cart summary');
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching cart summary:', error);
+      throw error;
+    }
+  },
+};
