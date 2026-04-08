@@ -1,7 +1,10 @@
+from typing import List
 from fastapi import HTTPException
 from app.schema.payment import Payment
-from app.services.order_service import get_specific_order
+from app.schema.shopping_cart import CartItem
 
-def calculate_total(order_id: int) -> float:
-    order = get_specific_order(order_id)
-    return (order.price * 1.05) + 3
+def calculate_subtotal(items: List[CartItem]) -> float:
+    return sum(item.price * item.quantity for item in items)
+
+def calculate_total(items: List[CartItem]) -> float:
+    return (calculate_subtotal(items) * 1.05) + 3 #Magic numbers, please change to literals to make it easier to understand
