@@ -13,7 +13,7 @@ def get_or_create_cart(user_id: int, restaurant_id: int) -> ShoppingCart:
             user_id=user_id,
             restaurant_id=restaurant_id,
             items=[],
-            total=0.0
+            total=1.0
         )
     return active_carts[user_id]
 
@@ -32,8 +32,22 @@ def add_to_cart(user_id: int, restaurant_id: int, item: CartItem):
 def remove_from_cart(user_id: int, item_id: int):
     if user_id in active_carts:
         cart = active_carts[user_id]
+        for i in cart.items:
+            if i.item_id == item_id:
+                i.quantity -= 1
+            if i.quantity <= 0:
+                cart.items.remove(i)
+        cart.total = calculate_subtotal(cart.items)
+    else:
+        raise IndexError(f"Error: cart not found for user {user_id}.")
+
+def remove_all_from_cart(user_id: int, item_id: int):
+    if user_id in active_carts:
+        cart = active_carts[user_id]
         cart.items = [i for i in cart.items if i.item_id != item_id]
         cart.total = calculate_subtotal(cart.items)
+    else:
+        raise IndexError(f"Error: cart not found for user {user_id}")
 
 def clear_cart(user_id: int):
     if user_id in active_carts:

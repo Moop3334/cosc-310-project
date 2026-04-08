@@ -3,6 +3,7 @@ from app.schema.shopping_cart import ShoppingCart, CartItem
 from app.services.cart_service import (
     add_to_cart,
     remove_from_cart,
+    remove_all_from_cart,
     get_cart,
     clear_cart
 )
@@ -31,7 +32,21 @@ def view_cart(user_id: int):
 
 @router.delete("/{user_id}/items/{item_id}", response_model=dict)
 def remove_item_from_cart(user_id: int, item_id: int):
-    """Remove an item from the user's shopping cart."""
+    """Remove one of an item from the user's shopping cart."""
+    cart = get_cart(user_id)
+    if not cart:
+        raise HTTPException(status_code=404, detail=f"Error: cart not found for user {user_id}")
+    
+    item_exists = any(item.item_id == item_id for item in cart.items)
+    if not item_exists:
+        raise HTTPException(status_code=404, detail=f"Error: item {item_id} not found in cart")
+    
+    remove_from_cart(user_id, item_id)
+    return {"message": f"Item {item_id} removed from cart"}
+
+@router.delete("/{user_id}/items/{item_id}/clear", response_model=dict) #There's 100% a better way to do this (ie pass the quantity of items you want when updating the cart or pass the no of items the user wants removed)
+def remove_items_from_cart(user_id: int, item_id: int):                 #But this works and is simple enough to implement
+    """Remove all of an item from the user's shopping cart."""
     cart = get_cart(user_id)
     if not cart:
         raise HTTPException(status_code=404, detail=f"Error: cart not found for user {user_id}")
