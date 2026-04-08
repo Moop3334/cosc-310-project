@@ -2,10 +2,10 @@ import RestaurantBrowser from './components/restaurants/RestaurantBrowser'
 import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import LoginPage from "./pages/LoginPage";
-import SignupPage from "./pages/SignupPage";
-import HomePage from "./pages/HomePage";
-import AdminPage from "./pages/AdminPage";
+import LoginPage from "./components/users/LoginPage";
+import SignupPage from "./components/users/SignupPage";
+import HomePage from "./components/homepage/HomePage";
+import AdminPage from "./components/admin/AdminPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {

@@ -40,7 +40,7 @@ function LoginPage() {
     localStorage.setItem("role", userData.role || "");
     setMessage(`Welcome ${userData.username} (${userData.role})`);
   } catch (error) {
-    setMessage("Could not connect to backend");
+    setMessage(`Could not connect to backend, ${error}`);
   }
 };
 
