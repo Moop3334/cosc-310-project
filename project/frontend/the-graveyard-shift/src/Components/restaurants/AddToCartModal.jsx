@@ -19,8 +19,17 @@ export default function AddToCartModal({ item, restaurantId, onAdd, onClose }) {
       setError(null);
       
       const userId = localStorage.getItem('userId');
-      if (!userId) {
-        setError('Please log in to add items to your cart');
+      const username = localStorage.getItem('username');
+      
+      // Debug: Log what we have in storage
+      console.log('Cart add - userId:', userId, 'username:', username);
+      
+      // Check for both existence AND non-empty values
+      const isAuthenticated = Boolean(userId && userId.trim()) && Boolean(username && username.trim());
+      
+      if (!isAuthenticated) {
+        setError('Authentication required. Please log in to add items to your cart.');
+        setIsAdding(false);
         return;
       }
 
