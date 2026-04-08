@@ -93,7 +93,10 @@ export default function RestaurantDetail({ restaurant, onBack }) {
           ) : (
             <>
               <p className="item-count">{menuItems.length} items available</p>
-              <MenuItemList items={menuItems} />
+              <MenuItemList 
+                items={menuItems}
+                restaurantId={restaurant.id}
+              />
             </>
           )}
         </div>

@@ -1,5 +1,6 @@
 import RestaurantBrowser from './components/restaurants/RestaurantBrowser'
 import RestaurantOwnerDashboard from './components/restaurants/RestaurantOwnerDashboard'
+import Cart from './components/checkout/Cart'
 import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -27,14 +28,21 @@ function App() {
             </UserRoute>
           } 
         />
-
-        <Route
-          path="/orders"
+        <Route 
+          path="/orders" 
           element={
             <UserRoute>
               <OrdersPage />
             </UserRoute>
-          }
+          } 
+        />
+        <Route 
+          path="/cart" 
+          element={
+            <UserRoute>
+              <Cart />
+            </UserRoute>
+          } 
         />
 
         <Route
