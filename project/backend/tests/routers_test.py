@@ -151,6 +151,29 @@ temp_cart_item_2 = {
   "price": 10.00
 }
 
+temp_cart_checked_out = {
+  "id": 6,
+  "user_id": 1,
+  "restaurant_id": 1,
+  "items": [
+    {
+      "item_id": 1,
+      "item_name": "Curry",
+      "quantity": 1,
+      "price": 12.99
+    },
+    {
+      "item_id": 2,
+      "item_name": "Chicken",
+      "quantity": 2,
+      "price": 10
+    }
+  ],
+  "total_price": 37.639500000000005,
+  "creation_date": "2026-04-08T06:20:52.881000",
+  "status": "Pending Approval"
+}
+
 app = FastAPI()
 
 app.include_router(restaurant_router)
@@ -220,6 +243,12 @@ def test_cart_summary():
 
 #Order Router Tests TODO: MAKE MORE ORDER TESTS CHIP
 
+def test_checkout():
+    response = client.post("/orders/1/checkout")
+    assert response.status_code == 200 #Probably should be 201
+    temp_cart_checked_out["creation_date"] = response.json()["creation_date"]
+    assert response.json() == temp_cart_checked_out
+
 def test_list_orders():
     response = client.get("/orders")
     orders = list_orders()
@@ -230,10 +259,6 @@ def test_list_orders():
             tmp["items"][i] = tmp["items"][i].__dict__
         tmp["creation_date"] = tmp["creation_date"].isoformat()
         assert tmp == response.json()[o]
-
-def test_checkout():
-    response = client.post("/orders")
-    assert True
 
 #Restaurant Router Tests
 
