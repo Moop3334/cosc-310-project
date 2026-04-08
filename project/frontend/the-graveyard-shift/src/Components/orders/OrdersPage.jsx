@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { orderAPI } from "../../services/api";
+import { orderAPI, userAPI } from "../../services/api";
 import "./styles/OrdersPage.css";
 
 const COMPLETED_STATUSES = ["Completed", "Delivered", "Cancelled"];
@@ -8,10 +8,38 @@ function OrdersPage() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [userId, setUserId] = useState(localStorage.getItem("userId") || "");
 
-  const userId = localStorage.getItem("userId");
+  const username = localStorage.getItem("username");
 
   useEffect(() => {
+    const resolveUserId = async () => {
+      if (userId || !username) return;
+
+      try {
+        const userData = await userAPI.getUserByUsername(username);
+        const resolvedId = String(userData.user_id || "");
+        setUserId(resolvedId);
+        localStorage.setItem("userId", resolvedId);
+      } catch (err) {
+        console.error("Failed to resolve userId from username:", err);
+        setError("Unable to determine current user. Please sign out and sign in again.");
+        setLoading(false);
+      }
+    };
+
+    resolveUserId();
+  }, [username, userId]);
+
+  useEffect(() => {
+    if (!userId) {
+      if (!username) {
+        setError("Please sign in to view your orders.");
+        setLoading(false);
+      }
+      return;
+    }
+
     const fetchOrders = async () => {
       setLoading(true);
       setError("");
@@ -28,7 +56,7 @@ function OrdersPage() {
     };
 
     fetchOrders();
-  }, [userId]);
+  }, [userId, username]);
 
   const currentOrders = useMemo(
     () => orders.filter((order) => !COMPLETED_STATUSES.includes(order.status)),
@@ -40,17 +68,23 @@ function OrdersPage() {
     [orders]
   );
 
-  const renderOrderItems = (order) => (
-    <ul className="order-items-list">
-      {order.items.map((item) => (
-        <li key={`${item.item_id}-${item.quantity}`}>
-          <span className="item-name">{item.item_name}</span>
-          <span className="item-quantity">x{item.quantity}</span>
-          <span className="item-price">${item.price.toFixed(2)}</span>
-        </li>
-      ))}
-    </ul>
-  );
+  const renderOrderItems = (order) => {
+    if (!Array.isArray(order.items) || order.items.length === 0) {
+      return <p className="empty-message">No items available for this order.</p>;
+    }
+
+    return (
+      <ul className="order-items-list">
+        {order.items.map((item) => (
+          <li key={`${item.item_id}-${item.quantity}`}>
+            <span className="item-name">{item.item_name}</span>
+            <span className="item-quantity">x{item.quantity}</span>
+            <span className="item-price">${item.price.toFixed(2)}</span>
+          </li>
+        ))}
+      </ul>
+    );
+  };
 
   const renderSection = (title, orderList) => (
     <div className="orders-section">
