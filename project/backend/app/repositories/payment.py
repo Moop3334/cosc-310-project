@@ -4,6 +4,8 @@ from typing import Dict,Any,List
 
 DATA_PATH = Path(__file__).resolve().parents[1] / "data" / "orders.csv"
 
+#IMPORTANT: Duplicate of orders_repos.py, please either fix or remove
+
 def load_all_order() -> List[Dict[str, Any]]:
     if not DATA_PATH.exists():
         raise FileExistsError(

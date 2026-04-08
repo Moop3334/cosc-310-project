@@ -1,4 +1,3 @@
 # Created by venv; see https://docs.python.org/3/library/venv.html
 /project/backend/the-graveyard-shift
-/project/backend/app/*.pyc
-/project/backend/app/*/*.pyc
+**/__pycache__/
