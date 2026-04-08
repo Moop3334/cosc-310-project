@@ -50,7 +50,6 @@ def save_all_orders(orders: List[Dict[Any, Any]]) -> None:
         writer.writeheader()
 
         for order in orders:
-            print(order)
             row = {
                 "id": str(order.id),
                 "user_id": str(order.user_id),
