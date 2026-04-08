@@ -145,7 +145,7 @@ app.include_router(cart_router)
 
 client = TestClient(app)
 
-#Order Router Tests
+#Order Router Tests TODO: MAKE MORE ORDER TESTS CHIP
 
 def test_list_orders():
     response = client.get("/orders")
@@ -157,6 +157,32 @@ def test_list_orders():
             tmp["items"][i] = tmp["items"][i].__dict__
         tmp["creation_date"] = tmp["creation_date"].isoformat()
         assert tmp == response.json()[o]
+
+def test_checkout():
+    assert True
+
+#Shopping cart router tests
+
+def test_add_item():
+    assert True
+
+def test_add_multipule_items():
+    assert True
+
+def test_view_cart():
+    assert True
+
+def test_remove_one():
+    assert True
+
+def test_remove_all():
+    assert True
+
+def test_clear_cart():
+    assert True
+
+def test_cart_summary():
+    assert True
 
 #Restaurant Router Tests
 
