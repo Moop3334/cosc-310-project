@@ -55,7 +55,7 @@ def remove_items_from_cart(user_id: int, item_id: int):                 #But thi
     if not item_exists:
         raise HTTPException(status_code=404, detail=f"Error: item {item_id} not found in cart")
     
-    remove_from_cart(user_id, item_id)
+    remove_all_from_cart(user_id, item_id)
     return {"message": f"Item {item_id} removed from cart"}
 
 

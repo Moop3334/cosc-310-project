@@ -8,6 +8,7 @@ from app.services.restaurant_service import list_restaurants
 from app.services.menu_service import list_menu, get_menu_item_by_id, update_menu_item
 from app.routers.order_routers import router as order_router
 from app.services.order_service import list_orders, get_specific_order, checkout, update_order_status, delete_specific_order, complete_an_order
+from app.services.cart_service import add_to_cart, get_cart, get_or_create_cart, remove_from_cart, remove_all_from_cart, clear_cart
 
 temp_restaurant_creator = {
     "name":"Test", 
@@ -136,6 +137,13 @@ restaurant_1 = ({
   ]
 })
 
+temp_cart_item = {
+  "item_id": 1,
+  "item_name": "Curry",
+  "quantity": 1,
+  "price": 12.99
+}
+
 app = FastAPI()
 
 app.include_router(restaurant_router)
@@ -145,26 +153,13 @@ app.include_router(cart_router)
 
 client = TestClient(app)
 
-#Order Router Tests TODO: MAKE MORE ORDER TESTS CHIP
-
-def test_list_orders():
-    response = client.get("/orders")
-    orders = list_orders()
-    assert response.status_code == 200
-    for o in range(1, len(response.json())):
-        tmp = orders[o].__dict__
-        for i in range(0, len(tmp["items"])):
-            tmp["items"][i] = tmp["items"][i].__dict__
-        tmp["creation_date"] = tmp["creation_date"].isoformat()
-        assert tmp == response.json()[o]
-
-def test_checkout():
-    assert True
-
 #Shopping cart router tests
 
 def test_add_item():
-    assert True
+    response = client.post("/cart/1/add", params={"restaurant_id":"1"}, json=temp_cart_item)
+    assert response.status_code == 200
+    assert response.json()["message"] == "Item 'Curry' (qty: 1) added to cart"
+    assert temp_cart_item == get_cart(1).items[0].model_dump()
 
 def test_add_multipule_items():
     assert True
@@ -182,6 +177,23 @@ def test_clear_cart():
     assert True
 
 def test_cart_summary():
+    assert True
+
+#Order Router Tests TODO: MAKE MORE ORDER TESTS CHIP
+
+def test_list_orders():
+    response = client.get("/orders")
+    orders = list_orders()
+    assert response.status_code == 200
+    for o in range(1, len(response.json())):
+        tmp = orders[o].__dict__
+        for i in range(0, len(tmp["items"])):
+            tmp["items"][i] = tmp["items"][i].__dict__
+        tmp["creation_date"] = tmp["creation_date"].isoformat()
+        assert tmp == response.json()[o]
+
+def test_checkout():
+    response = client.post("/orders")
     assert True
 
 #Restaurant Router Tests
