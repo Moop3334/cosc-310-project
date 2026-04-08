@@ -77,6 +77,7 @@ export default function RestaurantForm({ restaurant = null, onSuccess, onCancel 
       updatedItems[editingMenuItem] = {
         ...newMenuItem,
         price: price,
+        id: menuItems[editingMenuItem].id,
       };
       setMenuItems(updatedItems);
       setEditingMenuItem(null);

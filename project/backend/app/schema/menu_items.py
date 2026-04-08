@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel, Field, NonNegativeInt, PositiveFloat
 
 class MenuItem(BaseModel):
@@ -9,12 +10,13 @@ class MenuItem(BaseModel):
 
 class MenuItemCreate(BaseModel):
     item_name: str = Field(min_length=1)
-    restaurant_id: NonNegativeInt
+    restaurant_id: Optional[NonNegativeInt] = None
     price: PositiveFloat
     description: str = Field(min_length=1)
 
 class MenuItemUpdate(BaseModel):
+    id: Optional[NonNegativeInt] = None
     item_name: str = Field(min_length=1)
-    restaurant_id: NonNegativeInt 
+    restaurant_id: Optional[NonNegativeInt] = None
     price: PositiveFloat
     description: str = Field(min_length=1)

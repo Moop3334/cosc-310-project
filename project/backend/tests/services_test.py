@@ -182,7 +182,18 @@ test_restaurant_create = RestaurantCreate(
         "21:00:00",
         "21:00:00"
     ],
-    menu=test_menu4
+    menu=[
+        MenuItemCreate(
+            item_name="Curry",
+            price=12.99,
+            description="Japanese Curry"
+        ),
+        MenuItemCreate(
+            item_name="Chicken",
+            price=10,
+            description="Mmmm chicken"
+        )
+    ]
 )
 test_restaurant_update = RestaurantUpdate(
     name="Tester's Dinner",
@@ -205,7 +216,20 @@ test_restaurant_update = RestaurantUpdate(
         "21:00:00",
         "21:00:00"
     ],
-    menu=test_menu1
+    menu=[
+        MenuItemUpdate(
+            id=1,
+            item_name="Curry",
+            price=12.99,
+            description="Japanese Curry"
+        ),
+        MenuItemUpdate(
+            id=2,
+            item_name="Chicken",
+            price=10,
+            description="Mmmm chicken"
+        )
+    ]
 )
 
 save_all_restaurants(test_restaurants)
