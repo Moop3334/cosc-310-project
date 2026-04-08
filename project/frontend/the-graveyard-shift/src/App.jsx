@@ -7,10 +7,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./components/users/LoginPage";
 import SignupPage from "./components/users/SignupPage";
 import HomePage from "./components/homepage/HomePage";
-import AdminPage from "./Components/admin/AdminPage";
-import OrdersPage from "./Components/orders/OrdersPage";
-import ProtectedRoute from "./Components/ProtectedRoute";
-import UserRoute from './Components/UserRoute';
+import AdminPage from "./components/admin/AdminPage";
+import OrdersPage from "./components/orders/OrdersPage";
+import ProtectedRoute from "./components/ProtectedRoute";
+import UserRoute from './components/UserRoute';
+import ProfilePage from "./components/users/ProfilePage";
 
 function App() {
   return (
@@ -19,6 +20,15 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
 
         <Route 
           path="/restaurants" 
