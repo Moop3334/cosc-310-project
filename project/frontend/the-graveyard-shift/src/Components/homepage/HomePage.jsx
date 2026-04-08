@@ -96,6 +96,11 @@ function HomePage() {
                     ⚙️ Admin Panel
                   </a>
                 )}
+                {role === "restaurant_owner" && (
+                  <a href="/restaurant-owner" className="action-link">
+                    🏪 Manage Restaurants
+                  </a>
+                )}
               </div>
             </div>
           </div>

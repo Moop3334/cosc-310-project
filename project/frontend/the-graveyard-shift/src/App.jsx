@@ -1,4 +1,5 @@
 import RestaurantBrowser from './components/restaurants/RestaurantBrowser'
+import RestaurantOwnerDashboard from './components/restaurants/RestaurantOwnerDashboard'
 import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -24,6 +25,15 @@ function App() {
               <RestaurantBrowser />
             </UserRoute>
           } 
+        />
+
+        <Route
+          path="/restaurant-owner"
+          element={
+            <ProtectedRoute requiredRole="restaurant_owner">
+              <RestaurantOwnerDashboard />
+            </ProtectedRoute>
+          }
         />
 
         <Route
