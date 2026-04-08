@@ -56,4 +56,95 @@ export const restaurantAPI = {
       throw error;
     }
   },
+
+  // Create a new restaurant
+  createRestaurant: async (restaurantData) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/restaurants`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(restaurantData),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Failed to create restaurant');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error creating restaurant:', error);
+      throw error;
+    }
+  },
+
+  // Update an existing restaurant
+  updateRestaurant: async (restaurantId, restaurantData) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/restaurants/${restaurantId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(restaurantData),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Failed to update restaurant');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error updating restaurant:', error);
+      throw error;
+    }
+  },
+
+  // Delete a restaurant
+  deleteRestaurant: async (restaurantId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/restaurants/${restaurantId}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Failed to delete restaurant');
+      }
+      return true;
+    } catch (error) {
+      console.error('Error deleting restaurant:', error);
+      throw error;
+    }
+  },
+};
+
+export const userAPI = {
+  // Get user by username
+  getUserByUsername: async (username) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/users/${username}`);
+      if (!response.ok) throw new Error('Failed to fetch user');
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching user:', error);
+      throw error;
+    }
+  },
+
+  // Update user
+  updateUser: async (username, userData) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/users/${username}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+      if (!response.ok) throw new Error('Failed to update user');
+      return await response.json();
+    } catch (error) {
+      console.error('Error updating user:', error);
+      throw error;
+    }
+  },
 };

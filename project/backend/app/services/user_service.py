@@ -90,3 +90,28 @@ def get_user_by_username(username):
         is_active=user["is_active"],
         editable_restaurants=user.get("editable_restaurants", [])
     )
+
+
+def update_user(username, payload):
+    users = load_all_users()
+    
+    for idx, user in enumerate(users):
+        if user["username"] == username:
+            # Update user fields
+            updated_user = User(
+                user_id=user["user_id"],
+                name=payload.get("name", user.get("name")),
+                phone_number=payload.get("phone_number", user.get("phone_number")),
+                address=payload.get("address", user.get("address")),
+                username=user["username"],
+                email=user.get("email"),
+                password_hash=user.get("password_hash"),
+                role=user.get("role"),
+                is_active=user.get("is_active", True),
+                editable_restaurants=payload.get("editable_restaurants", user.get("editable_restaurants", []))
+            )
+            users[idx] = updated_user.model_dump()
+            save_all_users(users)
+            return updated_user
+    
+    raise HTTPException(status_code=404, detail="User not found")
