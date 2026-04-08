@@ -16,10 +16,7 @@ function LoginPage() {
     setMessage("");
 
     try {
-      const apiUrl = import.meta.env.VITE_API_BASE_URL;
-      console.log("API Base URL:", apiUrl);
-      
-      const loginUrl = `${apiUrl}/users/login`;
+      const loginUrl = `/api/users/login`;
       console.log("Full login URL:", loginUrl);
       
       const response = await fetch(loginUrl, {
@@ -45,7 +42,7 @@ function LoginPage() {
 
       localStorage.setItem("username", username);
 
-      const userUrl = `${apiUrl}/users/${username}`;
+      const userUrl = `/api/users/${username}`;
       const userResponse = await fetch(userUrl);
       const userData = await userResponse.json();
 

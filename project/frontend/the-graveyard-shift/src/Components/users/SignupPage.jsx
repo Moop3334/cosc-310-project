@@ -48,10 +48,7 @@ function SignupPage() {
     }
 
     try {
-      const apiUrl = import.meta.env.VITE_API_BASE_URL;
-      console.log("API Base URL:", apiUrl);
-      
-      const signupUrl = `${apiUrl}/users/signup`;
+      const signupUrl = `/api/users/signup`;
       console.log("Full signup URL:", signupUrl);
       
       const res = await fetch(signupUrl, {
