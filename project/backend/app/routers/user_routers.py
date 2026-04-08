@@ -26,3 +26,8 @@ def signup(payload: UserCreate):
 @router.post("/login")
 def login(payload: UserLogin):
     return login_user(payload)
+
+
+@router.put("/{username}")
+def update_user_route(username: str, payload: dict):
+    return update_user(username, payload)

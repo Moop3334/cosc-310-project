@@ -1,4 +1,5 @@
 import RestaurantBrowser from './components/restaurants/RestaurantBrowser'
+import RestaurantOwnerDashboard from './components/restaurants/RestaurantOwnerDashboard'
 import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -7,15 +8,33 @@ import SignupPage from "./components/users/SignupPage";
 import HomePage from "./components/homepage/HomePage";
 import AdminPage from "./components/admin/AdminPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import UserRoute from './components/UserRoute';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/restaurants" element={<RestaurantBrowser />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+
+        <Route 
+          path="/restaurants" 
+          element={
+            <UserRoute>
+              <RestaurantBrowser />
+            </UserRoute>
+          } 
+        />
+
+        <Route
+          path="/restaurant-owner"
+          element={
+            <ProtectedRoute requiredRole="restaurant_owner">
+              <RestaurantOwnerDashboard />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/admin"

@@ -5,7 +5,7 @@ import datetime
 from fastapi import HTTPException
 from app.schema.resturant import Restaurant, RestaurantCreate, RestaurantUpdate
 from app.schema.menu_items import MenuItem, MenuItemCreate, MenuItemUpdate
-from app.services.menu_service import create_menu_item, delete_menu_item
+from app.services.menu_service import create_menu_item, delete_menu_item, update_menu_item
 from app.repositories.restaurant_repos import load_all_restaurants, save_all_restaurants
 
 def list_restaurants() -> List[Restaurant]:
@@ -41,12 +41,13 @@ def create_restaurant(payload: RestaurantCreate) -> Restaurant:
     new_id = len(items) + 1
     new_menu = []
     for m in payload.menu:
-        new_menu.append(create_menu_item(new_id, MenuItemCreate(
+        created_item = create_menu_item(new_id, MenuItemCreate(
             item_name=m.item_name,
             restaurant_id=new_id,
             price=m.price,
             description=m.description,
-        )))
+        ))
+        new_menu.append(created_item)
     new_item = Restaurant(id=new_id, name=payload.name.strip(), address=payload.address.strip(), open_times=payload.open_times, close_times=payload.close_times, menu=new_menu)
     items.append(new_item.model_dump())
     save_all_restaurants(items)
@@ -63,13 +64,44 @@ def update_restaurant(restaurant_id: int, payload: RestaurantUpdate) -> Restaura
     items = list_restaurants() #make sure all data types in payload are correct
     for idx, it in enumerate(items):
         if it.id == restaurant_id:
+            # Handle menu items: create new ones, update existing ones, delete removed ones
+            existing_menu = {item.id: item for item in it.menu}
+            payload_menu_ids = {m.id for m in payload.menu if hasattr(m, 'id') and m.id}
+            
+            # Delete menu items that are no longer in the payload
+            for menu_item_id in existing_menu.keys():
+                if menu_item_id not in payload_menu_ids:
+                    delete_menu_item(restaurant_id, menu_item_id)
+            
+            # Create or update menu items
+            updated_menu = []
+            for m in payload.menu:
+                if hasattr(m, 'id') and m.id and m.id in existing_menu:
+                    # Update existing menu item
+                    updated_item = update_menu_item(restaurant_id, m.id, MenuItemUpdate(
+                        item_name=m.item_name,
+                        restaurant_id=restaurant_id,
+                        price=m.price,
+                        description=m.description,
+                    ))
+                    updated_menu.append(updated_item)
+                else:
+                    # Create new menu item
+                    created_item = create_menu_item(restaurant_id, MenuItemCreate(
+                        item_name=m.item_name,
+                        restaurant_id=restaurant_id,
+                        price=m.price,
+                        description=m.description,
+                    ))
+                    updated_menu.append(created_item)
+            
             updated = Restaurant(
                 id=restaurant_id, 
                 name=payload.name.strip(), 
                 address=payload.address.strip(), 
                 open_times=payload.open_times, 
                 close_times=payload.close_times,
-                menu=payload.menu
+                menu=updated_menu
             )
             items[idx] = updated.model_dump()
             save_all_restaurants(items)
