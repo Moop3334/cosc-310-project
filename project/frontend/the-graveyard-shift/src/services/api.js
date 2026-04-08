@@ -117,6 +117,20 @@ export const restaurantAPI = {
   },
 };
 
+export const orderAPI = {
+  // Get all orders
+  getOrders: async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/orders`);
+      if (!response.ok) throw new Error('Failed to fetch orders');
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+      throw error;
+    }
+  },
+};
+
 export const userAPI = {
   // Get user by username
   getUserByUsername: async (username) => {

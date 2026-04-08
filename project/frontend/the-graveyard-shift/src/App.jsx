@@ -8,6 +8,7 @@ import LoginPage from "./components/users/LoginPage";
 import SignupPage from "./components/users/SignupPage";
 import HomePage from "./components/homepage/HomePage";
 import AdminPage from "./components/admin/AdminPage";
+import OrdersPage from "./components/orders/OrdersPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import UserRoute from './components/UserRoute';
 import ProfilePage from "./components/users/ProfilePage";
@@ -37,14 +38,21 @@ function App() {
             </UserRoute>
           } 
         />
-
-        <Route
-          path="/cart"
+        <Route 
+          path="/orders" 
+          element={
+            <UserRoute>
+              <OrdersPage />
+            </UserRoute>
+          } 
+        />
+        <Route 
+          path="/cart" 
           element={
             <UserRoute>
               <Cart />
             </UserRoute>
-          }
+          } 
         />
 
         <Route
