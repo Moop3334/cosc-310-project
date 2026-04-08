@@ -1,0 +1,138 @@
+.restaurant-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.restaurant-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(233, 69, 96, 0.5);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 40px rgba(233, 69, 96, 0.2);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff;
+  flex: 1;
+}
+
+.status-badge {
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.status-badge.open {
+  background: #2ecc71;
+  color: #fff;
+}
+
+.status-badge.closed {
+  background: #e74c3c;
+  color: #fff;
+}
+
+.status-badge.unknown {
+  background: #95a5a6;
+  color: #fff;
+}
+
+.card-content {
+  flex: 1;
+  margin-bottom: 1rem;
+}
+
+.address {
+  margin: 0 0 1rem 0;
+  font-size: 0.95rem;
+  color: #d0d0d0;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.address strong {
+  color: #fff;
+}
+
+.hours-preview {
+  margin: 1rem 0;
+  font-size: 0.9rem;
+  color: #d0d0d0;
+}
+
+.hours-preview strong {
+  color: #fff;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.hours-preview p {
+  margin: 0;
+  color: #e94560;
+  font-weight: 600;
+}
+
+.menu-items-count {
+  margin: 1rem 0 0 0;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.view-menu-btn {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background: linear-gradient(135deg, #e94560 0%, #cf2e52 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: auto;
+}
+
+.view-menu-btn:hover {
+  background: linear-gradient(135deg, #ff5a7e 0%, #e94560 100%);
+  transform: scale(1.02);
+  box-shadow: 0 6px 20px rgba(233, 69, 96, 0.4);
+}
+
+.view-menu-btn:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 768px) {
+  .restaurant-card {
+    padding: 1rem;
+  }
+
+  .card-header h3 {
+    font-size: 1.2rem;
+  }
+
+  .address {
+    font-size: 0.85rem;
+  }
+}

@@ -35,7 +35,7 @@ def post_restaurant_update(restaurant_id: int,payload: RestaurantUpdate):
 def delete_r(restaurant_id: int):
     return delete_restaurant(restaurant_id)
 
-menu_router = APIRouter(prefix="", tags=["menu"])  
+menu_router = APIRouter(prefix="/restaurants", tags=["menu"])  
 
 @menu_router.get("/{restaurant_id}/menu", response_model=List[MenuItem], status_code=200)
 def get_menu(restaurant_id: int, name: str | None = None):
