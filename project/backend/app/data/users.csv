@@ -4,3 +4,4 @@ user_id,name,phone_number,address,username,email,password_hash,role,is_active,ed
 3,Kyle Miller,604-333-4444,Richmond,kyle,kyle@example.com,kkpassw,restaurant_owner,True,1;3
 4,David McCormic,778-555-6666,Burnaby,david,david@example.com,dpassword,admin,True,
 5,daniel,593-1320-2983,1234AcademyWay,Deanieal,daniel@example.com,daniel'spassword,string,True,
+6,PowellAranda,1231231234,"129 Academy Way, Kelowna",Powell,powell@example.com,antifragile,admin,True,
