@@ -3,6 +3,7 @@ from app.routers.restaurant_routers import router as restaurant_router, menu_rou
 from app.routers.order_routers import router as order_router
 from app.routers.payment_routers import router as payment_router
 from app.routers.user_routers import router as user_router
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
@@ -20,3 +21,11 @@ app.include_router(menu_router)
 app.include_router(order_router)
 app.include_router(payment_router)
 app.include_router(user_router)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
