@@ -421,64 +421,64 @@ invalid_restaurant_menu_creator = {
 }
 
 def test_list_menu():
-    response = client.get("/1/menu")
+    response = client.get("/restaurants/1/menu")
     menu = list_menu(1)
     assert response.status_code == 200
     for m in range(1, len(response.json())):
         assert menu[m].__dict__ == response.json()[m]
 
 def test_search_menu():
-    response = client.get("/1/menu", params={"name":"Curry"})
+    response = client.get("/restaurants/1/menu", params={"name":"Curry"})
     curry = list_menu(1)[0]
     assert response.status_code == 200
     assert response.json()[0] == curry.__dict__
 
 def test_blank_search_menu():
-    response = client.get("/1/menu", params={"name":""})
+    response = client.get("/restaurants/1/menu", params={"name":""})
     menu = list_menu(1)
     assert response.status_code == 200
     for m in range(1, len(response.json())):
         assert menu[m].__dict__ == response.json()[m]
 
 def test_search_menu_not_found():
-    response = client.get("/1/menu", params={"name":"Nutrition Brick"})
+    response = client.get("/restaurants/1/menu", params={"name":"Nutrition Brick"})
     assert response.status_code == 200
     assert response.json() == []
 
 def test_list_invalid_restaurant_menu():
-    response = client.get("/99/menu")
+    response = client.get("/restaurants/99/menu")
     assert response.status_code == 404
     assert response.json() == {"detail":"Unable to find a restaurant with id 99"}
 
 def test_get_menu_item_by_id():
-    response = client.get("/1/menu/1")
+    response = client.get("/restaurants/1/menu/1")
     menu_item = get_menu_item_by_id(1,1)
     assert response.status_code == 200
     assert menu_item.__dict__ == response.json()
 
 def test_get_invalid_menu_item():
-    response = client.get("/1/menu/99")
+    response = client.get("/restaurants/1/menu/99")
     assert response.status_code == 404
     assert response.json() == {"detail":"Menu Item 99 not found for restaurant 1"}
 
 def test_get_menu_item_from_invalid_restaurant():
-    response = client.get("/99/menu/1")
+    response = client.get("/restaurants/99/menu/1")
     assert response.status_code == 404
     assert response.json() == {"detail":"Unable to find a restaurant with id 99"}
 
 def test_create_menu_item():
-    response = client.post("/1/menu", json=test_menu_creator)
+    response = client.post("/restaurants/1/menu", json=test_menu_creator)
     assert response.status_code == 201
     test_menu_creator["id"] = 3
     assert response.json() == test_menu_creator
 
 def test_create_invalid_restaurant_menu_item():
-    response = client.post("/99/menu", json=invalid_restaurant_menu_creator)
+    response = client.post("/restaurants/99/menu", json=invalid_restaurant_menu_creator)
     assert response.status_code == 404
     assert response.json() == {"detail":"Unable to find a restaurant with id 99"}
 
 def test_create_menu_item_invalid_input():
-    response = client.post("/1/menu", json=invalid_menu_creator)
+    response = client.post("/restaurants/1/menu", json=invalid_menu_creator)
     assert response.status_code == 422
     details = response.json()["detail"]
     assert details[0]["msg"] == "String should have at least 1 character"
@@ -488,24 +488,24 @@ def test_create_menu_item_invalid_input():
 
 def test_update_menu_item():
     item = get_menu_item_by_id(1,1)
-    response = client.post("/1/menu/1", json=test_menu_creator)
+    response = client.post("/restaurants/1/menu/1", json=test_menu_creator)
     assert response.status_code == 201
     test_menu_creator["id"] = 1
     assert response.json() == test_menu_creator
     update_menu_item(1,1, item)
 
 def test_update_invalid_restaurant_menu_item():
-    response = client.post("/99/menu/1", json=invalid_restaurant_menu_creator)
+    response = client.post("/restaurants/99/menu/1", json=invalid_restaurant_menu_creator)
     assert response.status_code == 404
     assert response.json() == {"detail":"Unable to find a restaurant with id 99"}
 
 def test_update_invalid_menu_item():
-    response = client.post("/1/menu/99", json=test_menu_creator)
+    response = client.post("/restaurants/1/menu/99", json=test_menu_creator)
     assert response.status_code == 404
     assert response.json() == {"detail":"Menu Item 99 not found for restaurant 1"}
 
 def test_update_menu_item_invalid_input():
-    response = client.post("/1/menu", json=invalid_menu_creator)
+    response = client.post("/restaurants/1/menu", json=invalid_menu_creator)
     assert response.status_code == 422
     details = response.json()["detail"]
     assert details[0]["msg"] == "String should have at least 1 character"
@@ -515,12 +515,12 @@ def test_update_menu_item_invalid_input():
 
 def test_delete_menu_item():
     try:
-        response = client.delete("1/menu/3")
+        response = client.delete("/restaurants/1/menu/3")
         assert response.status_code == 200
     except HTTPException:
         pytest.fail("Restaurant does not exist")
 
 def test_delete_invalid_menu_item():
-    response = client.delete("/1/menu/3")
+    response = client.delete("/restaurants/1/menu/3")
     assert response.status_code == 404
     assert response.json() == {"detail":"Menu Item 3 not found for restaurant 1"}

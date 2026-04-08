@@ -1,7 +1,7 @@
 | Name                                     |    Stmts |     Miss |   Cover |
 |----------------------------------------- | -------: | -------: | ------: |
 | app\\\_\_init\_\_.py                     |        0 |        0 |    100% |
-| app\\main.py                             |       17 |        1 |     94% |
+| app\\main.py                             |       19 |        1 |     95% |
 | app\\repositories\\\_\_init\_\_.py       |        5 |        0 |    100% |
 | app\\repositories\\delivery\_repos.py    |       36 |        7 |     81% |
 | app\\repositories\\menu\_items\_repos.py |       44 |        3 |     93% |
@@ -31,4 +31,4 @@
 | app\\services\\payment\_service.py       |        8 |        0 |    100% |
 | app\\services\\restaurant\_service.py    |       65 |        0 |    100% |
 | app\\services\\user\_service.py          |       37 |        9 |     76% |
-| **TOTAL**                                |  **797** |  **167** | **79%** |
+| **TOTAL**                                |  **799** |  **167** | **79%** |

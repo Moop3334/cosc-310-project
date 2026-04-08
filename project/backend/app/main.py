@@ -1,6 +1,4 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-
 from app.routers.restaurant_routers import router as restaurant_router, menu_router
 from app.routers.order_routers import router as order_router
 from app.routers.payment_routers import router as payment_router
@@ -20,6 +18,15 @@ app.add_middleware(
 """
 Main app entry point for the Graveyard Shift backend.
 """
+
+# Add CORS middleware to allow frontend requests
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # In production, specify exact origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/health")
 def health():

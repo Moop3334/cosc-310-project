@@ -1,3 +1,5 @@
+import RestaurantBrowser from './components/restaurants/RestaurantBrowser'
+import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import LoginPage from "./pages/LoginPage";
@@ -11,6 +13,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/restaurants" element={<RestaurantBrowser />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
 

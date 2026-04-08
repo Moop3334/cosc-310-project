@@ -1,0 +1,105 @@
+.restaurant-browser {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: #fff;
+}
+
+.browser-header {
+  background: linear-gradient(135deg, #0f3460 0%, #0a1931 100%);
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.browser-header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.browser-header p {
+  margin: 0.5rem 0 0 0;
+  font-size: 1.1rem;
+  color: #e0e0e0;
+}
+
+.browser-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.restaurant-list-section {
+  width: 100%;
+}
+
+.search-section {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 600px;
+  padding: 0.8rem 1.2rem;
+  font-size: 1rem;
+  border: 2px solid #e94560;
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #1a1a2e;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(233, 69, 96, 0.2);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #ff6b6b;
+  box-shadow: 0 4px 16px rgba(233, 69, 96, 0.4);
+  transform: translateY(-2px);
+}
+
+.search-input::placeholder {
+  color: #999;
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem 1rem;
+  font-size: 1.2rem;
+  color: #aaa;
+}
+
+.error-message {
+  background: #e74c3c;
+  color: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.no-results {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #aaa;
+}
+
+.no-results p {
+  font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+  .browser-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .browser-header p {
+    font-size: 0.9rem;
+  }
+
+  .browser-content {
+    padding: 1rem;
+  }
+}
