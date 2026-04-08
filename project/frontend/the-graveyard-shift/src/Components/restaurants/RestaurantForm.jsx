@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { restaurantAPI } from '../../services/api';
+import { restaurantAPI, userAPI } from '../../services/api';
 import './styles/RestaurantForm.css';
 
 export default function RestaurantForm({ restaurant = null, onSuccess, onCancel }) {
@@ -164,7 +164,18 @@ export default function RestaurantForm({ restaurant = null, onSuccess, onCancel 
         setSuccessMessage('Restaurant updated successfully!');
       } else {
         // Create new restaurant
-        await restaurantAPI.createRestaurant(submitData);
+        const createdRestaurant = await restaurantAPI.createRestaurant(submitData);
+        
+        // Add the new restaurant id to the user's editable_restaurants
+        const username = localStorage.getItem('username');
+        if (username && createdRestaurant.id) {
+          const userData = await userAPI.getUserByUsername(username);
+          const updatedEditableRestaurants = [...(userData.editable_restaurants || []), createdRestaurant.id];
+          await userAPI.updateUser(username, {
+            editable_restaurants: updatedEditableRestaurants
+          });
+        }
+        
         setSuccessMessage('Restaurant created successfully!');
       }
 
