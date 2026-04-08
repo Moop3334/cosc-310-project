@@ -2,7 +2,7 @@ from types import NoneType
 from typing import List
 import re
 from fastapi import HTTPException
-from app.schema.menuItems import MenuItem, MenuItemCreate, MenuItemUpdate
+from app.schema.menu_items import MenuItem, MenuItemCreate, MenuItemUpdate
 from app.repositories.menu_items_repos import load_menu, save_menu
 
 def list_menu(restaurant_id: int) -> List[MenuItem]:
@@ -15,7 +15,6 @@ def list_menu(restaurant_id: int) -> List[MenuItem]:
                 item_name = m.get("item_name"),
                 price = m.get("price"),
                 description=m.get("description"),
-                image=m.get("image")
             ))
     return m_list
 
@@ -32,7 +31,6 @@ def create_menu_item(restaurant_id: int, payload: MenuItemCreate) -> MenuItem:
         item_name=payload.item_name.strip(), 
         price=payload.price, 
         description=payload.description.strip(), 
-        image=payload.image.strip()
     )
     items.append(new_item.model_dump())
     save_menu(restaurant_id,items)
@@ -55,7 +53,6 @@ def update_menu_item(restaurant_id: int, item_id: int, payload: MenuItemUpdate) 
                 item_name=payload.item_name.strip(),
                 price=payload.price,
                 description=payload.description,
-                image=payload.image
             )
             items[idx] = updated.model_dump()
             save_menu(payload.restaurant_id,items)

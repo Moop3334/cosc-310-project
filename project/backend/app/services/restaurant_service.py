@@ -4,7 +4,7 @@ import re
 import datetime
 from fastapi import HTTPException
 from app.schema.resturant import Restaurant, RestaurantCreate, RestaurantUpdate
-from app.schema.menuItems import MenuItem, MenuItemCreate, MenuItemUpdate
+from app.schema.menu_items import MenuItem, MenuItemCreate, MenuItemUpdate
 from app.services.menu_service import create_menu_item, delete_menu_item
 from app.repositories.restaurant_repos import load_all_restaurants, save_all_restaurants
 
@@ -21,7 +21,6 @@ def list_restaurants() -> List[Restaurant]:
                 item_name = m.get("item_name"),
                 price = m.get("price"),
                 description=m.get("description"),
-                image=m.get("image")
             ))
         r_list.append(
             Restaurant(
@@ -47,7 +46,6 @@ def create_restaurant(payload: RestaurantCreate) -> Restaurant:
             restaurant_id=new_id,
             price=m.price,
             description=m.description,
-            image=m.image
         )))
     new_item = Restaurant(id=new_id, name=payload.name.strip(), address=payload.address.strip(), open_times=payload.open_times, close_times=payload.close_times, menu=new_menu)
     items.append(new_item.model_dump())

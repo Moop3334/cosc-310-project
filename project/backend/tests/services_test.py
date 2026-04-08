@@ -2,7 +2,7 @@ from typing import List
 import pytest
 from fastapi import HTTPException
 from app.schema.resturant import Restaurant, RestaurantCreate, RestaurantUpdate
-from app.schema.menuItems import MenuItem, MenuItemCreate, MenuItemUpdate
+from app.schema.menu_items import MenuItem, MenuItemCreate, MenuItemUpdate
 from app.repositories.restaurant_repos import save_all_restaurants
 from app.repositories.menu_items_repos import save_menu
 from app.services.restaurant_service import list_restaurants, create_restaurant, get_restaurant_by_id, update_restaurant, delete_restaurant
@@ -14,16 +14,14 @@ test_menu1 = [
         restaurant_id=1,
         item_name="Curry",
         price=12.99,
-        description="Japanese Curry",
-        image="N/A"
+        description="Japanese Curry"
     ),
     MenuItem(
         id=2,
         restaurant_id=1,
         item_name="Chicken",
         price=10,
-        description="Mmmm chicken",
-        image="N/A"
+        description="Mmmm chicken"
     )
 ]
 test_menu2 = [
@@ -32,16 +30,14 @@ test_menu2 = [
         restaurant_id=2,
         item_name="Curry",
         price=12.99,
-        description="Japanese Curry",
-        image="N/A"
+        description="Japanese Curry"
     ),
     MenuItem(
         id=2,
         restaurant_id=2,
         item_name="Chicken",
         price=10,
-        description="Mmmm chicken",
-        image="N/A"
+        description="Mmmm chicken"
     )
 ]
 test_menu3 = [
@@ -50,16 +46,14 @@ test_menu3 = [
         restaurant_id=3,
         item_name="Curry",
         price=12.99,
-        description="Japanese Curry",
-        image="N/A"
+        description="Japanese Curry"
     ),
     MenuItem(
         id=2,
         restaurant_id=3,
         item_name="Chicken",
         price=10,
-        description="Mmmm chicken",
-        image="N/A"
+        description="Mmmm chicken"
     )
 ]
 test_menu4 = [
@@ -68,31 +62,27 @@ test_menu4 = [
         restaurant_id=4,
         item_name="Curry",
         price=12.99,
-        description="Japanese Curry",
-        image="N/A"
+        description="Japanese Curry"
     ),
     MenuItem(
         id=2,
         restaurant_id=4,
         item_name="Chicken",
         price=10,
-        description="Mmmm chicken",
-        image="N/A"
+        description="Mmmm chicken"
     )
 ]
 menu_item_factory = MenuItemCreate(
     item_name="Pizza",
     restaurant_id=3,
     price=2.99,
-    description="Pizza!",
-    image="N/A"
+    description="Pizza!"
 )
 menu_item_updater = MenuItemUpdate(
     item_name="Pizza",
     restaurant_id=3,
     price=3.99,
-    description="Pizza!",
-    image="N/A"
+    description="Pizza!"
 )
 
 test_restaurants = List[Restaurant]
