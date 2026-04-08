@@ -16,12 +16,19 @@ export default function Cart() {
   const username = localStorage.getItem('username');
 
   useEffect(() => {
-    if (!userId) {
+    // Debug: Log what we have in storage
+    console.log('Cart page - userId:', userId, 'username:', username);
+    
+    // Check for both existence AND non-empty values
+    const isAuthenticated = Boolean(userId && userId.trim()) && Boolean(username && username.trim());
+    
+    if (!isAuthenticated) {
+      console.warn('User not authenticated - userId:', userId, 'username:', username);
       navigate('/login');
       return;
     }
     fetchCart();
-  }, [userId, navigate]);
+  }, [userId, username, navigate]);
 
   const fetchCart = async () => {
     try {
@@ -65,6 +72,38 @@ export default function Cart() {
       await fetchCart();
     } catch (err) {
       setError('Failed to update item quantity');
+      console.error(err);
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const handleIncreaseQuantity = async (itemId) => {
+    try {
+      setIsUpdating(true);
+      if (!cart || !cart.restaurant_id) {
+        setError('Cannot increase quantity: restaurant information missing');
+        return;
+      }
+
+      // Find the item to get its details
+      const item = cart.items.find(i => i.item_id === itemId);
+      if (!item) {
+        setError('Item not found in cart');
+        return;
+      }
+
+      // Use add_to_cart endpoint with quantity 1 to increase the item quantity
+      await cartAPI.addToCart(userId, cart.restaurant_id, {
+        item_id: itemId,
+        item_name: item.item_name,
+        quantity: 1,
+        price: item.price,
+      });
+
+      await fetchCart();
+    } catch (err) {
+      setError('Failed to increase item quantity');
       console.error(err);
     } finally {
       setIsUpdating(false);
@@ -160,7 +199,7 @@ export default function Cart() {
                   <span>{item.quantity}</span>
                   <button
                     className="qty-btn"
-                    onClick={() => handleDecreaseQuantity(item.item_id)}
+                    onClick={() => handleIncreaseQuantity(item.item_id)}
                     disabled={isUpdating}
                     title="Increase quantity by adding more from the menu"
                   >
@@ -231,12 +270,6 @@ export default function Cart() {
             >
               Continue Shopping
             </button>
-          </div>
-
-          <div className="cart-info">
-            <p className="info-item">✓ Free cancellation up to 30 mins before order</p>
-            <p className="info-item">✓ Real-time order tracking</p>
-            <p className="info-item">✓ Secure payment processing</p>
           </div>
         </div>
       </div>
