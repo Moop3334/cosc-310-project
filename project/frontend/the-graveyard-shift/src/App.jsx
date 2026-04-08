@@ -6,9 +6,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./components/users/LoginPage";
 import SignupPage from "./components/users/SignupPage";
 import HomePage from "./components/homepage/HomePage";
-import AdminPage from "./components/admin/AdminPage";
-import ProtectedRoute from "./components/ProtectedRoute";
-import UserRoute from './components/UserRoute';
+import AdminPage from "./Components/admin/AdminPage";
+import OrdersPage from "./Components/orders/OrdersPage";
+import ProtectedRoute from "./Components/ProtectedRoute";
+import UserRoute from './Components/UserRoute';
 
 function App() {
   return (
@@ -25,6 +26,15 @@ function App() {
               <RestaurantBrowser />
             </UserRoute>
           } 
+        />
+
+        <Route
+          path="/orders"
+          element={
+            <UserRoute>
+              <OrdersPage />
+            </UserRoute>
+          }
         />
 
         <Route
