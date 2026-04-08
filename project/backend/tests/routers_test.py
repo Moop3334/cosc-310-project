@@ -137,11 +137,18 @@ restaurant_1 = ({
   ]
 })
 
-temp_cart_item = {
+temp_cart_item_1 = {
   "item_id": 1,
   "item_name": "Curry",
   "quantity": 1,
   "price": 12.99
+}
+
+temp_cart_item_2 = {
+  "item_id": 2,
+  "item_name": "Chicken",
+  "quantity": 2,
+  "price": 10.00
 }
 
 app = FastAPI()
@@ -156,28 +163,60 @@ client = TestClient(app)
 #Shopping cart router tests
 
 def test_add_item():
-    response = client.post("/cart/1/add", params={"restaurant_id":"1"}, json=temp_cart_item)
+    response = client.post("/cart/1/add", params={"restaurant_id":"1"}, json=temp_cart_item_1)
     assert response.status_code == 200
     assert response.json()["message"] == "Item 'Curry' (qty: 1) added to cart"
-    assert temp_cart_item == get_cart(1).items[0].model_dump()
+    assert temp_cart_item_1 == get_cart(1).items[0].model_dump()
 
 def test_add_multipule_items():
-    assert True
+    response = client.post("/cart/1/add", params={"restaurant_id":"1"}, json=temp_cart_item_2)
+    assert response.status_code == 200
+    assert response.json()["message"] == "Item 'Chicken' (qty: 2) added to cart"
+    assert temp_cart_item_2 == get_cart(1).items[1].model_dump()
 
 def test_view_cart():
-    assert True
+    response = client.get("/cart/1")
+    assert response.status_code == 200
+    body = response.json()
+    assert body["user_id"] == 1 and body["restaurant_id"] == 1
+    items = body["items"]
+    assert items[0] == temp_cart_item_1
+    assert items[1] == temp_cart_item_2
+    assert body["total"] == 32.99
 
 def test_remove_one():
-    assert True
+    response = client.delete("/cart/1/items/2")
+    assert response.status_code == 200
+    assert response.json()["message"] == "Item 2 removed from cart"
+    tmp_cart_2 = temp_cart_item_2.copy()
+    tmp_cart_2["quantity"] = 1
+    assert tmp_cart_2 == get_cart(1).items[1].model_dump()
 
 def test_remove_all():
-    assert True
+    client.post("/cart/1/add", params={"restaurant_id":"1"}, json=temp_cart_item_1)
+
+    response = client.delete("/cart/1/items/1/clear")
+    assert response.status_code == 200
+    assert response.json()["message"] == "Item 1 removed from cart"
+    assert len(get_cart(1).items) == 1
+    assert temp_cart_item_1 not in get_cart(1).items
 
 def test_clear_cart():
-    assert True
+    response = client.delete("/cart/1/clear")
+    assert response.status_code == 200
+    assert response.json()["message"] == "Cart cleared successfully"
+    assert get_cart(1) is None
 
 def test_cart_summary():
-    assert True
+    client.post("/cart/1/add", params={"restaurant_id":"1"}, json=temp_cart_item_1)
+    client.post("/cart/1/add", params={"restaurant_id":"1"}, json=temp_cart_item_2)
+
+    response = client.get("/cart/1/summary")
+    assert response.status_code == 200
+    body = response.json()
+    assert body["user_id"] == 1 and body["restaurant_id"] == 1
+    assert body["item_count"] == 2 and body["items"] == [temp_cart_item_1, temp_cart_item_2]
+    assert body["subtotal"] == 32.99 and body["tax"] == 1.65 and body["delivery_fee"] == 3 and body["total_with_fees"] == 37.64 #TODO: Change magic numbers
 
 #Order Router Tests TODO: MAKE MORE ORDER TESTS CHIP
 
