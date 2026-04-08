@@ -10,6 +10,7 @@ import HomePage from "./components/homepage/HomePage";
 import AdminPage from "./components/admin/AdminPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import UserRoute from './components/UserRoute';
+import ProfilePage from "./components/users/ProfilePage";
 
 function App() {
   return (
@@ -18,6 +19,15 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
 
         <Route 
           path="/restaurants" 
