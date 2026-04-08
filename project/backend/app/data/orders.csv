@@ -3,5 +3,3 @@ id,user_id,restaurant_id,items,total_price,creation_date,status
 2,1,2,"[{""item_id"": 2, ""item_name"": ""Chicken"", ""quantity"": 1, ""price"": 10.0}]",10.0,2026-01-01 12:05:00,Pending Approval
 9,9,9,"[{""item_id"": 2, ""item_name"": ""Cookie"", ""quantity"": 1, ""price"": 2.99}]",2.99,2026-01-01 13:00:00,Pending Approval
 10,9,9,"[{""item_id"": 2, ""item_name"": ""Cookie"", ""quantity"": 1, ""price"": 2.99}]",2.99,2026-01-01 13:00:00,Pending Approval
-11,1,1,"[{""item_id"": 1, ""item_name"": ""Curry"", ""quantity"": 1, ""price"": 12.99}]",12.99,2026-01-01 12:00:00,Completed
-12,1,1,"[{""item_id"": 1, ""item_name"": ""Curry"", ""quantity"": 1, ""price"": 12.99}]",12.99,2026-01-01 12:00:00,Cancelled
