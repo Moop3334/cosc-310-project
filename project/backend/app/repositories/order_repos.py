@@ -39,7 +39,7 @@ def load_all_order() -> List[Dict[str, Any]]:
 def load_specific_order(order_id: int) -> Dict[str, Any]:
     orders = load_all_order()
     for order in orders:
-        if order["id"] == order_id:
+        if order.id == order_id:
             return order
     raise IndexError(f"Error: Unable to find order id:{order_id}")
 
@@ -48,16 +48,17 @@ def save_all_orders(orders: List[Dict[Any, Any]]) -> None:
     with DATA_PATH.open("w", encoding="utf-8", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldNames)
         writer.writeheader()
-        
+
         for order in orders:
+            print(order)
             row = {
-                "id": str(order.get("id", "")),
-                "user_id": str(order.get("user_id", "")),
-                "restaurant_id": str(order.get("restaurant_id", "")),
-                "items": json.dumps(order.get("items", [])),
-                "total_price": str(order.get("total_price", 0.0)),
-                "creation_date": str(order.get("creation_date", "")),
-                "status": str(order.get("status", ""))
+                "id": str(order.id),
+                "user_id": str(order.user_id),
+                "restaurant_id": str(order.restaurant_id),
+                "items": json.dumps([item.model_dump() for item in order.items]),
+                "total_price": str(order.total_price),
+                "creation_date": str(order.creation_date),
+                "status": str(order.status)
             }
             writer.writerow(row)
         
