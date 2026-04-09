@@ -332,18 +332,18 @@ def test_get_invalid_restaurant_id():
     assert response.json() == {"detail": "Restaurant '99' not found"}
 
 def test_update_restaurant():
-    response = client.post("/restaurants/1", json=restaurant_1)
-    assert response.status_code == 201
+    response = client.put("/restaurants/1", json=restaurant_1)
+    assert response.status_code == 200
     assert response.json() == restaurant_1
     client.post("/restaurants/1", json=restaurant_1)
 
 def test_update_invalid_restaurant():
-    response = client.post("/restaurants/999", json=restaurant_1)
+    response = client.put("/restaurants/999", json=restaurant_1)
     assert response.status_code == 404
     assert response.json() == {"detail": "Restaurant '999' not found"}
 
 def test_update_restaurant_invalid_input():
-  response = client.post("/restaurants/1", json={
+  response = client.put("/restaurants/1", json={
   "name": "",
   "address": "",
   "open_times": [
