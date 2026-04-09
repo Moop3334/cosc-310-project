@@ -98,7 +98,7 @@ function AdminPage() {
 
   const handleSaveUser = async () => {
     try {
-      await fetch(`/api/users/${editingUser.user_id}`, {
+      await fetch(`/api/users/id/${editingUser.user_id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(editingUser),
@@ -140,7 +140,7 @@ function AdminPage() {
   const handleDeleteUser = async (userId) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
-        await fetch(`/api/users/${userId}`, {
+        await fetch(`/api/users/id/${userId}`, {
           method: "DELETE",
         });
         fetchUsers();
