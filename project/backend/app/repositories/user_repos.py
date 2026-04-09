@@ -40,10 +40,10 @@ def save_all_users(users):
         "username",
         "email",
         "password_hash",
-        "credit",
         "role",
         "is_active",
-        "editable_restaurants"
+        "editable_restaurants",
+        "credit"
     ]
 
     if not DATA_PATH.parent.exists():

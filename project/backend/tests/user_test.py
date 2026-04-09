@@ -18,8 +18,8 @@ def test_signup_user():
         "username": "smith1",
         "email": "smith@example.com",
         "password_hash": "pass123",
-        "credit": 5,
-        "role": "customer"
+        "role": "customer",
+        "credit": 5
     }
 
     response = client.post("/users/signup", json=payload)

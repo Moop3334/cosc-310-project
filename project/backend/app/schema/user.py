@@ -10,10 +10,10 @@ class User(BaseModel):
     username: str
     email: EmailStr
     password_hash: str
-    credit: int
     role: Optional[str] = None
     is_active: bool = True
     editable_restaurants: List[str] = []
+    credit: int
 
     def activate(self):
         self.is_active = True
@@ -36,8 +36,8 @@ class UserCreate(BaseModel):
     username: str
     email: EmailStr
     password_hash: str
-    credit: int
     role: Optional[str] = None
+    credit: int
 
 
 class UserLogin(BaseModel): #simple user login
