@@ -7,21 +7,24 @@ class Payment(BaseModel):
     id: int
     total: float
     card_number: int
-    expiry_date: datetime
+    expiry_date: str
     cvv: int
-    #Should import from user class in future
 
     def validateCard(self):
-        if(self.cardNumber.length==16 and self.expiryDate.length==4 and self.cvv.length==3):
+        card_str = str(self.card_number)
+        if len(card_str) == 16 and len(str(self.cvv)) in [3, 4]:
             return True
-
         return False
 
     def authorisePayment(self):
-        if self.total >= 0:
+        if self.total >= 0 and self.validateCard():
             return True
-
         return False
+
+class PaymentResponse(BaseModel):
+    success: bool
+    message: str
+    transaction_id: str = None
 
 dummy_payment_info = {
     'id': 101,
