@@ -170,7 +170,14 @@ function AdminPage() {
         body: JSON.stringify(payload),
       });
       setNewMenuItem(null);
-      fetchRestaurants();
+      const response = await fetch("/api/restaurants");
+      const data = await response.json();
+      setRestaurants(data);
+      // Update the editing restaurant with new data
+      const updatedRestaurant = data.find((r) => r.id === restaurantId);
+      if (updatedRestaurant) {
+        setEditingRestaurant(updatedRestaurant);
+      }
     } catch (error) {
       console.error("Error adding menu item:", error);
     }
@@ -194,7 +201,14 @@ function AdminPage() {
         body: JSON.stringify(payload),
       });
       setEditingMenuItem(null);
-      fetchRestaurants();
+      const response = await fetch("/api/restaurants");
+      const data = await response.json();
+      setRestaurants(data);
+      // Update the editing restaurant with new data
+      const updatedRestaurant = data.find((r) => r.id === restaurantId);
+      if (updatedRestaurant) {
+        setEditingRestaurant(updatedRestaurant);
+      }
     } catch (error) {
       console.error("Error saving menu item:", error);
     }
@@ -206,7 +220,14 @@ function AdminPage() {
         await fetch(`/api/restaurants/${restaurantId}/menu/${itemId}`, {
           method: "DELETE",
         });
-        fetchRestaurants();
+        const response = await fetch("/api/restaurants");
+        const data = await response.json();
+        setRestaurants(data);
+        // Update the editing restaurant with new data
+        const updatedRestaurant = data.find((r) => r.id === restaurantId);
+        if (updatedRestaurant) {
+          setEditingRestaurant(updatedRestaurant);
+        }
       } catch (error) {
         console.error("Error deleting menu item:", error);
       }
