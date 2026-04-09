@@ -30,9 +30,9 @@ function SignupPage() {
   const handleSignup = async (e) => {
     e.preventDefault();
     setMessage("");
+    setMessageType("");
     setLoading(true);
 
-    // Validation
     if (formData.password_hash !== formData.confirmPassword) {
       setMessage("Passwords do not match.");
       setMessageType("error");
@@ -49,8 +49,7 @@ function SignupPage() {
 
     try {
       const signupUrl = `/api/users/signup`;
-      console.log("Full signup URL:", signupUrl);
-      
+
       const res = await fetch(signupUrl, {
         method: "POST",
         headers: {
@@ -67,9 +66,7 @@ function SignupPage() {
         }),
       });
 
-      console.log("Response status:", res.status);
       const data = await res.json();
-      console.log("Response data:", data);
 
       if (!res.ok) {
         setMessage(data.detail || "Signup failed. Please try again.");
@@ -80,12 +77,10 @@ function SignupPage() {
       setMessage("Account created successfully! Redirecting to login...");
       setMessageType("success");
 
-      // Redirect to login after success
       setTimeout(() => {
         navigate("/login");
       }, 1500);
     } catch (error) {
-      console.error("Signup error:", error);
       setMessage(`Error: ${error.message}`);
       setMessageType("error");
     } finally {
@@ -218,7 +213,8 @@ function SignupPage() {
                 required
               >
                 <option value="customer">Customer</option>
-                <option value="driver">Delivery Driver</option>
+                <option value="delivery_driver">Delivery Driver</option>
+                <option value="restaurant_owner">Restaurant Owner</option>
                 <option value="admin">Admin</option>
               </select>
             </div>
