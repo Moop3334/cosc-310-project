@@ -1,13 +1,15 @@
 import RestaurantBrowser from './components/restaurants/RestaurantBrowser'
 import RestaurantOwnerDashboard from './components/restaurants/RestaurantOwnerDashboard'
+import DeliveryDriverDashboard from './components/delivery/DeliveryDriverDashboard'
 import Cart from './components/checkout/Cart'
+import CheckoutPage from './components/checkout/CheckoutPage'
 import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import LoginPage from "./components/users/LoginPage";
 import SignupPage from "./components/users/SignupPage";
 import HomePage from "./components/homepage/HomePage";
-import AdminPage from "./Components/admin/AdminPage";
+import AdminPage from "./components/admin/AdminPage";
 import OrdersPage from "./components/orders/OrdersPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import UserRoute from './components/UserRoute';
@@ -54,12 +56,29 @@ function App() {
             </UserRoute>
           } 
         />
+        <Route 
+          path="/checkout" 
+          element={
+            <UserRoute>
+              <CheckoutPage />
+            </UserRoute>
+          } 
+        />
 
         <Route
           path="/restaurant-owner"
           element={
             <ProtectedRoute requiredRole="restaurant_owner">
               <RestaurantOwnerDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/delivery-driver"
+          element={
+            <ProtectedRoute requiredRole="delivery_driver">
+              <DeliveryDriverDashboard />
             </ProtectedRoute>
           }
         />

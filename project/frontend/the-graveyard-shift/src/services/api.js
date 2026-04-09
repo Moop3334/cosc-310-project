@@ -6,7 +6,7 @@ export const restaurantAPI = {
   // Get all restaurants or search by name
   getRestaurants: async (name = null) => {
     try {
-      const url = name 
+      const url = name
         ? `${API_BASE_URL}/restaurants?name=${encodeURIComponent(name)}`
         : `${API_BASE_URL}/restaurants`;
       const response = await fetch(url);
@@ -82,7 +82,7 @@ export const restaurantAPI = {
   updateRestaurant: async (restaurantId, restaurantData) => {
     try {
       const response = await fetch(`${API_BASE_URL}/restaurants/${restaurantId}`, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -119,13 +119,67 @@ export const restaurantAPI = {
 
 export const orderAPI = {
   // Get all orders
-  getOrders: async () => {
+  getOrders: async (restaurantId = null) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/orders`);
+      const url = restaurantId ? `${API_BASE_URL}/orders?restaurant_id=${restaurantId}` : `${API_BASE_URL}/orders`;
+      const response = await fetch(url);
       if (!response.ok) throw new Error('Failed to fetch orders');
       return await response.json();
     } catch (error) {
       console.error('Error fetching orders:', error);
+      throw error;
+    }
+  },
+
+  // Checkout - create order from cart
+  checkout: async (userId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/orders/${userId}/checkout`, {
+        method: 'POST',
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Failed to create order');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error creating order:', error);
+      throw error;
+    }
+  },
+  updateOrderStatus: async (orderId, status) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/orders/${orderId}/status`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status }),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Failed to update order status');
+      }
+      return await response.text();
+    } catch (error) {
+      console.error('Error updating order status:', error);
+      throw error;
+    }
+  },
+};
+
+export const recommendationAPI = {
+  // Get recommendations for a user
+  getRecommendations: async (userId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/recommendations/${userId}`);
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Failed to fetch recommendations');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching recommendations:', error);
       throw error;
     }
   },
@@ -256,6 +310,104 @@ export const cartAPI = {
       return await response.json();
     } catch (error) {
       console.error('Error fetching cart summary:', error);
+      throw error;
+    }
+  },
+};
+export const paymentAPI = {
+  // Process payment
+  processPayment: async (paymentData) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/payments/process`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(paymentData),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Payment processing failed');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error processing payment:', error);
+      throw error;
+    }
+  },
+};
+
+export const reviewAPI = {
+  // Get reviews for a specific user
+  getUserReviews: async (userId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/reviews/user/${userId}`);
+      if (!response.ok) throw new Error('Failed to fetch user reviews');
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching user reviews:', error);
+      throw error;
+    }
+  },
+
+  // Get reviews for a restaurant
+  getRestaurantReviews: async (restaurantId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/reviews/restaurant/${restaurantId}`);
+      if (!response.ok) throw new Error('Failed to fetch restaurant reviews');
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching restaurant reviews:', error);
+      throw error;
+    }
+  },
+
+  // Get reviews for a specific menu item
+  getItemReviews: async (restaurantId, itemId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/reviews/restaurant/${restaurantId}/item/${itemId}`);
+      if (!response.ok) throw new Error('Failed to fetch item reviews');
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching item reviews:', error);
+      throw error;
+    }
+  },
+
+  // Create a review
+  createReview: async (userId, reviewData) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/reviews/${userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(reviewData),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Failed to create review');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error creating review:', error);
+      throw error;
+    }
+  },
+
+  // Delete a review
+  deleteReview: async (reviewId, userId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/reviews/${reviewId}?user_id=${userId}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Failed to delete review');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error deleting review:', error);
       throw error;
     }
   },
