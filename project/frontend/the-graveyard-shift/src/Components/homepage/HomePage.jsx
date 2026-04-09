@@ -14,6 +14,7 @@ function HomePage() {
     window.location.reload();
   };
 
+  // Add Delivery Dashboard to navigation for delivery drivers
   const navigationItems = [
     {
       icon: "🍽️",
@@ -33,6 +34,17 @@ function HomePage() {
       description: "Track your current and past orders",
       link: "/orders",
     },
+    // Only show for delivery drivers
+    ...(role === "delivery_driver"
+      ? [
+          {
+            icon: "🚚",
+            title: "Delivery Dashboard",
+            description: "Manage and update your deliveries",
+            link: "/delivery-driver",
+          },
+        ]
+      : []),
     {
       icon: "⚙️",
       title: "My Profile",
@@ -91,6 +103,11 @@ function HomePage() {
                 <a href="/orders" className="action-link">
                   📦 View Orders
                 </a>
+                {role === "delivery_driver" && (
+                  <a href="/delivery-driver" className="action-link">
+                    🚚 Delivery Dashboard
+                  </a>
+                )}
                 {role === "admin" && (
                   <a href="/admin" className="action-link">
                     ⚙️ Admin Panel
