@@ -260,6 +260,20 @@ def test_list_orders():
         tmp["creation_date"] = tmp["creation_date"].isoformat()
         assert tmp == response.json()[o]
 
+def test_list_orders_by_restaurant():
+    response = client.get("/orders", params={"restaurant_id": "1"})
+    assert response.status_code == 200
+    for order in response.json():
+        assert order["restaurant_id"] == 1
+
+def test_update_order_status():
+    response = client.patch("/orders/1/status", json={"status": "Preparing"})
+    assert response.status_code == 200
+    assert "updated successfully" in response.json()
+    updated_order = client.get("/orders/1")
+    assert updated_order.status_code == 200
+    assert updated_order.json()["status"] == "Preparing"
+
 #Restaurant Router Tests
 
 def test_get_restaurant_list(): #NOTE: There is almost certainly a better way to do this, but this works and won't impact the runtime of the actual website
