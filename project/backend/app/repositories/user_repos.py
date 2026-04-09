@@ -42,7 +42,8 @@ def save_all_users(users):
         "password_hash",
         "role",
         "is_active",
-        "editable_restaurants"
+        "editable_restaurants",
+        "credit"
     ]
 
     if not DATA_PATH.parent.exists():
@@ -73,6 +74,19 @@ def find_user_by_email(email):
 
     for user in users:
         if user["email"] == email:
+            return user
+
+    return None
+
+
+def find_user_by_id(user_id: int):
+    users = load_all_users()
+
+    for user in users:
+        if user["user_id"] == user_id:
+            # Convert credit to int if it's a string
+            if isinstance(user.get("credit"), str):
+                user["credit"] = int(user["credit"])
             return user
 
     return None

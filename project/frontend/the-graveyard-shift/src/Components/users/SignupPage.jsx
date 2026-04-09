@@ -12,6 +12,7 @@ function SignupPage() {
     password_hash: "",
     confirmPassword: "",
     role: "customer",
+    credit:5,
   });
 
   const [message, setMessage] = useState("");
@@ -63,6 +64,7 @@ function SignupPage() {
           email: formData.email,
           password_hash: formData.password_hash,
           role: formData.role,
+          credit:5,
         }),
       });
 

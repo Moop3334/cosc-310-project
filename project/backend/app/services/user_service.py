@@ -17,7 +17,9 @@ def list_users():
             password_hash=u["password_hash"], #not hashed password at this moment
             role=u.get("role"),
             is_active=u["is_active"],
-            editable_restaurants=u.get("editable_restaurants", [])
+            editable_restaurants=u.get("editable_restaurants", []),
+            credit=u["credit"]
+            
         )
         result.append(user)
 
@@ -47,7 +49,8 @@ def register_user(payload):
         password_hash=payload.password_hash,
         role=payload.role,
         is_active=True,
-        editable_restaurants=[]
+        editable_restaurants=[],
+        credit=payload.credit
     )
 
     users.append(user.model_dump())
@@ -88,7 +91,8 @@ def get_user_by_username(username):
         password_hash=user["password_hash"],
         role=user.get("role"),
         is_active=user["is_active"],
-        editable_restaurants=user.get("editable_restaurants", [])
+        editable_restaurants=user.get("editable_restaurants", []),
+        credit=user.get("credit")
     )
 
 
@@ -108,7 +112,8 @@ def update_user(username, payload):
                 password_hash=user.get("password_hash"),
                 role=user.get("role"),
                 is_active=user.get("is_active", True),
-                editable_restaurants=payload.get("editable_restaurants", user.get("editable_restaurants", []))
+                editable_restaurants=payload.get("editable_restaurants", user.get("editable_restaurants", [])),
+                credit=user.get("credit")
             )
             users[idx] = updated_user.model_dump()
             save_all_users(users)

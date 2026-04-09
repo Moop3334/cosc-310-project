@@ -250,6 +250,11 @@ export default function Cart() {
               <span>${cartSummary.delivery_fee?.toFixed(2) || '0.00'}</span>
             </div>
 
+            <div className="summary-row">
+              <span>Credit:</span>
+              <span>${cartSummary.credit?.toFixed(2) || '0.00'}</span>
+            </div>
+
             <div className="summary-row total">
               <span>Total:</span>
               <span>${cartSummary.total_with_fees?.toFixed(2) || '0.00'}</span>
