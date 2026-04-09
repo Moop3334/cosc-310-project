@@ -80,7 +80,7 @@
   font-size: 1.3em;
 }
 
-.menu-section {
+.admin-menu-section {
   margin-top: 20px;
   padding: 15px;
   background: #f5f5f5;
@@ -88,54 +88,54 @@
   border-left: 4px solid #17a2b8;
 }
 
-.menu-section h4 {
+.admin-menu-section h4 {
   margin-top: 0;
   margin-bottom: 15px;
   color: #17a2b8;
   font-size: 1.1em;
 }
 
-.menu-items-list {
+.admin-menu-items-list {
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.menu-item {
+.admin-menu-item {
   background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 10px;
 }
 
-.menu-item-view {
+.admin-menu-item-view {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
 }
 
-.menu-item-info {
+.admin-menu-item-info {
   flex: 1;
   font-weight: 500;
 }
 
-.menu-item-description {
+.admin-menu-item-description {
   flex: 1;
   color: #666;
   font-size: 0.9em;
   font-style: italic;
 }
 
-.menu-item-edit {
+.admin-menu-item-edit {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.menu-item-edit input,
-.menu-item-edit textarea {
+.admin-menu-item-edit input,
+.admin-menu-item-edit textarea {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 3px;
@@ -143,23 +143,23 @@
   font-size: 0.9em;
 }
 
-.menu-item-edit input:focus,
-.menu-item-edit textarea:focus {
+.admin-menu-item-edit input:focus,
+.admin-menu-item-edit textarea:focus {
   outline: none;
   border-color: #17a2b8;
   box-shadow: 0 0 5px rgba(23, 162, 184, 0.3);
 }
 
-.menu-item-buttons {
+.admin-menu-item-buttons {
   display: flex;
   gap: 8px;
   justify-content: flex-end;
 }
 
-.menu-item-buttons .edit-btn,
-.menu-item-buttons .delete-btn,
-.menu-item-buttons .save-btn,
-.menu-item-buttons .cancel-btn {
+.admin-menu-item-buttons .edit-btn,
+.admin-menu-item-buttons .delete-btn,
+.admin-menu-item-buttons .save-btn,
+.admin-menu-item-buttons .cancel-btn {
   padding: 6px 12px;
   font-size: 0.85em;
   border: none;
@@ -169,39 +169,39 @@
   transition: background 0.2s ease;
 }
 
-.menu-item-buttons .save-btn {
+.admin-menu-item-buttons .save-btn {
   background: #28a745;
   color: white;
 }
 
-.menu-item-buttons .save-btn:hover {
+.admin-menu-item-buttons .save-btn:hover {
   background: #218838;
 }
 
-.menu-item-buttons .cancel-btn {
+.admin-menu-item-buttons .cancel-btn {
   background: #6c757d;
   color: white;
 }
 
-.menu-item-buttons .cancel-btn:hover {
+.admin-menu-item-buttons .cancel-btn:hover {
   background: #5a6268;
 }
 
-.menu-item-buttons .edit-btn {
+.admin-menu-item-buttons .edit-btn {
   background: #007bff;
   color: white;
 }
 
-.menu-item-buttons .edit-btn:hover {
+.admin-menu-item-buttons .edit-btn:hover {
   background: #0056b3;
 }
 
-.menu-item-buttons .delete-btn {
+.admin-menu-item-buttons .delete-btn {
   background: #dc3545;
   color: white;
 }
 
-.menu-item-buttons .delete-btn:hover {
+.admin-menu-item-buttons .delete-btn:hover {
   background: #c82333;
 }
 
@@ -212,22 +212,22 @@
   margin: 10px 0;
 }
 
-.add-menu-item {
+.admin-add-menu-item {
   background: white;
   border: 1px dashed #17a2b8;
   border-radius: 4px;
   padding: 15px;
 }
 
-.add-menu-item h5 {
+.admin-add-menu-item h5 {
   margin-top: 0;
   margin-bottom: 10px;
   color: #17a2b8;
   font-size: 0.95em;
 }
 
-.add-menu-item input,
-.add-menu-item textarea {
+.admin-add-menu-item input,
+.admin-add-menu-item textarea {
   width: 100%;
   padding: 8px;
   margin-bottom: 10px;
@@ -238,8 +238,8 @@
   box-sizing: border-box;
 }
 
-.add-menu-item input:focus,
-.add-menu-item textarea:focus {
+.admin-add-menu-item input:focus,
+.admin-add-menu-item textarea:focus {
   outline: none;
   border-color: #17a2b8;
   box-shadow: 0 0 5px rgba(23, 162, 184, 0.3);

@@ -356,14 +356,14 @@ function AdminPage() {
                     })}
                   </div>
 
-                  <div className="menu-section">
+                  <div className="admin-menu-section">
                     <h4>Menu Items</h4>
-                    <div className="menu-items-list">
+                    <div className="admin-menu-items-list">
                       {editingRestaurant.menu && editingRestaurant.menu.length > 0 ? (
                         editingRestaurant.menu.map((item) => (
-                          <div key={item.id} className="menu-item">
+                          <div key={item.id} className="admin-menu-item">
                             {editingMenuItem?.id === item.id ? (
-                              <div className="menu-item-edit">
+                              <div className="admin-menu-item-edit">
                                 <input
                                   type="text"
                                   placeholder="Item name"
@@ -398,7 +398,7 @@ function AdminPage() {
                                   }
                                   rows="2"
                                 />
-                                <div className="menu-item-buttons">
+                                <div className="admin-menu-item-buttons">
                                   <button
                                     className="save-btn"
                                     onClick={() =>
@@ -416,14 +416,14 @@ function AdminPage() {
                                 </div>
                               </div>
                             ) : (
-                              <div className="menu-item-view">
-                                <div className="menu-item-info">
+                              <div className="admin-menu-item-view">
+                                <div className="admin-menu-item-info">
                                   <strong>{item.item_name}</strong> - ${item.price}
                                 </div>
-                                <div className="menu-item-description">
+                                <div className="admin-menu-item-description">
                                   {item.description}
                                 </div>
-                                <div className="menu-item-buttons">
+                                <div className="admin-menu-item-buttons">
                                   <button
                                     className="edit-btn"
                                     onClick={() => handleEditMenuItem(item)}
@@ -448,7 +448,7 @@ function AdminPage() {
                       )}
                     </div>
 
-                    <div className="add-menu-item">
+                    <div className="admin-add-menu-item">
                       <h5>Add New Menu Item</h5>
                       <input
                         type="text"
