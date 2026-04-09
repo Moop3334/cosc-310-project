@@ -7,6 +7,7 @@ from app.services.cart_service import (
     get_cart,
     clear_cart
 )
+from app.repositories.user_repos import find_user_by_id
 
 router = APIRouter(prefix="/cart", tags=["cart"])
 
@@ -77,6 +78,10 @@ def get_cart_summary(user_id: int):
     if not cart:
         raise HTTPException(status_code=404, detail=f"Error: cart not found for user {user_id}")
     
+    # Get user credit
+    user = find_user_by_id(user_id)
+    credit = float(user["credit"]) if user else 0.0
+    
     return {
         "user_id": cart.user_id,
         "restaurant_id": cart.restaurant_id,
@@ -85,5 +90,6 @@ def get_cart_summary(user_id: int):
         "subtotal": cart.total,
         "tax": round(cart.total * 0.05, 2),
         "delivery_fee": 3.00,
+        "credit": credit,
         "total_with_fees": round((cart.total * 1.05) + 3, 2)
     }

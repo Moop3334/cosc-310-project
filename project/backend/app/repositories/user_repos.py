@@ -77,3 +77,16 @@ def find_user_by_email(email):
             return user
 
     return None
+
+
+def find_user_by_id(user_id: int):
+    users = load_all_users()
+
+    for user in users:
+        if user["user_id"] == user_id:
+            # Convert credit to int if it's a string
+            if isinstance(user.get("credit"), str):
+                user["credit"] = int(user["credit"])
+            return user
+
+    return None
