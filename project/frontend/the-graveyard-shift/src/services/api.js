@@ -82,7 +82,7 @@ export const restaurantAPI = {
   updateRestaurant: async (restaurantId, restaurantData) => {
     try {
       const response = await fetch(`${API_BASE_URL}/restaurants/${restaurantId}`, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -119,9 +119,10 @@ export const restaurantAPI = {
 
 export const orderAPI = {
   // Get all orders
-  getOrders: async () => {
+  getOrders: async (restaurantId = null) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/orders`);
+      const url = restaurantId ? `${API_BASE_URL}/orders?restaurant_id=${restaurantId}` : `${API_BASE_URL}/orders`;
+      const response = await fetch(url);
       if (!response.ok) throw new Error('Failed to fetch orders');
       return await response.json();
     } catch (error) {
@@ -143,6 +144,25 @@ export const orderAPI = {
       return await response.json();
     } catch (error) {
       console.error('Error creating order:', error);
+      throw error;
+    }
+  },
+  updateOrderStatus: async (orderId, status) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/orders/${orderId}/status`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status }),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Failed to update order status');
+      }
+      return await response.text();
+    } catch (error) {
+      console.error('Error updating order status:', error);
       throw error;
     }
   },

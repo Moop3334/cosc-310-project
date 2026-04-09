@@ -170,7 +170,7 @@ export default function RestaurantForm({ restaurant = null, onSuccess, onCancel 
         const username = localStorage.getItem('username');
         if (username && createdRestaurant.id) {
           const userData = await userAPI.getUserByUsername(username);
-          const updatedEditableRestaurants = [...(userData.editable_restaurants || []), createdRestaurant.id];
+          const updatedEditableRestaurants = [...(userData.editable_restaurants || []), String(createdRestaurant.id)];
           await userAPI.updateUser(username, {
             editable_restaurants: updatedEditableRestaurants
           });

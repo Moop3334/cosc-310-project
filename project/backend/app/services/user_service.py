@@ -92,7 +92,7 @@ def get_user_by_username(username):
         role=user.get("role"),
         is_active=user["is_active"],
         editable_restaurants=user.get("editable_restaurants", []),
-        credit=user.get["credit"]
+        credit=user.get("credit")
     )
 
 

@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 import datetime
 from fastapi import HTTPException
 from app.schema.order import Order
@@ -31,10 +31,12 @@ def dict_to_order(order_dict) -> Order:
         status=order_dict.get("status", "Pending Approval")
     )
 
-def list_orders() -> List[Order]:
+def list_orders(restaurant_id: Optional[int] = None) -> List[Order]:
     o_list = []
     for o in load_all_order():
         o_list.append(dict_to_order(o))
+    if restaurant_id is not None:
+        o_list = [order for order in o_list if order.restaurant_id == restaurant_id]
     return o_list
 
 def get_specific_order(order_id: int) -> Order:

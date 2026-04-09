@@ -1,16 +1,20 @@
 import { useState, useEffect } from 'react';
-import { restaurantAPI, userAPI } from '../../services/api';
+import { restaurantAPI, userAPI, orderAPI } from '../../services/api';
 import RestaurantForm from './RestaurantForm';
 import './styles/RestaurantOwnerDashboard.css';
 
 export default function RestaurantOwnerDashboard() {
   const [restaurants, setRestaurants] = useState([]);
   const [editableRestaurants, setEditableRestaurants] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [editingRestaurant, setEditingRestaurant] = useState(null);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
+  const [orderLoading, setOrderLoading] = useState(true);
+  const [orderError, setOrderError] = useState(null);
+  const [statusUpdates, setStatusUpdates] = useState({});
 
   const username = localStorage.getItem('username');
 
@@ -22,27 +26,34 @@ export default function RestaurantOwnerDashboard() {
     try {
       setLoading(true);
       setError(null);
+      setOrderLoading(true);
+      setOrderError(null);
 
-      // Fetch all restaurants
       const allRestaurants = await restaurantAPI.getRestaurants();
+      const allOrders = await orderAPI.getOrders();
       setRestaurants(allRestaurants);
 
-      // Fetch logged-in user data to get editable restaurants
       if (username) {
         const userData = await userAPI.getUserByUsername(username);
         const userEditableIds = userData.editable_restaurants || [];
-        
-        // Filter restaurants that this user can edit
-        const editable = allRestaurants.filter(r => 
+
+        const editable = allRestaurants.filter((r) =>
           userEditableIds.includes(String(r.id)) || userEditableIds.includes(r.id)
         );
+
         setEditableRestaurants(editable);
+        const editableRestaurantIds = editable.map((restaurant) => restaurant.id);
+        setOrders(allOrders.filter((order) => editableRestaurantIds.includes(order.restaurant_id)));
+      } else {
+        setEditableRestaurants([]);
+        setOrders([]);
       }
     } catch (err) {
       setError('Failed to load restaurants. Please try again.');
       console.error(err);
     } finally {
       setLoading(false);
+      setOrderLoading(false);
     }
   };
 
@@ -87,6 +98,45 @@ export default function RestaurantOwnerDashboard() {
   const handleDeleteCancel = () => {
     setDeleteConfirm(null);
   };
+
+  const handleOrderStatusChange = (orderId, status) => {
+    setStatusUpdates((prev) => ({
+      ...prev,
+      [orderId]: status,
+    }));
+  };
+
+  const handleUpdateOrderStatus = async (orderId) => {
+    const order = orders.find((orderItem) => orderItem.id === orderId);
+    if (!order) return;
+    const selectedStatus = statusUpdates[orderId] ?? order.status;
+    if (selectedStatus === order.status) return;
+
+    try {
+      setError(null);
+      await orderAPI.updateOrderStatus(orderId, selectedStatus);
+      setOrders((prevOrders) =>
+        prevOrders.map((item) =>
+          item.id === orderId ? { ...item, status: selectedStatus } : item
+        )
+      );
+      setStatusUpdates((prev) => {
+        const next = { ...prev };
+        delete next[orderId];
+        return next;
+      });
+    } catch (err) {
+      setError('Failed to update order status. Please try again.');
+      console.error(err);
+    }
+  };
+
+  const ORDER_STATUS_OPTIONS = [
+    'Pending Approval',
+    'Preparing',
+    'Out for Delivery',
+    'Cancelled'
+  ];
 
   if (showForm) {
     return (
@@ -153,13 +203,13 @@ export default function RestaurantOwnerDashboard() {
                     </div>
 
                     <div className="card-actions">
-                      <button 
+                      <button
                         className="btn-edit"
                         onClick={() => handleEdit(restaurant)}
                       >
                         Edit
                       </button>
-                      <button 
+                      <button
                         className="btn-delete"
                         onClick={() => handleDeleteClick(restaurant)}
                       >
@@ -181,13 +231,13 @@ export default function RestaurantOwnerDashboard() {
                   This action cannot be undone.
                 </p>
                 <div className="modal-actions">
-                  <button 
+                  <button
                     className="btn-cancel"
                     onClick={handleDeleteCancel}
                   >
                     Cancel
                   </button>
-                  <button 
+                  <button
                     className="btn-confirm-delete"
                     onClick={handleDeleteConfirm}
                   >
@@ -199,8 +249,91 @@ export default function RestaurantOwnerDashboard() {
           )}
         </div>
       )}
+
+      <div className="orders-section">
+        <div className="section-header">
+          <h2>Restaurant Orders</h2>
+        </div>
+
+        {orderError && <div className="dashboard-error">{orderError}</div>}
+
+        {orderLoading ? (
+          <div className="loading">Loading restaurant orders...</div>
+        ) : orders.length === 0 ? (
+          <div className="empty-state">
+            <p>No orders found for your restaurants yet.</p>
+          </div>
+        ) : (
+          <div className="orders-grid">
+            {orders.map((order) => {
+              const selectedStatus = statusUpdates[order.id] ?? order.status;
+              const statusChanged = selectedStatus !== order.status;
+              return (
+                <div key={order.id} className="owner-order-card">
+                  <div className="owner-order-header">
+                    <h3>Order #{order.id}</h3>
+                    <span className={`owner-status-pill ${order.status.toLowerCase().replace(/\s+/g, '-')}`}>
+                      {order.status}
+                    </span>
+                  </div>
+
+                  <div className="owner-order-details">
+                    <p><strong>Restaurant ID:</strong> {order.restaurant_id}</p>
+                    <p><strong>Customer ID:</strong> {order.user_id}</p>
+                    <p><strong>Date:</strong> {formatDate(order.creation_date)}</p>
+                    <p><strong>Total:</strong> ${order.total_price.toFixed(2)}</p>
+                  </div>
+
+                  <div className="owner-order-items">
+                    <h4>Items</h4>
+                    <ul>
+                      {order.items.map((item, index) => (
+                        <li key={`${order.id}-${index}`}>
+                          {item.quantity} × {item.item_name} (${item.price.toFixed(2)})
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="owner-order-actions">
+                    <select
+                      className="owner-status-select"
+                      value={selectedStatus}
+                      onChange={(e) => handleOrderStatusChange(order.id, e.target.value)}
+                    >
+                      {ORDER_STATUS_OPTIONS.map((status) => (
+                        <option key={status} value={status}>
+                          {status}
+                        </option>
+                      ))}
+                    </select>
+                    <button
+                      className="owner-btn-update"
+                      disabled={!statusChanged}
+                      onClick={() => handleUpdateOrderStatus(order.id)}
+                    >
+                      Update Status
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
+}
+
+function formatDate(dateString) {
+  if (!dateString) return 'N/A';
+  return new Date(dateString).toLocaleString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
 }
 
 function formatTime(timeString) {

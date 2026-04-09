@@ -53,6 +53,18 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 }
 
+.orders-section {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.orders-section .section-header h2 {
+  color: #2c3e50;
+  font-size: 24px;
+}
+
 .section-header {
   display: flex;
   justify-content: space-between;
@@ -287,4 +299,108 @@
 
 .btn-confirm-delete:hover {
   background-color: #c0392b;
+}
+
+
+ .owner-order-card {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+ .owner-order-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+ .owner-order-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #2c3e50;
+}
+
+ .owner-status-pill {
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+ .owner-status-pill.pending-approval {
+  background-color: #ff7f50;
+}
+
+ .owner-status-pill.preparing,
+ .owner-status-pill.in-progress,
+ .owner-status-pill.out-for-delivery {
+  background-color: #3498db;
+}
+
+ .owner-status-pill.completed {
+  background-color: #2ecc71;
+}
+
+ .owner-status-pill.cancelled {
+  background-color: #e74c3c;
+}
+
+ .owner-order-details p,
+ .owner-order-items ul {
+  margin: 8px 0;
+  color: #555;
+}
+
+ .owner-order-items h4 {
+  margin: 0 0 8px 0;
+  color: #2c3e50;
+}
+
+ .owner-order-items ul {
+  padding-left: 18px;
+}
+
+ .owner-order-actions {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+}
+
+ .owner-status-select {
+  width: 100%;
+  border: 1px solid #d6d6d6;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+ .owner-btn-update {
+  background-color: #6c5ce7;
+  border: none;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.25s ease;
+}
+
+ .owner-btn-update:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .orders-grid {
+    grid-template-columns: 1fr;
+  }
 }
