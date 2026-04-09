@@ -134,10 +134,8 @@ export default function RestaurantOwnerDashboard() {
   const ORDER_STATUS_OPTIONS = [
     'Pending Approval',
     'Preparing',
-    'In Progress',
     'Out for Delivery',
-    'Completed',
-    'Cancelled',
+    'Cancelled'
   ];
 
   if (showForm) {
