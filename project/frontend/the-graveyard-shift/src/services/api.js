@@ -316,3 +316,79 @@ export const paymentAPI = {
     }
   },
 };
+
+export const reviewAPI = {
+  // Get reviews for a specific user
+  getUserReviews: async (userId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/reviews/user/${userId}`);
+      if (!response.ok) throw new Error('Failed to fetch user reviews');
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching user reviews:', error);
+      throw error;
+    }
+  },
+
+  // Get reviews for a restaurant
+  getRestaurantReviews: async (restaurantId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/reviews/restaurant/${restaurantId}`);
+      if (!response.ok) throw new Error('Failed to fetch restaurant reviews');
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching restaurant reviews:', error);
+      throw error;
+    }
+  },
+
+  // Get reviews for a specific menu item
+  getItemReviews: async (restaurantId, itemId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/reviews/restaurant/${restaurantId}/item/${itemId}`);
+      if (!response.ok) throw new Error('Failed to fetch item reviews');
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching item reviews:', error);
+      throw error;
+    }
+  },
+
+  // Create a review
+  createReview: async (userId, reviewData) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/reviews/${userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(reviewData),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Failed to create review');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error creating review:', error);
+      throw error;
+    }
+  },
+
+  // Delete a review
+  deleteReview: async (reviewId, userId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/reviews/${reviewId}?user_id=${userId}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Failed to delete review');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error deleting review:', error);
+      throw error;
+    }
+  },
+};
