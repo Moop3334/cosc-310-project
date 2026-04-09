@@ -51,7 +51,7 @@ function HomePage() {
           <div className="header-user">
             <div className="user-info">
               <p className="user-username">{username}</p>
-              <p className="user-role">{role?.charAt(0).toUpperCase() + role?.slice(1)}</p>
+              <p className="user-role"> {role?.replace("_", " ").replace(/\b\w/g, c => c.toUpperCase())}</p>
             </div>
             <button className="logout-btn" onClick={handleLogout}>
               Logout
