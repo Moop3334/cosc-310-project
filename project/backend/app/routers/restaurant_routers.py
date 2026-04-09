@@ -60,7 +60,7 @@ def post_menu_item(restaurant_id: int, payload: MenuItemCreate):
         raise HTTPException(status_code=404, detail=f"Unable to find a restaurant with id {payload.restaurant_id}")
     return create_menu_item(restaurant_id, payload)
 
-@menu_router.post("/{restaurant_id}/menu/{item_id}", response_model=MenuItem, status_code=201)
+@menu_router.put("/{restaurant_id}/menu/{item_id}", response_model=MenuItem, status_code=200)
 def post_menu_item_update(restaurant_id: int, payload: MenuItemUpdate, item_id: int):
     return update_menu_item(restaurant_id, item_id, payload)
 
