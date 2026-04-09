@@ -53,6 +53,18 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 }
 
+.orders-section {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.orders-section .section-header h2 {
+  color: #2c3e50;
+  font-size: 24px;
+}
+
 .section-header {
   display: flex;
   justify-content: space-between;
@@ -289,15 +301,6 @@
   background-color: #c0392b;
 }
 
-.orders-section {
-  margin-top: 40px;
-}
-
-.orders-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 24px;
-}
 
 .order-card {
   background: #ffffff;

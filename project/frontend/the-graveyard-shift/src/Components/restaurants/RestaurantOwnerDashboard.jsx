@@ -250,7 +250,7 @@ export default function RestaurantOwnerDashboard() {
         </div>
       )}
 
-      <div className="section orders-section">
+      <div className="orders-section">
         <div className="section-header">
           <h2>Restaurant Orders</h2>
         </div>
