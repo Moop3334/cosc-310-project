@@ -53,7 +53,11 @@ function LoginPage() {
       }
 
       localStorage.setItem("role", userData.role || "customer");
-      localStorage.setItem("userId", userData.id || "");
+      // Store userId - use id field, fallback to username if id is not available
+      const userId = userData.id || userData.user_id || username;
+      localStorage.setItem("userId", String(userId).trim());
+      
+      console.log('Login successful - stored userId:', userId, 'username:', username);
       
       setMessage(`Welcome back, ${userData.username}!`);
       setMessageType("success");
