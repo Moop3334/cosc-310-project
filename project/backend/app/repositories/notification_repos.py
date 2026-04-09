@@ -2,7 +2,7 @@ from pathlib import Path
 import csv
 from typing import Dict, Any, List
 
-DATA_PATH = Path(file).resolve().parents[1] / "data" / "notifications.csv"
+DATA_PATH = Path(__file__).resolve().parents[1] / "data" / "notifications.csv"
 
 FIELD_NAMES = ["id", "user_id", "order_id", "message", "is_read", "created_at"]
 
