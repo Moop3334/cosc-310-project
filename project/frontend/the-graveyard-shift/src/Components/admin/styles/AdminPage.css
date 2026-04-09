@@ -35,41 +35,339 @@
 .admin-list {
   list-style: none;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
-.admin-list li {
+.admin-item {
   background: #f9f9f9;
-  margin-bottom: 10px;
-  padding: 15px;
+  border: 1px solid #ddd;
   border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.item-summary {
+  padding: 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 15px;
 }
 
-.admin-list li div {
+.item-info {
+  flex: 1;
+  font-weight: 500;
+}
+
+.item-details {
+  flex: 1;
+  color: #666;
+  font-size: 0.95em;
+}
+
+.edit-form {
+  padding: 20px;
+  background: #fff;
+  border: 2px solid #007bff;
+}
+
+.edit-form h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #007bff;
+  font-size: 1.3em;
+}
+
+.admin-menu-section {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f5f5f5;
+  border-radius: 5px;
+  border-left: 4px solid #17a2b8;
+}
+
+.admin-menu-section h4 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #17a2b8;
+  font-size: 1.1em;
+}
+
+.admin-menu-items-list {
+  margin-bottom: 20px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.admin-list input {
-  margin-right: 10px;
-  padding: 5px;
+.admin-menu-item {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.admin-menu-item-view {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-menu-item-info {
+  flex: 1;
+  font-weight: 500;
+}
+
+.admin-menu-item-description {
+  flex: 1;
+  color: #666;
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+.admin-menu-item-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-menu-item-edit input,
+.admin-menu-item-edit textarea {
+  padding: 8px;
   border: 1px solid #ccc;
   border-radius: 3px;
+  font-family: Arial, sans-serif;
+  font-size: 0.9em;
 }
 
-.admin-list button {
-  margin-left: 10px;
-  padding: 5px 10px;
+.admin-menu-item-edit input:focus,
+.admin-menu-item-edit textarea:focus {
+  outline: none;
+  border-color: #17a2b8;
+  box-shadow: 0 0 5px rgba(23, 162, 184, 0.3);
+}
+
+.admin-menu-item-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.admin-menu-item-buttons .edit-btn,
+.admin-menu-item-buttons .delete-btn,
+.admin-menu-item-buttons .save-btn,
+.admin-menu-item-buttons .cancel-btn {
+  padding: 6px 12px;
+  font-size: 0.85em;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.admin-menu-item-buttons .save-btn {
+  background: #28a745;
+  color: white;
+}
+
+.admin-menu-item-buttons .save-btn:hover {
+  background: #218838;
+}
+
+.admin-menu-item-buttons .cancel-btn {
+  background: #6c757d;
+  color: white;
+}
+
+.admin-menu-item-buttons .cancel-btn:hover {
+  background: #5a6268;
+}
+
+.admin-menu-item-buttons .edit-btn {
   background: #007bff;
+  color: white;
+}
+
+.admin-menu-item-buttons .edit-btn:hover {
+  background: #0056b3;
+}
+
+.admin-menu-item-buttons .delete-btn {
+  background: #dc3545;
+  color: white;
+}
+
+.admin-menu-item-buttons .delete-btn:hover {
+  background: #c82333;
+}
+
+.no-items {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  margin: 10px 0;
+}
+
+.admin-add-menu-item {
+  background: white;
+  border: 1px dashed #17a2b8;
+  border-radius: 4px;
+  padding: 15px;
+}
+
+.admin-add-menu-item h5 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #17a2b8;
+  font-size: 0.95em;
+}
+
+.admin-add-menu-item input,
+.admin-add-menu-item textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-family: Arial, sans-serif;
+  font-size: 0.9em;
+  box-sizing: border-box;
+}
+
+.admin-add-menu-item input:focus,
+.admin-add-menu-item textarea:focus {
+  outline: none;
+  border-color: #17a2b8;
+  box-shadow: 0 0 5px rgba(23, 162, 184, 0.3);
+}
+
+.add-btn {
+  width: 100%;
+  padding: 10px;
+  background: #17a2b8;
   color: white;
   border: none;
   border-radius: 3px;
   cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9em;
+  transition: background 0.2s ease;
 }
 
-.admin-list button:hover {
+.add-btn:hover {
+  background: #138496;
+}
+
+.edit-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.edit-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.edit-field label {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.95em;
+}
+
+.edit-field input[type="text"],
+.edit-field input[type="number"],
+.edit-field input[type="email"],
+.edit-field textarea {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-family: Arial, sans-serif;
+  font-size: 0.95em;
+}
+
+.edit-field textarea {
+  resize: vertical;
+  font-family: "Courier New", monospace;
+  font-size: 0.9em;
+}
+
+.edit-field input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.edit-field input:focus,
+.edit-field textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.summary-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.save-btn,
+.cancel-btn,
+.delete-btn,
+.edit-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 0.95em;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.save-btn {
+  background: #28a745;
+  color: white;
+}
+
+.save-btn:hover {
+  background: #218838;
+}
+
+.cancel-btn {
+  background: #6c757d;
+  color: white;
+}
+
+.cancel-btn:hover {
+  background: #5a6268;
+}
+
+.delete-btn {
+  background: #dc3545;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #c82333;
+}
+
+.edit-btn {
+  background: #007bff;
+  color: white;
+}
+
+.edit-btn:hover {
   background: #0056b3;
 }
 

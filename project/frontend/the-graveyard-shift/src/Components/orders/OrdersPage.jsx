@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { orderAPI, userAPI } from "../../services/api";
+import { orderAPI, userAPI, reviewAPI } from "../../services/api";
+import ReviewForm from "../reviews/ReviewForm";
+import ReviewList from "../reviews/ReviewList";
 import "./styles/OrdersPage.css";
 
 const COMPLETED_STATUSES = ["Completed", "Delivered", "Cancelled"];
@@ -9,6 +11,8 @@ function OrdersPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [userId, setUserId] = useState(localStorage.getItem("userId") || "");
+  const [userReviews, setUserReviews] = useState([]);
+  const [expandedOrder, setExpandedOrder] = useState(null);
 
   const username = localStorage.getItem("username");
 
@@ -53,6 +57,13 @@ function OrdersPage() {
       } finally {
         setLoading(false);
       }
+
+      try {
+        const reviews = await reviewAPI.getUserReviews(userId);
+        setUserReviews(reviews);
+      } catch {
+        setUserReviews([]);
+      }
     };
 
     fetchOrders();
@@ -67,6 +78,24 @@ function OrdersPage() {
     () => orders.filter((order) => COMPLETED_STATUSES.includes(order.status)),
     [orders]
   );
+
+  const refreshReviews = async () => {
+    if (!userId) return;
+    try {
+      const reviews = await reviewAPI.getUserReviews(userId);
+      setUserReviews(reviews);
+    } catch (err) {
+      console.error("Failed to refresh reviews:", err);
+    }
+  };
+
+  const toggleReviewPanel = (orderId) => {
+    setExpandedOrder((prev) => (prev === orderId ? null : orderId));
+  };
+
+  const getOrderReviews = (orderId) => {
+    return userReviews.filter((r) => r.order_id === orderId);
+  };
 
   const renderOrderItems = (order) => {
     if (!Array.isArray(order.items) || order.items.length === 0) {
@@ -86,43 +115,75 @@ function OrdersPage() {
     );
   };
 
-  const renderSection = (title, orderList) => (
+  const renderSection = (title, orderList, showReviews = false) => (
     <div className="orders-section">
       <h2>{title}</h2>
       {orderList.length === 0 ? (
         <p className="empty-message">No orders in this section yet.</p>
       ) : (
         <div className="orders-grid">
-          {orderList.map((order) => (
-            <div key={order.id} className="order-card">
-              <div className="order-card-header">
-                <div>
-                  <span className="order-id">Order #{order.id}</span>
-                  <span className={`order-status ${order.status.toLowerCase().replace(/\s+/g, "-")}`}>
-                    {order.status}
-                  </span>
+          {orderList.map((order) => {
+            const orderReviews = getOrderReviews(order.id);
+            const isExpanded = expandedOrder === order.id;
+
+            return (
+              <div key={order.id} className="order-card">
+                <div className="order-card-header">
+                  <div>
+                    <span className="order-id">Order #{order.id}</span>
+                    <span className={`order-status ${order.status.toLowerCase().replace(/\s+/g, "-")}`}>
+                      {order.status}
+                    </span>
+                  </div>
+                  <div className="order-date">
+                    {new Date(order.creation_date).toLocaleString()}
+                  </div>
                 </div>
-                <div className="order-date">
-                  {new Date(order.creation_date).toLocaleString()}
+                <div className="order-details">
+                  <div className="order-detail-row">
+                    <strong>Restaurant ID:</strong>
+                    <span>{order.restaurant_id}</span>
+                  </div>
+                  <div className="order-detail-row">
+                    <strong>Total:</strong>
+                    <span>${order.total_price.toFixed(2)}</span>
+                  </div>
+                  <div className="order-detail-row">
+                    <strong>Items:</strong>
+                    <span>{order.items.length}</span>
+                  </div>
                 </div>
+                {renderOrderItems(order)}
+
+                {showReviews && order.status !== "Cancelled" && (
+                  <div className="review-section">
+                    <button
+                      className="toggle-review-btn"
+                      onClick={() => toggleReviewPanel(order.id)}
+                    >
+                      {isExpanded ? "Hide Reviews" : "Write a Review"}
+                    </button>
+
+                    {isExpanded && (
+                      <>
+                        {orderReviews.length > 0 && (
+                          <div className="existing-reviews">
+                            <h4>Your Reviews</h4>
+                            <ReviewList reviews={orderReviews} />
+                          </div>
+                        )}
+                        <ReviewForm
+                          order={order}
+                          existingReviews={userReviews}
+                          onReviewSubmitted={refreshReviews}
+                        />
+                      </>
+                    )}
+                  </div>
+                )}
               </div>
-              <div className="order-details">
-                <div className="order-detail-row">
-                  <strong>Restaurant ID:</strong>
-                  <span>{order.restaurant_id}</span>
-                </div>
-                <div className="order-detail-row">
-                  <strong>Total:</strong>
-                  <span>${order.total_price.toFixed(2)}</span>
-                </div>
-                <div className="order-detail-row">
-                  <strong>Items:</strong>
-                  <span>{order.items.length}</span>
-                </div>
-              </div>
-              {renderOrderItems(order)}
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>
@@ -144,7 +205,7 @@ function OrdersPage() {
       ) : (
         <>
           {renderSection("Current Orders", currentOrders)}
-          {renderSection("Past Orders", pastOrders)}
+          {renderSection("Past Orders", pastOrders, true)}
         </>
       )}
     </div>

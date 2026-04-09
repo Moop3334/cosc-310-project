@@ -1,0 +1,123 @@
+.review-form-container {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.review-form-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 0.75rem 0;
+}
+
+.review-error {
+  color: #ff8a80;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.review-success {
+  color: #b1f1c5;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.review-item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+.review-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.review-item-name {
+  color: #f5f5f5;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.already-reviewed {
+  color: #b1f1c5;
+  font-size: 0.85rem;
+  font-style: italic;
+  margin: 0;
+}
+
+.review-item-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.star-rating {
+  display: flex;
+  gap: 0.2rem;
+}
+
+.star-rating .star {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.star-rating .star:hover,
+.star-rating .star.filled {
+  color: #f6c700;
+  transform: scale(1.15);
+}
+
+.review-comment {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font-size: 0.88rem;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.review-comment::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.review-comment:focus {
+  outline: none;
+  border-color: rgba(233, 69, 96, 0.5);
+}
+
+.submit-review-btn {
+  align-self: flex-start;
+  padding: 0.5rem 1.1rem;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #e94560, #c73450);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+.submit-review-btn:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.submit-review-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

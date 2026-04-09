@@ -152,7 +152,7 @@ temp_cart_item_2 = {
 }
 
 temp_cart_checked_out = {
-  "id": 6,
+  "id": 7,
   "user_id": 1,
   "restaurant_id": 1,
   "items": [
@@ -332,18 +332,18 @@ def test_get_invalid_restaurant_id():
     assert response.json() == {"detail": "Restaurant '99' not found"}
 
 def test_update_restaurant():
-    response = client.post("/restaurants/1", json=restaurant_1)
-    assert response.status_code == 201
+    response = client.put("/restaurants/1", json=restaurant_1)
+    assert response.status_code == 200
     assert response.json() == restaurant_1
     client.post("/restaurants/1", json=restaurant_1)
 
 def test_update_invalid_restaurant():
-    response = client.post("/restaurants/999", json=restaurant_1)
+    response = client.put("/restaurants/999", json=restaurant_1)
     assert response.status_code == 404
     assert response.json() == {"detail": "Restaurant '999' not found"}
 
 def test_update_restaurant_invalid_input():
-  response = client.post("/restaurants/1", json={
+  response = client.put("/restaurants/1", json={
   "name": "",
   "address": "",
   "open_times": [
@@ -488,19 +488,19 @@ def test_create_menu_item_invalid_input():
 
 def test_update_menu_item():
     item = get_menu_item_by_id(1,1)
-    response = client.post("/restaurants/1/menu/1", json=test_menu_creator)
-    assert response.status_code == 201
+    response = client.put("/restaurants/1/menu/1", json=test_menu_creator)
+    assert response.status_code == 200
     test_menu_creator["id"] = 1
     assert response.json() == test_menu_creator
     update_menu_item(1,1, item)
 
 def test_update_invalid_restaurant_menu_item():
-    response = client.post("/restaurants/99/menu/1", json=invalid_restaurant_menu_creator)
+    response = client.put("/restaurants/99/menu/1", json=invalid_restaurant_menu_creator)
     assert response.status_code == 404
     assert response.json() == {"detail":"Unable to find a restaurant with id 99"}
 
 def test_update_invalid_menu_item():
-    response = client.post("/restaurants/1/menu/99", json=test_menu_creator)
+    response = client.put("/restaurants/1/menu/99", json=test_menu_creator)
     assert response.status_code == 404
     assert response.json() == {"detail":"Menu Item 99 not found for restaurant 1"}
 
