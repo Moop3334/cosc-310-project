@@ -82,7 +82,7 @@ export const restaurantAPI = {
   updateRestaurant: async (restaurantId, restaurantData) => {
     try {
       const response = await fetch(`${API_BASE_URL}/restaurants/${restaurantId}`, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },

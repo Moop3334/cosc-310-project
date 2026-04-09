@@ -1,4 +1,4 @@
-# How to run using Docker Compose (Most of this could probably be moved to the M4 'How to Run/Mantain' document)
+# How to run using Docker Compose
 
 ## Running with Docker Compose
 
