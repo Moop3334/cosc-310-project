@@ -8,13 +8,6 @@ function AdminPage() {
   const [editingRestaurant, setEditingRestaurant] = useState(null);
   const [editingOrder, setEditingOrder] = useState(null);
 
-  useEffect(() => {
-    if (role === "admin") {
-      fetchRestaurants();
-      fetchOrders();
-    }
-  }, [role]);
-
   const fetchRestaurants = async () => {
     try {
       const response = await fetch("/api/restaurants");
@@ -34,6 +27,13 @@ function AdminPage() {
       console.error("Error fetching orders:", error);
     }
   };
+
+  useEffect(() => {
+    if (role === "admin") {
+      fetchRestaurants();
+      fetchOrders();
+    }
+  }, [role]);
 
   const handleEditRestaurant = (restaurant) => {
     setEditingRestaurant(restaurant);
