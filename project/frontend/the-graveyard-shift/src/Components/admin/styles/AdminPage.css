@@ -80,6 +80,188 @@
   font-size: 1.3em;
 }
 
+.menu-section {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f5f5f5;
+  border-radius: 5px;
+  border-left: 4px solid #17a2b8;
+}
+
+.menu-section h4 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #17a2b8;
+  font-size: 1.1em;
+}
+
+.menu-items-list {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menu-item {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.menu-item-view {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu-item-info {
+  flex: 1;
+  font-weight: 500;
+}
+
+.menu-item-description {
+  flex: 1;
+  color: #666;
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+.menu-item-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.menu-item-edit input,
+.menu-item-edit textarea {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-family: Arial, sans-serif;
+  font-size: 0.9em;
+}
+
+.menu-item-edit input:focus,
+.menu-item-edit textarea:focus {
+  outline: none;
+  border-color: #17a2b8;
+  box-shadow: 0 0 5px rgba(23, 162, 184, 0.3);
+}
+
+.menu-item-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.menu-item-buttons .edit-btn,
+.menu-item-buttons .delete-btn,
+.menu-item-buttons .save-btn,
+.menu-item-buttons .cancel-btn {
+  padding: 6px 12px;
+  font-size: 0.85em;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.menu-item-buttons .save-btn {
+  background: #28a745;
+  color: white;
+}
+
+.menu-item-buttons .save-btn:hover {
+  background: #218838;
+}
+
+.menu-item-buttons .cancel-btn {
+  background: #6c757d;
+  color: white;
+}
+
+.menu-item-buttons .cancel-btn:hover {
+  background: #5a6268;
+}
+
+.menu-item-buttons .edit-btn {
+  background: #007bff;
+  color: white;
+}
+
+.menu-item-buttons .edit-btn:hover {
+  background: #0056b3;
+}
+
+.menu-item-buttons .delete-btn {
+  background: #dc3545;
+  color: white;
+}
+
+.menu-item-buttons .delete-btn:hover {
+  background: #c82333;
+}
+
+.no-items {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  margin: 10px 0;
+}
+
+.add-menu-item {
+  background: white;
+  border: 1px dashed #17a2b8;
+  border-radius: 4px;
+  padding: 15px;
+}
+
+.add-menu-item h5 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #17a2b8;
+  font-size: 0.95em;
+}
+
+.add-menu-item input,
+.add-menu-item textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-family: Arial, sans-serif;
+  font-size: 0.9em;
+  box-sizing: border-box;
+}
+
+.add-menu-item input:focus,
+.add-menu-item textarea:focus {
+  outline: none;
+  border-color: #17a2b8;
+  box-shadow: 0 0 5px rgba(23, 162, 184, 0.3);
+}
+
+.add-btn {
+  width: 100%;
+  padding: 10px;
+  background: #17a2b8;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9em;
+  transition: background 0.2s ease;
+}
+
+.add-btn:hover {
+  background: #138496;
+}
+
 .edit-fields {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

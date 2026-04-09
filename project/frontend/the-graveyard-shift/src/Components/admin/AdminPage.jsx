@@ -12,6 +12,8 @@ function AdminPage() {
   const [expandedRestaurant, setExpandedRestaurant] = useState(null);
   const [expandedOrder, setExpandedOrder] = useState(null);
   const [expandedUser, setExpandedUser] = useState(null);
+  const [editingMenuItem, setEditingMenuItem] = useState(null);
+  const [newMenuItem, setNewMenuItem] = useState(null);
 
   const fetchRestaurants = async () => {
     try {
@@ -150,6 +152,67 @@ function AdminPage() {
     }
   };
 
+  const handleAddMenuItem = async (restaurantId) => {
+    if (!newMenuItem || !newMenuItem.item_name || !newMenuItem.price || !newMenuItem.description) {
+      alert("Please fill in all menu item fields");
+      return;
+    }
+    try {
+      const payload = {
+        item_name: newMenuItem.item_name,
+        restaurant_id: restaurantId,
+        price: parseFloat(newMenuItem.price),
+        description: newMenuItem.description,
+      };
+      await fetch(`/api/restaurants/${restaurantId}/menu`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      setNewMenuItem(null);
+      fetchRestaurants();
+    } catch (error) {
+      console.error("Error adding menu item:", error);
+    }
+  };
+
+  const handleEditMenuItem = (menuItem) => {
+    setEditingMenuItem({ ...menuItem });
+  };
+
+  const handleSaveMenuItem = async (restaurantId, itemId) => {
+    try {
+      const payload = {
+        item_name: editingMenuItem.item_name,
+        restaurant_id: restaurantId,
+        price: parseFloat(editingMenuItem.price),
+        description: editingMenuItem.description,
+      };
+      await fetch(`/api/restaurants/${restaurantId}/menu/${itemId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      setEditingMenuItem(null);
+      fetchRestaurants();
+    } catch (error) {
+      console.error("Error saving menu item:", error);
+    }
+  };
+
+  const handleDeleteMenuItem = async (restaurantId, itemId) => {
+    if (window.confirm("Are you sure you want to delete this menu item?")) {
+      try {
+        await fetch(`/api/restaurants/${restaurantId}/menu/${itemId}`, {
+          method: "DELETE",
+        });
+        fetchRestaurants();
+      } catch (error) {
+        console.error("Error deleting menu item:", error);
+      }
+    }
+  };
+
   const renderEditField = (key, value, onChange) => {
     // Skip complex nested objects
     if (typeof value === "object" && !Array.isArray(value)) {
@@ -271,6 +334,144 @@ function AdminPage() {
                       );
                     })}
                   </div>
+
+                  <div className="menu-section">
+                    <h4>Menu Items</h4>
+                    <div className="menu-items-list">
+                      {editingRestaurant.menu && editingRestaurant.menu.length > 0 ? (
+                        editingRestaurant.menu.map((item) => (
+                          <div key={item.id} className="menu-item">
+                            {editingMenuItem?.id === item.id ? (
+                              <div className="menu-item-edit">
+                                <input
+                                  type="text"
+                                  placeholder="Item name"
+                                  value={editingMenuItem.item_name}
+                                  onChange={(e) =>
+                                    setEditingMenuItem({
+                                      ...editingMenuItem,
+                                      item_name: e.target.value,
+                                    })
+                                  }
+                                />
+                                <input
+                                  type="number"
+                                  placeholder="Price"
+                                  value={editingMenuItem.price}
+                                  onChange={(e) =>
+                                    setEditingMenuItem({
+                                      ...editingMenuItem,
+                                      price: parseFloat(e.target.value),
+                                    })
+                                  }
+                                  step="0.01"
+                                />
+                                <textarea
+                                  placeholder="Description"
+                                  value={editingMenuItem.description}
+                                  onChange={(e) =>
+                                    setEditingMenuItem({
+                                      ...editingMenuItem,
+                                      description: e.target.value,
+                                    })
+                                  }
+                                  rows="2"
+                                />
+                                <div className="menu-item-buttons">
+                                  <button
+                                    className="save-btn"
+                                    onClick={() =>
+                                      handleSaveMenuItem(restaurant.id, item.id)
+                                    }
+                                  >
+                                    Save
+                                  </button>
+                                  <button
+                                    className="cancel-btn"
+                                    onClick={() => setEditingMenuItem(null)}
+                                  >
+                                    Cancel
+                                  </button>
+                                </div>
+                              </div>
+                            ) : (
+                              <div className="menu-item-view">
+                                <div className="menu-item-info">
+                                  <strong>{item.item_name}</strong> - ${item.price}
+                                </div>
+                                <div className="menu-item-description">
+                                  {item.description}
+                                </div>
+                                <div className="menu-item-buttons">
+                                  <button
+                                    className="edit-btn"
+                                    onClick={() => handleEditMenuItem(item)}
+                                  >
+                                    Edit
+                                  </button>
+                                  <button
+                                    className="delete-btn"
+                                    onClick={() =>
+                                      handleDeleteMenuItem(restaurant.id, item.id)
+                                    }
+                                  >
+                                    Delete
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        ))
+                      ) : (
+                        <p className="no-items">No menu items</p>
+                      )}
+                    </div>
+
+                    <div className="add-menu-item">
+                      <h5>Add New Menu Item</h5>
+                      <input
+                        type="text"
+                        placeholder="Item name"
+                        value={newMenuItem?.item_name || ""}
+                        onChange={(e) =>
+                          setNewMenuItem({
+                            ...newMenuItem,
+                            item_name: e.target.value,
+                          })
+                        }
+                      />
+                      <input
+                        type="number"
+                        placeholder="Price"
+                        value={newMenuItem?.price || ""}
+                        onChange={(e) =>
+                          setNewMenuItem({
+                            ...newMenuItem,
+                            price: parseFloat(e.target.value),
+                          })
+                        }
+                        step="0.01"
+                      />
+                      <textarea
+                        placeholder="Description"
+                        value={newMenuItem?.description || ""}
+                        onChange={(e) =>
+                          setNewMenuItem({
+                            ...newMenuItem,
+                            description: e.target.value,
+                          })
+                        }
+                        rows="2"
+                      />
+                      <button
+                        className="add-btn"
+                        onClick={() => handleAddMenuItem(restaurant.id)}
+                      >
+                        Add Menu Item
+                      </button>
+                    </div>
+                  </div>
+
                   <div className="button-group">
                     <button className="save-btn" onClick={handleSaveRestaurant}>
                       Save
