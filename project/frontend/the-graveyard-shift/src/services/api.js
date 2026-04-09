@@ -147,24 +147,6 @@ export const orderAPI = {
       throw error;
     }
   },
-};
-
-export const recommendationAPI = {
-  // Get recommendations for a user
-  getRecommendations: async (userId) => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/recommendations/${userId}`);
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.detail || 'Failed to fetch recommendations');
-      }
-      return await response.json();
-    } catch (error) {
-      console.error('Error fetching recommendations:', error);
-      throw error;
-    }
-  },
-  
   updateOrderStatus: async (orderId, status) => {
     try {
       const response = await fetch(`${API_BASE_URL}/orders/${orderId}/status`, {
@@ -181,6 +163,23 @@ export const recommendationAPI = {
       return await response.text();
     } catch (error) {
       console.error('Error updating order status:', error);
+      throw error;
+    }
+  },
+};
+
+export const recommendationAPI = {
+  // Get recommendations for a user
+  getRecommendations: async (userId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/recommendations/${userId}`);
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Failed to fetch recommendations');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching recommendations:', error);
       throw error;
     }
   },
