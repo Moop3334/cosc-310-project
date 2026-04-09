@@ -6,6 +6,7 @@ from app.routers.payment_routers import router as payment_router
 from app.routers.user_routers import router as user_router
 from app.routers.cart_routers import router as cart_router
 from app.routers.recommendation_routers import router as recommendation_router
+from app.routers.review_routers import router as review_router
 
 app = FastAPI()
 
@@ -36,3 +37,4 @@ app.include_router(payment_router)
 app.include_router(user_router)
 app.include_router(cart_router)
 app.include_router(recommendation_router)
+app.include_router(review_router)

@@ -251,3 +251,40 @@
   cursor: not-allowed;
   transform: none;
 }
+
+.review-section {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.toggle-review-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(233, 69, 96, 0.4);
+  border-radius: 8px;
+  background: transparent;
+  color: #ffb3c5;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.toggle-review-btn:hover {
+  background: rgba(233, 69, 96, 0.12);
+  border-color: rgba(233, 69, 96, 0.6);
+}
+
+.existing-reviews {
+  margin-top: 0.75rem;
+}
+
+.existing-reviews h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 0.5rem 0;
+}
