@@ -129,6 +129,23 @@ export const orderAPI = {
       throw error;
     }
   },
+
+  // Checkout - create order from cart
+  checkout: async (userId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/orders/${userId}/checkout`, {
+        method: 'POST',
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Failed to create order');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error creating order:', error);
+      throw error;
+    }
+  },
 };
 
 export const recommendationAPI = {
@@ -273,6 +290,28 @@ export const cartAPI = {
       return await response.json();
     } catch (error) {
       console.error('Error fetching cart summary:', error);
+      throw error;
+    }
+  },
+};
+export const paymentAPI = {
+  // Process payment
+  processPayment: async (paymentData) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/payments/process`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(paymentData),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Payment processing failed');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error processing payment:', error);
       throw error;
     }
   },

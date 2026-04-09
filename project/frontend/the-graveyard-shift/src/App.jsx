@@ -1,6 +1,7 @@
 import RestaurantBrowser from './components/restaurants/RestaurantBrowser'
 import RestaurantOwnerDashboard from './components/restaurants/RestaurantOwnerDashboard'
 import Cart from './components/checkout/Cart'
+import CheckoutPage from './components/checkout/CheckoutPage'
 import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -51,6 +52,14 @@ function App() {
           element={
             <UserRoute>
               <Cart />
+            </UserRoute>
+          } 
+        />
+        <Route 
+          path="/checkout" 
+          element={
+            <UserRoute>
+              <CheckoutPage />
             </UserRoute>
           } 
         />
