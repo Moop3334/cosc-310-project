@@ -18,6 +18,10 @@ function OrdersPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [userId, setUserId] = useState(localStorage.getItem("userId") || "");
+  const [userReviews, setUserReviews] = useState([]);
+  const [expandedOrder, setExpandedOrder] = useState(null);
+  const [statusUpdates, setStatusUpdates] = useState({});
+  const [updatingOrderId, setUpdatingOrderId] = useState(null);
 
   const username = localStorage.getItem("username");
 
@@ -62,7 +66,7 @@ function OrdersPage() {
       } finally {
         setLoading(false);
       }
-
+      
       try {
         const reviews = await reviewAPI.getUserReviews(userId);
         setUserReviews(reviews);
@@ -189,7 +193,11 @@ function OrdersPage() {
         <p className="empty-message">No orders in this section yet.</p>
       ) : (
         <div className="orders-grid">
-          {orderList.map((order) => (
+          {orderList.map((order) => {
+            const orderReviews = getOrderReviews(order.id);
+            const isExpanded = expandedOrder === order.id;
+
+            return (
             <div key={order.id} className="order-card">
               <div className="order-card-header">
                 <div>
@@ -217,8 +225,37 @@ function OrdersPage() {
                 </div>
               </div>
               {renderOrderItems(order)}
-            </div>
-          ))}
+              {renderStatusUpdate(order)}
+
+              {showReviews && order.status !== "Cancelled" && (
+                  <div className="review-section">
+                    <button
+                      className="toggle-review-btn"
+                      onClick={() => toggleReviewPanel(order.id)}
+                    >
+                      {isExpanded ? "Hide Reviews" : "Write a Review"}
+                    </button>
+
+                    {isExpanded && (
+                      <>
+                        {orderReviews.length > 0 && (
+                          <div className="existing-reviews">
+                            <h4>Your Reviews</h4>
+                            <ReviewList reviews={orderReviews} />
+                          </div>
+                        )}
+                        <ReviewForm
+                          order={order}
+                          existingReviews={userReviews}
+                          onReviewSubmitted={refreshReviews}
+                        />
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
