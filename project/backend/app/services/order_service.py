@@ -7,6 +7,7 @@ from app.repositories.order_repos import load_all_order, load_specific_order, sa
 from app.repositories.delivery_repos import save_a_delivery
 from app.services.cart_service import clear_cart, get_cart
 from app.services.payment_service import calculate_subtotal, calculate_total
+from app.services.notification_service import create_notification
 
 def dict_to_order(order_dict) -> Order:
     """Convert a dictionary from CSV to an Order object."""
@@ -68,8 +69,14 @@ def update_order_status(order_id: int, new_status: str) -> str:
     orders = load_all_order()
     for idx, order in enumerate(orders):
         if int(order["id"]) == order_id:
+            old_status = order.get("status", "Unknown")
             orders[idx]["status"] = new_status
             save_all_orders(orders)
+            create_notification(
+                user_id=int(order["user_id"]),
+                order_id=order_id,
+                message=f"Order #{order_id} status changed from {old_status} to {new_status}",
+            )
             return f"Status with order id {order_id} updated successfully."
     raise IndexError(f"Error: Unable to find order id:{order_id}")
 
@@ -108,6 +115,11 @@ def complete_an_order(order_id: int) -> str:
     for idx, order in enumerate(orders):
         if int(order.get("id", 0)) == order_id:
             orders[idx]["status"] = "Completed"
+            create_notification(
+                user_id=int(order["user_id"]),
+                order_id=order_id,
+                message=f"Order #{order_id} has been completed!",
+            )
             
             # Convert items list to comma-separated string
             items_str = ", ".join([f"{item.get('item_name', '')} (qty: {item.get('quantity', 1)})" for item in order.get("items", [])])

@@ -1,12 +1,11 @@
-from typing import List
-from datetime import datetime
+import datetime
 from pydantic import BaseModel, Field, NonNegativeInt
 
-class NotificationItem(BaseModel):
-    item_id: NonNegativeInt
-    item_name: str = Field(min_length=1)
-    time: datetime.utcnow = Field(ge=1)
 
 class Notification(BaseModel):
+    id: NonNegativeInt
     user_id: NonNegativeInt
-    Notifications: List[NotificationItem] = Field(default_factory=list)
+    order_id: NonNegativeInt
+    message: str = Field(min_length=1)
+    is_read: bool = False
+    created_at: datetime.datetime = Field(default_factory=datetime.datetime.now)

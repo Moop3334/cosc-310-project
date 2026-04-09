@@ -1,4 +1,5 @@
 import { Navigate } from "react-router-dom";
+import NotificationBell from "./notifications/NotificationBell";
 
 function UserRoute({ children }) {
   const username = localStorage.getItem("username");
@@ -7,7 +8,12 @@ function UserRoute({ children }) {
     return <Navigate to="/login" />;
   }
 
-  return children;
+  return (
+    <>
+      <NotificationBell />
+      {children}
+    </>
+  );
 }
 
 export default UserRoute;

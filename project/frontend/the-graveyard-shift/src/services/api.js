@@ -392,3 +392,29 @@ export const reviewAPI = {
     }
   },
 };
+
+export const notificationAPI = {
+  getNotifications: async (userId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/notifications/${userId}`);
+      if (!response.ok) throw new Error('Failed to fetch notifications');
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+      throw error;
+    }
+  },
+
+  markAsRead: async (userId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/notifications/${userId}`/read, {
+        method: 'PATCH',
+      });
+      if (!response.ok) throw new Error('Failed to mark notifications as read');
+      return await response.json();
+    } catch (error) {
+      console.error('Error marking notifications as read:', error);
+      throw error;
+    }
+  },
+};
