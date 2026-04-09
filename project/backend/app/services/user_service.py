@@ -15,6 +15,7 @@ def list_users():
             username=u["username"],
             email=u["email"],
             password_hash=u["password_hash"], #not hashed password at this moment
+            credit=u["credit"],
             role=u.get("role"),
             is_active=u["is_active"],
             editable_restaurants=u.get("editable_restaurants", [])
@@ -45,6 +46,7 @@ def register_user(payload):
         username=username,
         email=email,
         password_hash=payload.password_hash,
+        credit=payload.credit,
         role=payload.role,
         is_active=True,
         editable_restaurants=[]
@@ -86,6 +88,7 @@ def get_user_by_username(username):
         username=user["username"],
         email=user["email"],
         password_hash=user["password_hash"],
+        credit=user.get["credit"],
         role=user.get("role"),
         is_active=user["is_active"],
         editable_restaurants=user.get("editable_restaurants", [])
@@ -106,6 +109,7 @@ def update_user(username, payload):
                 username=user["username"],
                 email=user.get("email"),
                 password_hash=user.get("password_hash"),
+                credit=user.get("credit"),
                 role=user.get("role"),
                 is_active=user.get("is_active", True),
                 editable_restaurants=payload.get("editable_restaurants", user.get("editable_restaurants", []))
