@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 import datetime
 from fastapi import HTTPException
 from app.schema.order import Order
@@ -30,10 +30,12 @@ def dict_to_order(order_dict) -> Order:
         status=order_dict.get("status", "Pending Approval")
     )
 
-def list_orders() -> List[Order]:
+def list_orders(restaurant_id: Optional[int] = None) -> List[Order]:
     o_list = []
     for o in load_all_order():
         o_list.append(dict_to_order(o))
+    if restaurant_id is not None:
+        o_list = [order for order in o_list if order.restaurant_id == restaurant_id]
     return o_list
 
 def get_specific_order(order_id: int) -> Order:
@@ -80,6 +82,27 @@ def delete_specific_order(order_id: int) -> str:
             del orders[idx]
             save_all_orders(orders)
             return f"Order with id {order_id} deleted successfully."
+    raise IndexError(f"Error: Unable to find order id:{order_id}")
+
+def update_order(order_id: int, payload: dict) -> Order:
+    """Update an order with the provided fields."""
+    orders = load_all_order()
+    for idx, order in enumerate(orders):
+        if int(order["id"]) == order_id:
+            # Update fields from payload
+            if "user_id" in payload:
+                order["user_id"] = int(payload["user_id"])
+            if "restaurant_id" in payload:
+                order["restaurant_id"] = int(payload["restaurant_id"])
+            if "total_price" in payload:
+                order["total_price"] = float(payload["total_price"])
+            if "status" in payload:
+                order["status"] = str(payload["status"])
+            if "creation_date" in payload:
+                order["creation_date"] = str(payload["creation_date"])
+            
+            save_all_orders(orders)
+            return dict_to_order(order)
     raise IndexError(f"Error: Unable to find order id:{order_id}")
 
 def complete_an_order(order_id: int) -> str:
