@@ -80,7 +80,7 @@ def get_cart_summary(user_id: int):
     
     # Get user credit
     user = find_user_by_id(user_id)
-    credit = float(user["credit"]) if user else 0.0
+    credit = float(user.get("credit")) if user else 0.0
     
     return {
         "user_id": cart.user_id,
