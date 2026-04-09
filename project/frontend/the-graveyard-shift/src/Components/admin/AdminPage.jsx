@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import "./styles/AdminPage.css";
 
 function AdminPage() {
   const [role, setRole] = useState(localStorage.getItem("role"));
@@ -72,7 +73,7 @@ function AdminPage() {
 
   if (role !== "admin") {
     return (
-      <div>
+      <div className="access-denied">
         <h1>Access Denied</h1>
         <p>You do not have admin privileges.</p>
       </div>
@@ -80,59 +81,65 @@ function AdminPage() {
   }
 
   return (
-    <div>
-      <h1>Admin Dashboard</h1>
-      <p>Only admins can see this page.</p>
+    <div className="admin-container">
+      <div className="admin-header">
+        <h1>Admin Dashboard</h1>
+        <p>Only admins can see this page.</p>
+      </div>
 
-      <h2>Restaurants</h2>
-      <ul>
-        {restaurants.map((restaurant) => (
-          <li key={restaurant.id}>
-            {editingRestaurant?.id === restaurant.id ? (
-              <div>
-                <input
-                  value={editingRestaurant.name}
-                  onChange={(e) =>
-                    setEditingRestaurant({ ...editingRestaurant, name: e.target.value })
-                  }
-                />
-                <button onClick={handleSaveRestaurant}>Save</button>
-                <button onClick={() => setEditingRestaurant(null)}>Cancel</button>
-              </div>
-            ) : (
-              <div>
-                {restaurant.name}
-                <button onClick={() => handleEditRestaurant(restaurant)}>Edit</button>
-              </div>
-            )}
-          </li>
-        ))}
-      </ul>
+      <div className="admin-section">
+        <h2>Restaurants</h2>
+        <ul className="admin-list">
+          {restaurants.map((restaurant) => (
+            <li key={restaurant.id}>
+              {editingRestaurant?.id === restaurant.id ? (
+                <div>
+                  <input
+                    value={editingRestaurant.name}
+                    onChange={(e) =>
+                      setEditingRestaurant({ ...editingRestaurant, name: e.target.value })
+                    }
+                  />
+                  <button onClick={handleSaveRestaurant}>Save</button>
+                  <button onClick={() => setEditingRestaurant(null)}>Cancel</button>
+                </div>
+              ) : (
+                <div>
+                  {restaurant.name}
+                  <button onClick={() => handleEditRestaurant(restaurant)}>Edit</button>
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
 
-      <h2>Orders</h2>
-      <ul>
-        {orders.map((order) => (
-          <li key={order.id}>
-            {editingOrder?.id === order.id ? (
-              <div>
-                <input
-                  value={editingOrder.status}
-                  onChange={(e) =>
-                    setEditingOrder({ ...editingOrder, status: e.target.value })
-                  }
-                />
-                <button onClick={handleSaveOrder}>Save</button>
-                <button onClick={() => setEditingOrder(null)}>Cancel</button>
-              </div>
-            ) : (
-              <div>
-                Order ID: {order.id}, Status: {order.status}
-                <button onClick={() => handleEditOrder(order)}>Edit</button>
-              </div>
-            )}
-          </li>
-        ))}
-      </ul>
+      <div className="admin-section">
+        <h2>Orders</h2>
+        <ul className="admin-list">
+          {orders.map((order) => (
+            <li key={order.id}>
+              {editingOrder?.id === order.id ? (
+                <div>
+                  <input
+                    value={editingOrder.status}
+                    onChange={(e) =>
+                      setEditingOrder({ ...editingOrder, status: e.target.value })
+                    }
+                  />
+                  <button onClick={handleSaveOrder}>Save</button>
+                  <button onClick={() => setEditingOrder(null)}>Cancel</button>
+                </div>
+              ) : (
+                <div>
+                  Order ID: {order.id}, Status: {order.status}
+                  <button onClick={() => handleEditOrder(order)}>Edit</button>
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
