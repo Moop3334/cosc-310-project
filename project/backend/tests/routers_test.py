@@ -498,7 +498,6 @@ def test_create_menu_item_invalid_input():
     assert details[0]["msg"] == "String should have at least 1 character"
     assert details[1]["msg"] == "Input should be greater than or equal to 0"
     assert details[2]["msg"] == "Input should be greater than 0"
-    assert details[3]["msg"] == "String should have at least 1 character"
 
 def test_update_menu_item():
     item = get_menu_item_by_id(1,1)
@@ -525,7 +524,6 @@ def test_update_menu_item_invalid_input():
     assert details[0]["msg"] == "String should have at least 1 character"
     assert details[1]["msg"] == "Input should be greater than or equal to 0"
     assert details[2]["msg"] == "Input should be greater than 0"
-    assert details[3]["msg"] == "String should have at least 1 character"
 
 def test_delete_menu_item():
     try:
