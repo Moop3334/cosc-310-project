@@ -6,7 +6,7 @@ export const restaurantAPI = {
   // Get all restaurants or search by name
   getRestaurants: async (name = null) => {
     try {
-      const url = name 
+      const url = name
         ? `${API_BASE_URL}/restaurants?name=${encodeURIComponent(name)}`
         : `${API_BASE_URL}/restaurants`;
       const response = await fetch(url);
@@ -148,6 +148,23 @@ export const orderAPI = {
   },
 };
 
+export const recommendationAPI = {
+  // Get recommendations for a user
+  getRecommendations: async (userId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/recommendations/${userId}`);
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Failed to fetch recommendations');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching recommendations:', error);
+      throw error;
+    }
+  },
+};
+
 export const userAPI = {
   // Get user by username
   getUserByUsername: async (username) => {
@@ -277,7 +294,6 @@ export const cartAPI = {
     }
   },
 };
-
 export const paymentAPI = {
   // Process payment
   processPayment: async (paymentData) => {
