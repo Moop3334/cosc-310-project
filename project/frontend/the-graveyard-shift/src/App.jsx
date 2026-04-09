@@ -1,5 +1,6 @@
 import RestaurantBrowser from './components/restaurants/RestaurantBrowser'
 import RestaurantOwnerDashboard from './components/restaurants/RestaurantOwnerDashboard'
+import DeliveryDriverDashboard from './components/delivery/DeliveryDriverDashboard'
 import Cart from './components/checkout/Cart'
 import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -60,6 +61,15 @@ function App() {
           element={
             <ProtectedRoute requiredRole="restaurant_owner">
               <RestaurantOwnerDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/delivery-driver"
+          element={
+            <ProtectedRoute requiredRole="delivery_driver">
+              <DeliveryDriverDashboard />
             </ProtectedRoute>
           }
         />

@@ -3,12 +3,21 @@ import { orderAPI, userAPI } from "../../services/api";
 import "./styles/OrdersPage.css";
 
 const COMPLETED_STATUSES = ["Completed", "Delivered", "Cancelled"];
+const ORDER_STATUS_OPTIONS = [
+  "Pending Approval",
+  "Preparing",
+  "Out for Delivery",
+  "Delivered",
+  "Cancelled"
+];
 
 function OrdersPage() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [userId, setUserId] = useState(localStorage.getItem("userId") || "");
+  const [statusUpdates, setStatusUpdates] = useState({});
+  const [updatingOrderId, setUpdatingOrderId] = useState(null);
 
   const username = localStorage.getItem("username");
 
@@ -58,6 +67,38 @@ function OrdersPage() {
     fetchOrders();
   }, [userId, username]);
 
+  const handleStatusChange = (orderId, newStatus) => {
+    setStatusUpdates((prev) => ({
+      ...prev,
+      [orderId]: newStatus,
+    }));
+  };
+
+  const handleUpdateStatus = async (orderId) => {
+    const newStatus = statusUpdates[orderId];
+    if (!newStatus) return;
+
+    try {
+      setUpdatingOrderId(orderId);
+      await orderAPI.updateOrderStatus(orderId, newStatus);
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order.id === orderId ? { ...order, status: newStatus } : order
+        )
+      );
+      setStatusUpdates((prev) => {
+        const next = { ...prev };
+        delete next[orderId];
+        return next;
+      });
+    } catch (err) {
+      setError("Failed to update order status. Please try again.");
+      console.error(err);
+    } finally {
+      setUpdatingOrderId(null);
+    }
+  };
+
   const currentOrders = useMemo(
     () => orders.filter((order) => !COMPLETED_STATUSES.includes(order.status)),
     [orders]
@@ -83,6 +124,36 @@ function OrdersPage() {
           </li>
         ))}
       </ul>
+    );
+  };
+
+  const renderStatusUpdate = (order) => {
+    const selectedStatus = statusUpdates[order.id] ?? order.status;
+    const hasChanged = selectedStatus !== order.status;
+
+    return (
+      <div className="order-status-update">
+        <select
+          className="status-select"
+          value={selectedStatus}
+          onChange={(e) => handleStatusChange(order.id, e.target.value)}
+        >
+          {ORDER_STATUS_OPTIONS.map((status) => (
+            <option key={status} value={status}>
+              {status}
+            </option>
+          ))}
+        </select>
+        {hasChanged && (
+          <button
+            className="btn-update-status"
+            onClick={() => handleUpdateStatus(order.id)}
+            disabled={updatingOrderId === order.id}
+          >
+            {updatingOrderId === order.id ? "Updating..." : "Update"}
+          </button>
+        )}
+      </div>
     );
   };
 
@@ -121,6 +192,7 @@ function OrdersPage() {
                 </div>
               </div>
               {renderOrderItems(order)}
+              {renderStatusUpdate(order)}
             </div>
           ))}
         </div>
