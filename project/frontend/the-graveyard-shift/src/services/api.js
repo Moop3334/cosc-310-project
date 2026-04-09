@@ -6,7 +6,7 @@ export const restaurantAPI = {
   // Get all restaurants or search by name
   getRestaurants: async (name = null) => {
     try {
-      const url = name 
+      const url = name
         ? `${API_BASE_URL}/restaurants?name=${encodeURIComponent(name)}`
         : `${API_BASE_URL}/restaurants`;
       const response = await fetch(url);
@@ -127,6 +127,40 @@ export const orderAPI = {
       return await response.json();
     } catch (error) {
       console.error('Error fetching orders:', error);
+      throw error;
+    }
+  },
+
+  // Checkout - create order from cart
+  checkout: async (userId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/orders/${userId}/checkout`, {
+        method: 'POST',
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Failed to create order');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error creating order:', error);
+      throw error;
+    }
+  },
+};
+
+export const recommendationAPI = {
+  // Get recommendations for a user
+  getRecommendations: async (userId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/recommendations/${userId}`);
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Failed to fetch recommendations');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching recommendations:', error);
       throw error;
     }
   },
@@ -277,6 +311,28 @@ export const cartAPI = {
       return await response.json();
     } catch (error) {
       console.error('Error fetching cart summary:', error);
+      throw error;
+    }
+  },
+};
+export const paymentAPI = {
+  // Process payment
+  processPayment: async (paymentData) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/payments/process`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(paymentData),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Payment processing failed');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error processing payment:', error);
       throw error;
     }
   },

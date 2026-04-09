@@ -84,6 +84,27 @@ def delete_specific_order(order_id: int) -> str:
             return f"Order with id {order_id} deleted successfully."
     raise IndexError(f"Error: Unable to find order id:{order_id}")
 
+def update_order(order_id: int, payload: dict) -> Order:
+    """Update an order with the provided fields."""
+    orders = load_all_order()
+    for idx, order in enumerate(orders):
+        if int(order["id"]) == order_id:
+            # Update fields from payload
+            if "user_id" in payload:
+                order["user_id"] = int(payload["user_id"])
+            if "restaurant_id" in payload:
+                order["restaurant_id"] = int(payload["restaurant_id"])
+            if "total_price" in payload:
+                order["total_price"] = float(payload["total_price"])
+            if "status" in payload:
+                order["status"] = str(payload["status"])
+            if "creation_date" in payload:
+                order["creation_date"] = str(payload["creation_date"])
+            
+            save_all_orders(orders)
+            return dict_to_order(order)
+    raise IndexError(f"Error: Unable to find order id:{order_id}")
+
 def complete_an_order(order_id: int) -> str:
     orders = load_all_order()
     for idx, order in enumerate(orders):

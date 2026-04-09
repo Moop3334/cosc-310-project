@@ -12,14 +12,16 @@
 }
 
 .modal-content {
-  background: white;
+  background: rgba(26, 26, 46, 0.95);
+  border: 1px solid rgba(233, 69, 96, 0.3);
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   max-width: 500px;
   width: 90%;
   max-height: 80vh;
   overflow-y: auto;
   animation: slideUp 0.3s ease-out;
+  backdrop-filter: blur(10px);
 }
 
 @keyframes slideUp {
@@ -38,13 +40,13 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid rgba(233, 69, 96, 0.2);
 }
 
 .modal-header h2 {
   margin: 0;
   font-size: 24px;
-  color: #333;
+  color: #fff;
 }
 
 .close-btn {
@@ -52,7 +54,7 @@
   border: none;
   font-size: 24px;
   cursor: pointer;
-  color: #999;
+  color: #aaa;
   padding: 0;
   width: 32px;
   height: 32px;
@@ -60,12 +62,12 @@
   align-items: center;
   justify-content: center;
   border-radius: 4px;
-  transition: background-color 0.2s, color 0.2s;
+  transition: all 0.2s;
 }
 
 .close-btn:hover {
-  background-color: #f0f0f0;
-  color: #333;
+  background-color: rgba(233, 69, 96, 0.2);
+  color: #ff9fbf;
 }
 
 .modal-body {
@@ -74,7 +76,7 @@
 
 .item-description {
   margin: 0 0 15px 0;
-  color: #666;
+  color: #ccc;
   font-size: 14px;
   line-height: 1.5;
 }
@@ -83,7 +85,10 @@
   margin: 0 0 20px 0;
   font-size: 18px;
   font-weight: bold;
-  color: #2ecc71;
+  background: linear-gradient(135deg, #e94560 0%, #cf2e52 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .quantity-selector {
@@ -94,22 +99,23 @@
   display: block;
   margin-bottom: 10px;
   font-weight: 600;
-  color: #333;
+  color: #fff;
 }
 
 .quantity-controls {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: #f9f9f9;
+  background: rgba(255, 255, 255, 0.05);
   padding: 8px;
+  border: 1px solid rgba(233, 69, 96, 0.2);
   border-radius: 8px;
   width: fit-content;
 }
 
 .qty-btn {
-  background: white;
-  border: 1px solid #ddd;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(233, 69, 96, 0.3);
   width: 36px;
   height: 36px;
   border-radius: 6px;
@@ -119,13 +125,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #333;
+  color: #fff;
 }
 
 .qty-btn:hover:not(:disabled) {
-  background: #2ecc71;
+  background: linear-gradient(135deg, #e94560 0%, #cf2e52 100%);
   color: white;
-  border-color: #2ecc71;
+  border-color: #e94560;
 }
 
 .qty-btn:disabled {
@@ -138,6 +144,7 @@
   text-align: center;
   font-weight: 600;
   font-size: 16px;
+  color: #fff;
 }
 
 .price-summary {
@@ -145,7 +152,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 15px;
-  background: #f9f9f9;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(233, 69, 96, 0.2);
   border-radius: 8px;
   margin-bottom: 15px;
   font-weight: 600;
@@ -153,25 +161,29 @@
 
 .total-price {
   font-size: 20px;
-  color: #2ecc71;
+  background: linear-gradient(135deg, #e94560 0%, #cf2e52 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .error-message {
-  background: #fee;
-  color: #c33;
+  background: rgba(231, 76, 60, 0.2);
+  color: #ff6b6b;
   padding: 10px;
   border-radius: 6px;
   margin-bottom: 15px;
   font-size: 14px;
-  border-left: 4px solid #c33;
+  border-left: 4px solid #e74c3c;
+  border: 1px solid rgba(231, 76, 60, 0.4);
 }
 
 .modal-footer {
   display: flex;
   gap: 10px;
   padding: 20px;
-  border-top: 1px solid #e0e0e0;
-  background: #fafafa;
+  border-top: 1px solid rgba(233, 69, 96, 0.2);
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .cancel-btn,
@@ -187,21 +199,25 @@
 }
 
 .cancel-btn {
-  background: #e0e0e0;
-  color: #333;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(233, 69, 96, 0.3);
 }
 
 .cancel-btn:hover:not(:disabled) {
-  background: #ccc;
+  background: rgba(233, 69, 96, 0.2);
+  border-color: #e94560;
 }
 
 .add-btn {
-  background: #2ecc71;
+  background: linear-gradient(135deg, #e94560 0%, #cf2e52 100%);
   color: white;
+  border: none;
 }
 
 .add-btn:hover:not(:disabled) {
-  background: #27ae60;
+  background: linear-gradient(135deg, #ff5a7e 0%, #e94560 100%);
+  box-shadow: 0 4px 16px rgba(233, 69, 96, 0.4);
 }
 
 .cancel-btn:disabled,

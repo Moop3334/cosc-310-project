@@ -115,3 +115,42 @@ def update_user(username, payload):
             return updated_user
     
     raise HTTPException(status_code=404, detail="User not found")
+
+
+def update_user_by_id(user_id: int, payload: dict):
+    """Update a user by user_id."""
+    users = load_all_users()
+    
+    for idx, user in enumerate(users):
+        if user["user_id"] == user_id:
+            # Update user fields
+            updated_user = User(
+                user_id=user["user_id"],
+                name=payload.get("name", user.get("name")),
+                phone_number=payload.get("phone_number", user.get("phone_number")),
+                address=payload.get("address", user.get("address")),
+                username=user["username"],
+                email=payload.get("email", user.get("email")),
+                password_hash=payload.get("password_hash", user.get("password_hash")),
+                role=payload.get("role", user.get("role")),
+                is_active=payload.get("is_active", user.get("is_active", True)),
+                editable_restaurants=payload.get("editable_restaurants", user.get("editable_restaurants", []))
+            )
+            users[idx] = updated_user.model_dump()
+            save_all_users(users)
+            return updated_user
+    
+    raise HTTPException(status_code=404, detail="User not found")
+
+
+def delete_user_by_id(user_id: int) -> str:
+    """Delete a user by user_id."""
+    users = load_all_users()
+    
+    for idx, user in enumerate(users):
+        if user["user_id"] == user_id:
+            del users[idx]
+            save_all_users(users)
+            return f"User with id {user_id} deleted successfully."
+    
+    raise HTTPException(status_code=404, detail="User not found")

@@ -1,7 +1,7 @@
 from typing import List, Optional
 from fastapi import APIRouter, HTTPException
 from app.schema.order import Order
-from app.services.order_service import list_orders, get_specific_order, delete_specific_order, update_order_status, complete_an_order, checkout
+from app.services.order_service import list_orders, get_specific_order, delete_specific_order, update_order_status, complete_an_order, checkout, update_order
 from pydantic import BaseModel
 
 #TODO: update to use shopping cart instead of menu item
@@ -21,6 +21,14 @@ def get_order(order_id: int):
     """Get a specific order by ID."""
     try:
         return get_specific_order(order_id)
+    except IndexError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+
+@router.put("/{order_id}", response_model=Order, status_code=200)
+def put_order(order_id: int, payload: dict):
+    """Update an order."""
+    try:
+        return update_order(order_id, payload)
     except IndexError as e:
         raise HTTPException(status_code=404, detail=str(e))
 
