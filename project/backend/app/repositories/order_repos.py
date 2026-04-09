@@ -39,7 +39,7 @@ def load_all_order() -> List[Dict[str, Any]]:
 def load_specific_order(order_id: int) -> Dict[str, Any]:
     orders = load_all_order()
     for order in orders:
-        if order.id == order_id:
+        if int(order["id"]) == order_id:
             return order
     raise IndexError(f"Error: Unable to find order id:{order_id}")
 
@@ -50,14 +50,24 @@ def save_all_orders(orders: List[Dict[Any, Any]]) -> None:
         writer.writeheader()
 
         for order in orders:
+            # Handle both dict and Order object formats
+            items_data = order.get("items", []) if isinstance(order, dict) else order.items
+            if items_data and not isinstance(items_data, str):
+                try:
+                    items_json = json.dumps([item.model_dump() if hasattr(item, 'model_dump') else item for item in items_data])
+                except (AttributeError, TypeError):
+                    items_json = json.dumps(items_data)
+            else:
+                items_json = order.get("items", "") if isinstance(order, dict) else ""
+            
             row = {
-                "id": str(order.id),
-                "user_id": str(order.user_id),
-                "restaurant_id": str(order.restaurant_id),
-                "items": json.dumps([item.model_dump() for item in order.items]),
-                "total_price": str(order.total_price),
-                "creation_date": str(order.creation_date),
-                "status": str(order.status)
+                "id": str(order.get("id") if isinstance(order, dict) else order.id),
+                "user_id": str(order.get("user_id") if isinstance(order, dict) else order.user_id),
+                "restaurant_id": str(order.get("restaurant_id") if isinstance(order, dict) else order.restaurant_id),
+                "items": items_json,
+                "total_price": str(order.get("total_price") if isinstance(order, dict) else order.total_price),
+                "creation_date": str(order.get("creation_date") if isinstance(order, dict) else order.creation_date),
+                "status": str(order.get("status") if isinstance(order, dict) else order.status)
             }
             writer.writerow(row)
         
