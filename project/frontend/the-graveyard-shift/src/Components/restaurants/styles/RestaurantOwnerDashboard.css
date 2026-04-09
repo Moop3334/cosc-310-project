@@ -302,7 +302,7 @@
 }
 
 
-.order-card {
+ .owner-order-card {
   background: #ffffff;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
@@ -313,20 +313,20 @@
   gap: 16px;
 }
 
-.order-header {
+ .owner-order-header {
   display: flex;
   justify-content: space-between;
   gap: 12px;
   align-items: center;
 }
 
-.order-header h3 {
+ .owner-order-header h3 {
   margin: 0;
   font-size: 18px;
   color: #2c3e50;
 }
 
-.status-pill {
+ .owner-status-pill {
   padding: 8px 12px;
   border-radius: 999px;
   font-size: 12px;
@@ -335,47 +335,47 @@
   text-transform: uppercase;
 }
 
-.status-pill.pending-approval {
+ .owner-status-pill.pending-approval {
   background-color: #ff7f50;
 }
 
-.status-pill.preparing,
-.status-pill.in-progress,
-.status-pill.out-for-delivery {
+ .owner-status-pill.preparing,
+ .owner-status-pill.in-progress,
+ .owner-status-pill.out-for-delivery {
   background-color: #3498db;
 }
 
-.status-pill.completed {
+ .owner-status-pill.completed {
   background-color: #2ecc71;
 }
 
-.status-pill.cancelled {
+ .owner-status-pill.cancelled {
   background-color: #e74c3c;
 }
 
-.order-details p,
-.order-items ul {
+ .owner-order-details p,
+ .owner-order-items ul {
   margin: 8px 0;
   color: #555;
 }
 
-.order-items h4 {
+ .owner-order-items h4 {
   margin: 0 0 8px 0;
   color: #2c3e50;
 }
 
-.order-items ul {
+ .owner-order-items ul {
   padding-left: 18px;
 }
 
-.order-actions {
+ .owner-order-actions {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 10px;
   align-items: center;
 }
 
-.status-select {
+ .owner-status-select {
   width: 100%;
   border: 1px solid #d6d6d6;
   border-radius: 6px;
@@ -383,7 +383,7 @@
   font-size: 14px;
 }
 
-.btn-update {
+ .owner-btn-update {
   background-color: #6c5ce7;
   border: none;
   color: white;
@@ -394,7 +394,7 @@
   transition: all 0.25s ease;
 }
 
-.btn-update:disabled {
+ .owner-btn-update:disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }

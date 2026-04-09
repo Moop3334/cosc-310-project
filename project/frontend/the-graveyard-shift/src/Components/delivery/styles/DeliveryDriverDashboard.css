@@ -208,7 +208,7 @@
   gap: 1.5rem;
 }
 
-.delivery-order-card {
+.driver-order-card {
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -219,13 +219,13 @@
   flex-direction: column;
 }
 
-.delivery-order-card:hover {
+.driver-order-card:hover {
   transform: translateY(-4px);
   border-color: rgba(233, 69, 96, 0.5);
   box-shadow: 0 16px 36px rgba(233, 69, 96, 0.17);
 }
 
-.card-header {
+.driver-card-header {
   padding: 1.25rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
@@ -234,20 +234,20 @@
   gap: 1rem;
 }
 
-.order-info h3 {
+.driver-order-info h3 {
   margin: 0 0 0.25rem 0;
   font-size: 1.1rem;
   font-weight: 700;
   color: #fff;
 }
 
-.restaurant-info {
+.driver-restaurant-info {
   margin: 0;
   font-size: 0.85rem;
   color: #999;
 }
 
-.status-badge {
+.driver-status-badge {
   flex-shrink: 0;
   padding: 0.4rem 0.9rem;
   border-radius: 999px;
@@ -258,36 +258,36 @@
   white-space: nowrap;
 }
 
-.status-badge.pending-approval,
-.status-badge.preparing {
+.driver-status-badge.pending-approval,
+.driver-status-badge.preparing {
   background: rgba(233, 69, 96, 0.12);
   color: #ffb3c5;
 }
 
-.status-badge.out-for-delivery {
+.driver-status-badge.out-for-delivery {
   background: rgba(41, 128, 185, 0.12);
   color: #87ceeb;
 }
 
-.status-badge.delivered {
+.driver-status-badge.delivered {
   background: rgba(46, 204, 113, 0.16);
   color: #b1f1c5;
 }
 
-.status-badge.cancelled {
+.driver-status-badge.cancelled {
   background: rgba(231, 76, 60, 0.16);
   color: #ff9e9e;
 }
 
-.card-content {
+.driver-card-content {
   padding: 1.25rem;
   flex: 1;
   display: grid;
   gap: 1rem;
 }
 
-.order-date,
-.order-amount {
+.driver-order-date,
+.driver-order-amount {
   color: #d0d0d0;
   font-size: 0.95rem;
   display: flex;
@@ -295,7 +295,7 @@
   gap: 0.5rem;
 }
 
-.order-items h4 {
+.driver-order-items h4 {
   margin: 0 0 0.75rem 0;
   font-size: 0.95rem;
   font-weight: 600;
@@ -305,7 +305,7 @@
   gap: 0.5rem;
 }
 
-.order-items ul {
+.driver-order-items ul {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -313,7 +313,7 @@
   gap: 0.5rem;
 }
 
-.order-items li {
+.driver-order-items li {
   padding: 0.7rem;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -324,28 +324,28 @@
   font-size: 0.9rem;
 }
 
-.item-name {
+.driver-item-name {
   color: #f5f5f5;
   font-weight: 500;
 }
 
-.item-detail {
+.driver-item-detail {
   color: #999;
   font-size: 0.85rem;
 }
 
-.card-footer {
+.driver-card-footer {
   padding: 1.25rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.02);
 }
 
-.status-update-group {
+.driver-status-update-group {
   display: flex;
   gap: 0.75rem;
 }
 
-.status-select {
+.driver-status-select {
   flex: 1;
   padding: 0.75rem 1rem;
   background: rgba(233, 69, 96, 0.1);
@@ -358,23 +358,23 @@
   transition: all 0.2s ease;
 }
 
-.status-select:hover {
+.driver-status-select:hover {
   border-color: rgba(233, 69, 96, 0.6);
   background: rgba(233, 69, 96, 0.15);
 }
 
-.status-select:focus {
+.driver-status-select:focus {
   outline: none;
   border-color: rgba(233, 69, 96, 0.8);
   box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.15);
 }
 
-.status-select option {
+.driver-status-select option {
   background: #16213e;
   color: #fff;
 }
 
-.btn-update {
+.driver-btn-update {
   padding: 0.75rem 1.25rem;
   background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
   border: none;
@@ -388,16 +388,16 @@
   white-space: nowrap;
 }
 
-.btn-update:hover {
+.driver-btn-update:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(46, 204, 113, 0.35);
 }
 
-.btn-update:active {
+.driver-btn-update:active {
   transform: translateY(0);
 }
 
-.btn-update:disabled {
+.driver-btn-update:disabled {
   opacity: 0.65;
   cursor: not-allowed;
   transform: none;

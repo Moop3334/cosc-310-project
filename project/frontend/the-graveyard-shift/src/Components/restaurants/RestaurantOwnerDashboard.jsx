@@ -269,22 +269,22 @@ export default function RestaurantOwnerDashboard() {
               const selectedStatus = statusUpdates[order.id] ?? order.status;
               const statusChanged = selectedStatus !== order.status;
               return (
-                <div key={order.id} className="order-card">
-                  <div className="order-header">
+                <div key={order.id} className="owner-order-card">
+                  <div className="owner-order-header">
                     <h3>Order #{order.id}</h3>
-                    <span className={`status-pill ${order.status.toLowerCase().replace(/\s+/g, '-')}`}>
+                    <span className={`owner-status-pill ${order.status.toLowerCase().replace(/\s+/g, '-')}`}>
                       {order.status}
                     </span>
                   </div>
 
-                  <div className="order-details">
+                  <div className="owner-order-details">
                     <p><strong>Restaurant ID:</strong> {order.restaurant_id}</p>
                     <p><strong>Customer ID:</strong> {order.user_id}</p>
                     <p><strong>Date:</strong> {formatDate(order.creation_date)}</p>
                     <p><strong>Total:</strong> ${order.total_price.toFixed(2)}</p>
                   </div>
 
-                  <div className="order-items">
+                  <div className="owner-order-items">
                     <h4>Items</h4>
                     <ul>
                       {order.items.map((item, index) => (
@@ -295,9 +295,9 @@ export default function RestaurantOwnerDashboard() {
                     </ul>
                   </div>
 
-                  <div className="order-actions">
+                  <div className="owner-order-actions">
                     <select
-                      className="status-select"
+                      className="owner-status-select"
                       value={selectedStatus}
                       onChange={(e) => handleOrderStatusChange(order.id, e.target.value)}
                     >
@@ -308,7 +308,7 @@ export default function RestaurantOwnerDashboard() {
                       ))}
                     </select>
                     <button
-                      className="btn-update"
+                      className="owner-btn-update"
                       disabled={!statusChanged}
                       onClick={() => handleUpdateOrderStatus(order.id)}
                     >

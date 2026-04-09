@@ -140,16 +140,16 @@ function OrdersPage() {
 
   const renderOrderItems = (order) => {
     if (!Array.isArray(order.items) || order.items.length === 0) {
-      return <p className="empty-message">No items available for this order.</p>;
+      return <p className="user-empty-message">No items available for this order.</p>;
     }
 
     return (
       <ul className="order-items-list">
         {order.items.map((item) => (
           <li key={`${item.item_id}-${item.quantity}`}>
-            <span className="item-name">{item.item_name}</span>
-            <span className="item-quantity">x{item.quantity}</span>
-            <span className="item-price">${item.price.toFixed(2)}</span>
+            <span className="user-item-name">{item.item_name}</span>
+            <span className="user-item-quantity">x{item.quantity}</span>
+            <span className="user-item-price">${item.price.toFixed(2)}</span>
           </li>
         ))}
       </ul>
@@ -161,9 +161,9 @@ function OrdersPage() {
     const hasChanged = selectedStatus !== order.status;
 
     return (
-      <div className="order-status-update">
+      <div className="user-order-status-update">
         <select
-          className="status-select"
+          className="user-status-select"
           value={selectedStatus}
           onChange={(e) => handleStatusChange(order.id, e.target.value)}
         >
@@ -175,7 +175,7 @@ function OrdersPage() {
         </select>
         {hasChanged && (
           <button
-            className="btn-update-status"
+            className="user-btn-update-status"
             onClick={() => handleUpdateStatus(order.id)}
             disabled={updatingOrderId === order.id}
           >
@@ -187,39 +187,39 @@ function OrdersPage() {
   };
 
   const renderSection = (title, orderList, showReviews = false) => (
-    <div className="orders-section">
+    <div className="user-orders-section">
       <h2>{title}</h2>
       {orderList.length === 0 ? (
-        <p className="empty-message">No orders in this section yet.</p>
+        <p className="user-empty-message">No orders in this section yet.</p>
       ) : (
-        <div className="orders-grid">
+        <div className="user-orders-grid">
           {orderList.map((order) => {
             const orderReviews = getOrderReviews(order.id);
             const isExpanded = expandedOrder === order.id;
 
             return (
-            <div key={order.id} className="order-card">
+              <div key={order.id} className="user-order-card">
               <div className="order-card-header">
                 <div>
-                  <span className="order-id">Order #{order.id}</span>
-                  <span className={`order-status ${order.status.toLowerCase().replace(/\s+/g, "-")}`}>
+                    <span className="user-order-id">Order #{order.id}</span>
+                    <span className={`user-order-status ${order.status.toLowerCase().replace(/\s+/g, "-")}`}>
                     {order.status}
                   </span>
                 </div>
-                <div className="order-date">
+                  <div className="user-order-date">
                   {new Date(order.creation_date).toLocaleString()}
                 </div>
               </div>
               <div className="order-details">
-                <div className="order-detail-row">
+                  <div className="user-order-detail-row">
                   <strong>Restaurant ID:</strong>
                   <span>{order.restaurant_id}</span>
                 </div>
-                <div className="order-detail-row">
+                  <div className="user-order-detail-row">
                   <strong>Total:</strong>
                   <span>${order.total_price.toFixed(2)}</span>
                 </div>
-                <div className="order-detail-row">
+                  <div className="user-order-detail-row">
                   <strong>Items:</strong>
                   <span>{order.items.length}</span>
                 </div>
@@ -228,9 +228,9 @@ function OrdersPage() {
               {renderStatusUpdate(order)}
 
               {showReviews && order.status !== "Cancelled" && (
-                  <div className="review-section">
+                  <div className="user-review-section">
                     <button
-                      className="toggle-review-btn"
+                      className="user-toggle-review-btn"
                       onClick={() => toggleReviewPanel(order.id)}
                     >
                       {isExpanded ? "Hide Reviews" : "Write a Review"}
@@ -239,7 +239,7 @@ function OrdersPage() {
                     {isExpanded && (
                       <>
                         {orderReviews.length > 0 && (
-                          <div className="existing-reviews">
+                          <div className="user-existing-reviews">
                             <h4>Your Reviews</h4>
                             <ReviewList reviews={orderReviews} />
                           </div>
@@ -262,7 +262,7 @@ function OrdersPage() {
   );
 
   return (
-    <div className="orders-page-container">
+    <div className="user-orders-page-container">
       <div className="orders-page-header">
         <div>
           <h1>My Orders</h1>
@@ -271,9 +271,9 @@ function OrdersPage() {
       </div>
 
       {loading ? (
-        <div className="status-message">Loading your orders...</div>
+        <div className="user-status-message">Loading your orders...</div>
       ) : error ? (
-        <div className="status-message error">{error}</div>
+        <div className="user-status-message user-error">{error}</div>
       ) : (
         <>
           {renderSection("Current Orders", currentOrders)}

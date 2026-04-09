@@ -135,37 +135,37 @@ export default function DeliveryDriverDashboard() {
     const hasChanged = selectedStatus !== order.status;
 
     return (
-      <div key={order.id} className="delivery-order-card">
-        <div className="card-header">
-          <div className="order-info">
+      <div key={order.id} className="driver-order-card">
+        <div className="driver-card-header">
+          <div className="driver-order-info">
             <h3>Order #{order.id}</h3>
-            <p className="restaurant-info">
+            <p className="driver-restaurant-info">
               Restaurant ID: {order.restaurant_id} | Customer ID: {order.user_id}
             </p>
           </div>
           <span
-            className={`status-badge ${STATUS_COLORS[order.status.toLowerCase()]}`}
+            className={`driver-status-badge ${STATUS_COLORS[order.status.toLowerCase()]}`}
           >
             {order.status}
           </span>
         </div>
 
-        <div className="card-content">
-          <div className="order-date">
+        <div className="driver-card-content">
+          <div className="driver-order-date">
             📅 {formatDate(order.creation_date)}
           </div>
 
-          <div className="order-amount">
+          <div className="driver-order-amount">
             💰 Total: ${order.total_price.toFixed(2)}
           </div>
 
-          <div className="order-items">
+          <div className="driver-order-items">
             <h4>🍽️ Items ({order.items.length})</h4>
             <ul>
               {order.items.map((item, index) => (
                 <li key={`${order.id}-${index}`}>
-                  <span className="item-name">{item.item_name}</span>
-                  <span className="item-detail">
+                  <span className="driver-item-name">{item.item_name}</span>
+                  <span className="driver-item-detail">
                     {item.quantity}x @ ${item.price.toFixed(2)}
                   </span>
                 </li>
@@ -174,10 +174,10 @@ export default function DeliveryDriverDashboard() {
           </div>
         </div>
 
-        <div className="card-footer">
-          <div className="status-update-group">
+        <div className="driver-card-footer">
+          <div className="driver-status-update-group">
             <select
-              className="status-select"
+              className="driver-status-select"
               value={selectedStatus}
               onChange={(e) => handleStatusChange(order.id, e.target.value)}
             >
@@ -189,7 +189,7 @@ export default function DeliveryDriverDashboard() {
             </select>
             {hasChanged && (
               <button
-                className="btn-update"
+                className="driver-btn-update"
                 onClick={() => handleUpdateStatus(order.id)}
                 disabled={updatingOrderId === order.id}
               >

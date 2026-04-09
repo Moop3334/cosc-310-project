@@ -1,11 +1,11 @@
-.orders-page-container {
+.user-orders-page-container {
   min-height: 100vh;
   padding: 2rem 1.5rem 3rem;
   color: #fff;
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
 }
 
-.orders-page-header {
+.user-orders-page-header {
   max-width: 1140px;
   margin: 0 auto 2.5rem;
   padding: 1.5rem 1.25rem;
@@ -29,7 +29,7 @@
   line-height: 1.6;
 }
 
-.orders-section {
+.user-orders-section {
   max-width: 1140px;
   margin: 0 auto 2rem;
 }
@@ -41,12 +41,12 @@
   color: #fff;
 }
 
-.orders-grid {
+.user-orders-grid {
   display: grid;
   gap: 1.5rem;
 }
 
-.order-card {
+.user-order-card {
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -62,7 +62,7 @@
   box-shadow: 0 16px 36px rgba(233, 69, 96, 0.17);
 }
 
-.order-card-header {
+.user-order-card-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -70,13 +70,13 @@
   margin-bottom: 1.25rem;
 }
 
-.order-id {
+.user-order-id {
   display: inline-block;
   font-weight: 700;
   color: #fff;
 }
 
-.order-status {
+.user-order-status {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -88,36 +88,36 @@
   text-transform: uppercase;
 }
 
-.order-status.pending-approval,
-.order-status.in-progress,
-.order-status.out-for-delivery {
+.user-order-status.pending-approval,
+.user-order-status.in-progress,
+.user-order-status.out-for-delivery {
   background: rgba(233, 69, 96, 0.12);
   color: #ffb3c5;
 }
 
-.order-status.completed,
-.order-status.delivered {
+.user-order-status.completed,
+.user-order-status.delivered {
   background: rgba(46, 204, 113, 0.16);
   color: #b1f1c5;
 }
 
-.order-status.cancelled {
+.user-order-status.cancelled {
   background: rgba(231, 76, 60, 0.16);
   color: #ff9e9e;
 }
 
-.order-date {
+.user-order-date {
   color: #b5b5b5;
   font-size: 0.95rem;
 }
 
-.order-details {
+.user-order-details {
   display: grid;
   gap: 0.85rem;
   margin-bottom: 1.25rem;
 }
 
-.order-detail-row {
+.user-order-detail-row {
   display: flex;
   justify-content: space-between;
   gap: 0.75rem;
@@ -125,11 +125,11 @@
   font-size: 0.95rem;
 }
 
-.order-detail-row strong {
+.user-order-detail-row strong {
   color: #fff;
 }
 
-.order-items-list {
+.user-order-items-list {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -137,7 +137,7 @@
   gap: 0.85rem;
 }
 
-.order-items-list li {
+.user-order-items-list li {
   display: grid;
   grid-template-columns: 1fr auto auto;
   align-items: center;
@@ -148,29 +148,29 @@
   padding: 0.9rem 1rem;
 }
 
-.item-name {
+.user-item-name {
   color: #f5f5f5;
   font-weight: 600;
 }
 
-.item-quantity,
-.item-price {
+.user-item-quantity,
+.user-item-price {
   color: #d0d0d0;
   font-size: 0.9rem;
 }
 
-.status-message {
+.user-status-message {
   color: #f7f7f7;
   padding: 2rem 0;
   text-align: center;
   font-size: 1rem;
 }
 
-.status-message.error {
+.user-status-message.user-error {
   color: #ff8a80;
 }
 
-.empty-message {
+.user-empty-message {
   color: #c7c7c7;
   padding: 1rem 0;
 }
@@ -187,7 +187,7 @@
   }
 }
 
-.order-status-update {
+.user-order-status-update {
   display: flex;
   gap: 0.75rem;
   margin-top: 1.25rem;
@@ -195,7 +195,7 @@
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.status-select {
+.user-status-select {
   flex: 1;
   padding: 0.75rem 1rem;
   background: rgba(233, 69, 96, 0.1);
@@ -208,23 +208,23 @@
   transition: all 0.2s ease;
 }
 
-.status-select:hover {
+.user-status-select:hover {
   border-color: rgba(233, 69, 96, 0.6);
   background: rgba(233, 69, 96, 0.15);
 }
 
-.status-select:focus {
+.user-status-select:focus {
   outline: none;
   border-color: rgba(233, 69, 96, 0.8);
   box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.15);
 }
 
-.status-select option {
+.user-status-select option {
   background: #16213e;
   color: #fff;
 }
 
-.btn-update-status {
+.user-btn-update-status {
   padding: 0.75rem 1.5rem;
   background: linear-gradient(135deg, #e94560 0%, #c73749 100%);
   border: none;
@@ -237,28 +237,28 @@
   box-shadow: 0 4px 12px rgba(233, 69, 96, 0.2);
 }
 
-.btn-update-status:hover {
+.user-btn-update-status:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(233, 69, 96, 0.35);
 }
 
-.btn-update-status:active {
+.user-btn-update-status:active {
   transform: translateY(0);
 }
 
-.btn-update-status:disabled {
+.user-btn-update-status:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
 }
 
-.review-section {
+.user-review-section {
   margin-top: 1rem;
   padding-top: 0.75rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.toggle-review-btn {
+.user-toggle-review-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -273,16 +273,16 @@
   transition: background 0.2s ease, border-color 0.2s ease;
 }
 
-.toggle-review-btn:hover {
+.user-toggle-review-btn:hover {
   background: rgba(233, 69, 96, 0.12);
   border-color: rgba(233, 69, 96, 0.6);
 }
 
-.existing-reviews {
+.user-existing-reviews {
   margin-top: 0.75rem;
 }
 
-.existing-reviews h4 {
+.user-existing-reviews h4 {
   font-size: 0.95rem;
   font-weight: 700;
   color: #fff;
