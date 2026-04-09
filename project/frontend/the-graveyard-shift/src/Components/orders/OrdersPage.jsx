@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { orderAPI, userAPI } from "../../services/api";
+import { orderAPI, userAPI, reviewAPI } from "../../services/api";
+import ReviewForm from "../reviews/ReviewForm";
+import ReviewList from "../reviews/ReviewList";
 import "./styles/OrdersPage.css";
 
 const COMPLETED_STATUSES = ["Completed", "Delivered", "Cancelled"];
@@ -16,8 +18,6 @@ function OrdersPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [userId, setUserId] = useState(localStorage.getItem("userId") || "");
-  const [statusUpdates, setStatusUpdates] = useState({});
-  const [updatingOrderId, setUpdatingOrderId] = useState(null);
 
   const username = localStorage.getItem("username");
 
@@ -61,6 +61,13 @@ function OrdersPage() {
         setError(err.message || "Unable to load orders. Please try again.");
       } finally {
         setLoading(false);
+      }
+
+      try {
+        const reviews = await reviewAPI.getUserReviews(userId);
+        setUserReviews(reviews);
+      } catch {
+        setUserReviews([]);
       }
     };
 
@@ -108,6 +115,24 @@ function OrdersPage() {
     () => orders.filter((order) => COMPLETED_STATUSES.includes(order.status)),
     [orders]
   );
+
+  const refreshReviews = async () => {
+    if (!userId) return;
+    try {
+      const reviews = await reviewAPI.getUserReviews(userId);
+      setUserReviews(reviews);
+    } catch (err) {
+      console.error("Failed to refresh reviews:", err);
+    }
+  };
+
+  const toggleReviewPanel = (orderId) => {
+    setExpandedOrder((prev) => (prev === orderId ? null : orderId));
+  };
+
+  const getOrderReviews = (orderId) => {
+    return userReviews.filter((r) => r.order_id === orderId);
+  };
 
   const renderOrderItems = (order) => {
     if (!Array.isArray(order.items) || order.items.length === 0) {
@@ -157,7 +182,7 @@ function OrdersPage() {
     );
   };
 
-  const renderSection = (title, orderList) => (
+  const renderSection = (title, orderList, showReviews = false) => (
     <div className="orders-section">
       <h2>{title}</h2>
       {orderList.length === 0 ? (
@@ -192,7 +217,6 @@ function OrdersPage() {
                 </div>
               </div>
               {renderOrderItems(order)}
-              {renderStatusUpdate(order)}
             </div>
           ))}
         </div>
@@ -216,7 +240,7 @@ function OrdersPage() {
       ) : (
         <>
           {renderSection("Current Orders", currentOrders)}
-          {renderSection("Past Orders", pastOrders)}
+          {renderSection("Past Orders", pastOrders, true)}
         </>
       )}
     </div>

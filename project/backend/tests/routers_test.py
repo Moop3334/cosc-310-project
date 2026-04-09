@@ -152,7 +152,7 @@ temp_cart_item_2 = {
 }
 
 temp_cart_checked_out = {
-  "id": 6,
+  "id": 7,
   "user_id": 1,
   "restaurant_id": 1,
   "items": [
