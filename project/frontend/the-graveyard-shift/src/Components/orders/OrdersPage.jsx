@@ -5,13 +5,6 @@ import ReviewList from "../reviews/ReviewList";
 import "./styles/OrdersPage.css";
 
 const COMPLETED_STATUSES = ["Completed", "Delivered", "Cancelled"];
-const ORDER_STATUS_OPTIONS = [
-  "Pending Approval",
-  "Preparing",
-  "Out for Delivery",
-  "Delivered",
-  "Cancelled"
-];
 
 function OrdersPage() {
   const [orders, setOrders] = useState([]);
@@ -20,8 +13,6 @@ function OrdersPage() {
   const [userId, setUserId] = useState(localStorage.getItem("userId") || "");
   const [userReviews, setUserReviews] = useState([]);
   const [expandedOrder, setExpandedOrder] = useState(null);
-  const [statusUpdates, setStatusUpdates] = useState({});
-  const [updatingOrderId, setUpdatingOrderId] = useState(null);
 
   const username = localStorage.getItem("username");
 
@@ -66,7 +57,7 @@ function OrdersPage() {
       } finally {
         setLoading(false);
       }
-      
+
       try {
         const reviews = await reviewAPI.getUserReviews(userId);
         setUserReviews(reviews);
@@ -77,38 +68,6 @@ function OrdersPage() {
 
     fetchOrders();
   }, [userId, username]);
-
-  const handleStatusChange = (orderId, newStatus) => {
-    setStatusUpdates((prev) => ({
-      ...prev,
-      [orderId]: newStatus,
-    }));
-  };
-
-  const handleUpdateStatus = async (orderId) => {
-    const newStatus = statusUpdates[orderId];
-    if (!newStatus) return;
-
-    try {
-      setUpdatingOrderId(orderId);
-      await orderAPI.updateOrderStatus(orderId, newStatus);
-      setOrders((prevOrders) =>
-        prevOrders.map((order) =>
-          order.id === orderId ? { ...order, status: newStatus } : order
-        )
-      );
-      setStatusUpdates((prev) => {
-        const next = { ...prev };
-        delete next[orderId];
-        return next;
-      });
-    } catch (err) {
-      setError("Failed to update order status. Please try again.");
-      console.error(err);
-    } finally {
-      setUpdatingOrderId(null);
-    }
-  };
 
   const currentOrders = useMemo(
     () => orders.filter((order) => !COMPLETED_STATUSES.includes(order.status)),
@@ -144,7 +103,7 @@ function OrdersPage() {
     }
 
     return (
-      <ul className="order-items-list">
+      <ul className="user-order-items-list">
         {order.items.map((item) => (
           <li key={`${item.item_id}-${item.quantity}`}>
             <span className="user-item-name">{item.item_name}</span>
@@ -153,36 +112,6 @@ function OrdersPage() {
           </li>
         ))}
       </ul>
-    );
-  };
-
-  const renderStatusUpdate = (order) => {
-    const selectedStatus = statusUpdates[order.id] ?? order.status;
-    const hasChanged = selectedStatus !== order.status;
-
-    return (
-      <div className="user-order-status-update">
-        <select
-          className="user-status-select"
-          value={selectedStatus}
-          onChange={(e) => handleStatusChange(order.id, e.target.value)}
-        >
-          {ORDER_STATUS_OPTIONS.map((status) => (
-            <option key={status} value={status}>
-              {status}
-            </option>
-          ))}
-        </select>
-        {hasChanged && (
-          <button
-            className="user-btn-update-status"
-            onClick={() => handleUpdateStatus(order.id)}
-            disabled={updatingOrderId === order.id}
-          >
-            {updatingOrderId === order.id ? "Updating..." : "Update"}
-          </button>
-        )}
-      </div>
     );
   };
 
@@ -199,35 +128,34 @@ function OrdersPage() {
 
             return (
               <div key={order.id} className="user-order-card">
-              <div className="order-card-header">
-                <div>
+                <div className="user-order-card-header">
+                  <div>
                     <span className="user-order-id">Order #{order.id}</span>
                     <span className={`user-order-status ${order.status.toLowerCase().replace(/\s+/g, "-")}`}>
-                    {order.status}
-                  </span>
-                </div>
+                      {order.status}
+                    </span>
+                  </div>
                   <div className="user-order-date">
-                  {new Date(order.creation_date).toLocaleString()}
+                    {new Date(order.creation_date).toLocaleString()}
+                  </div>
                 </div>
-              </div>
-              <div className="order-details">
+                <div className="user-order-details">
                   <div className="user-order-detail-row">
-                  <strong>Restaurant ID:</strong>
-                  <span>{order.restaurant_id}</span>
-                </div>
+                    <strong>Restaurant ID:</strong>
+                    <span>{order.restaurant_id}</span>
+                  </div>
                   <div className="user-order-detail-row">
-                  <strong>Total:</strong>
-                  <span>${order.total_price.toFixed(2)}</span>
-                </div>
+                    <strong>Total:</strong>
+                    <span>${order.total_price.toFixed(2)}</span>
+                  </div>
                   <div className="user-order-detail-row">
-                  <strong>Items:</strong>
-                  <span>{order.items.length}</span>
+                    <strong>Items:</strong>
+                    <span>{order.items.length}</span>
+                  </div>
                 </div>
-              </div>
-              {renderOrderItems(order)}
-              {renderStatusUpdate(order)}
+                {renderOrderItems(order)}
 
-              {showReviews && order.status !== "Cancelled" && (
+                {showReviews && order.status !== "Cancelled" && (
                   <div className="user-review-section">
                     <button
                       className="user-toggle-review-btn"
@@ -263,7 +191,7 @@ function OrdersPage() {
 
   return (
     <div className="user-orders-page-container">
-      <div className="orders-page-header">
+      <div className="user-orders-page-header">
         <div>
           <h1>My Orders</h1>
           <p>Track your current deliveries and review previously completed orders.</p>

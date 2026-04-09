@@ -15,14 +15,14 @@
   backdrop-filter: blur(10px);
 }
 
-.orders-page-header h1 {
+.user-orders-page-header h1 {
   margin: 0 0 0.5rem 0;
   font-size: 2.2rem;
   font-weight: 700;
   color: #fff;
 }
 
-.orders-page-header p {
+.user-orders-page-header p {
   margin: 0;
   color: #d0d0d0;
   font-size: 1rem;
@@ -34,7 +34,7 @@
   margin: 0 auto 2rem;
 }
 
-.orders-section h2 {
+.user-orders-section h2 {
   margin-bottom: 1.25rem;
   font-size: 1.5rem;
   font-weight: 700;
@@ -56,7 +56,7 @@
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
-.order-card:hover {
+.user-order-card:hover {
   transform: translateY(-4px);
   border-color: rgba(233, 69, 96, 0.5);
   box-shadow: 0 16px 36px rgba(233, 69, 96, 0.17);
@@ -176,13 +176,13 @@
 }
 
 @media (min-width: 768px) {
-  .orders-grid {
+  .user-orders-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (min-width: 1100px) {
-  .orders-grid {
+  .user-orders-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
