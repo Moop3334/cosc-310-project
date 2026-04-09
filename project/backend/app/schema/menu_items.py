@@ -6,17 +6,17 @@ class MenuItem(BaseModel):
     restaurant_id: NonNegativeInt
     item_name: str = Field(min_length=1)
     price: PositiveFloat
-    description: str = Field(min_length=1)
+    description: str = Field(min_length=0)
 
 class MenuItemCreate(BaseModel):
     item_name: str = Field(min_length=1)
     restaurant_id: Optional[NonNegativeInt] = None
     price: PositiveFloat
-    description: str = Field(min_length=1)
+    description: str = Field(min_length=0)
 
 class MenuItemUpdate(BaseModel):
     id: Optional[NonNegativeInt] = None
     item_name: str = Field(min_length=1)
     restaurant_id: Optional[NonNegativeInt] = None
     price: PositiveFloat
-    description: str = Field(min_length=1)
+    description: str = Field(min_length=0)
